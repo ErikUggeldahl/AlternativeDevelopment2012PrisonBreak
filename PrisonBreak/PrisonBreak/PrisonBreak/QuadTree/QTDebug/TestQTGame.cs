@@ -35,7 +35,7 @@ namespace PrisonBreak.QuadTree.Debug
         bool drawQuads = false;
         bool useQuadTree = true;
 
-        const int numberToTest = 1000000;
+        const int numberToTest = 10000;
 
         public TestQTGame()
         {
@@ -84,10 +84,10 @@ namespace PrisonBreak.QuadTree.Debug
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            testSquare = Content.Load<Texture2D>("Debug/TestSquare");
-            translucentSquare = Content.Load<Texture2D>("Debug/TranslucentSquare");
+            testSquare = Content.Load<Texture2D>("DebugContent/TestSquare");
+            translucentSquare = Content.Load<Texture2D>("DebugContent/TranslucentSquare");
 
-            debugFont = Content.Load<SpriteFont>("Debug/DebugFont");
+            debugFont = Content.Load<SpriteFont>("DebugContent/DebugFont");
         }
 
         /// <summary>

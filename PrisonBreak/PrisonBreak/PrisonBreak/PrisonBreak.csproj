@@ -110,9 +110,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="QuadTree\Debug\DebugGO.cs" />
-    <Compile Include="QuadTree\Debug\TestQTGame.cs" />
     <Compile Include="QuadTree\IBounded.cs" />
+    <Compile Include="QuadTree\QTDebug\DebugGO.cs" />
+    <Compile Include="QuadTree\QTDebug\TestQTGame.cs" />
     <Compile Include="QuadTree\QuadTree.cs" />
     <Compile Include="QuadTree\QuadTreeNode.cs" />
   </ItemGroup>
