@@ -11,11 +11,8 @@ using Microsoft.Xna.Framework.Media;
 
 using System.Diagnostics;
 
-namespace PrisonBreak.QuadTree.Debug
+namespace PrisonBreak.QuadTree.QTDebug
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
     public class TestQTGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
@@ -43,12 +40,6 @@ namespace PrisonBreak.QuadTree.Debug
             Content.RootDirectory = "Content";
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
         protected override void Initialize()
         {
             Window.Title = "QuadTree Testing";
@@ -75,13 +66,8 @@ namespace PrisonBreak.QuadTree.Debug
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             testSquare = Content.Load<Texture2D>("DebugContent/TestSquare");
@@ -90,20 +76,9 @@ namespace PrisonBreak.QuadTree.Debug
             debugFont = Content.Load<SpriteFont>("DebugContent/DebugFont");
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
-
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
 
         int interval = 0;
         bool keyDown = false;
@@ -112,7 +87,6 @@ namespace PrisonBreak.QuadTree.Debug
         int toRemove = 0;
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
             sWatch.Start();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
@@ -173,10 +147,6 @@ namespace PrisonBreak.QuadTree.Debug
                 debugStatements["Update time"] = sWatch.ElapsedMilliseconds.ToString();
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             long startTime = sWatch.ElapsedMilliseconds;

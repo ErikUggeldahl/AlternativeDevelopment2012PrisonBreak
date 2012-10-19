@@ -115,6 +115,7 @@
     <Compile Include="QuadTree\QTDebug\TestQTGame.cs" />
     <Compile Include="QuadTree\QuadTree.cs" />
     <Compile Include="QuadTree\QuadTreeNode.cs" />
+    <Compile Include="Shading\ShadingDebug\TestShadingGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

@@ -5,7 +5,7 @@ using System.Text;
 
 using Microsoft.Xna.Framework;
 
-namespace PrisonBreak.QuadTree.Debug
+namespace PrisonBreak.QuadTree.QTDebug
 {
     class DebugGO : IBounded
     {

@@ -1,13 +1,15 @@
 using System;
 
-using PrisonBreak.QuadTree.Debug;
+using PrisonBreak.QuadTree.QTDebug;
+using PrisonBreak.Shading.ShadingDebug;
 
 namespace PrisonBreak
 {
 #if WINDOWS || XBOX
     static class Program
     {
-        static bool qtDebug = true;
+        static bool qtDebug = false;
+        static bool shadingDebug = true;
 
         /// <summary>
         /// The main entry point for the application.
@@ -17,6 +19,13 @@ namespace PrisonBreak
             if (qtDebug)
             {
                 using (TestQTGame game = new TestQTGame())
+                {
+                    game.Run();
+                }
+            }
+            else if (shadingDebug)
+            {
+                using (TestShadingGame game = new TestShadingGame())
                 {
                     game.Run();
                 }
