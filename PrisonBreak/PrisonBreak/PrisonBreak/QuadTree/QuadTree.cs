@@ -10,6 +10,7 @@ namespace PrisonBreak.QuadTree
     class QuadTree<T> : IBounded where T : IBounded
     {
         Rectangle worldBounds;
+        int maxDepth = 6;
 
         QuadTreeNode<T> rootNode;
 
@@ -20,8 +21,9 @@ namespace PrisonBreak.QuadTree
 
         public QuadTree(Rectangle worldBounds)
         {
+            QuadTreeNode<T>.maxDepth = maxDepth;
             this.worldBounds = worldBounds;
-            rootNode = new QuadTreeNode<T>(worldBounds);
+            rootNode = new QuadTreeNode<T>(worldBounds, 0);
         }
 
         public void Insert(T toInsert)
@@ -32,6 +34,16 @@ namespace PrisonBreak.QuadTree
             }
 
             rootNode.Insert(toInsert);
+        }
+
+        public void Remove(T toRemove)
+        {
+            rootNode.Remove(toRemove);
+        }
+
+        public void Clear()
+        {
+            rootNode = new QuadTreeNode<T>(worldBounds, 0);
         }
 
         public List<T> Query(T queryArea)
