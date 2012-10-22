@@ -1,9 +1,9 @@
-float4x4 World;
-float4x4 View;
-float4x4 Projection;
+float3 light;
+float2 pos;
+float2 dim;
 
 Texture diffuse;
-sampler TextureSampler = sampler_state
+sampler textureSampler = sampler_state
 {
     Texture = (diffuse);
     MinFilter = Linear;
@@ -16,9 +16,20 @@ sampler TextureSampler = sampler_state
 float4 PixelShaderFunction(float2 texCoords : TEXCOORD0) : COLOR0
 {
 	//float4 t = tex2D(TextureSampler, texCoords);
-	//t += 0.5;
+	//float v = lerp(1, 0, texCoords.y);
 
-    return float4(texCoords.x, texCoords.y, 1, 1);
+	//float3 light = float3(1000, 1000, 2000);
+	//float2 pos = float2(0, 0);
+	//float2 dim = float2(100, 100);
+	float2 l = pos + dim * texCoords;
+	float d = sqrt(pow(light.x - l.x, 2) + pow(light.y - l.y, 2));
+	d /= light.z;
+	d = lerp(1, 0.5, d);
+	d = clamp(d, 0.5, 1);
+	float4 f = tex2D(textureSampler, texCoords);
+	f *= float4(d, d, d, 1);
+
+    return f;
 }
 
 technique Technique1

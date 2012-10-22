@@ -20,6 +20,7 @@ namespace PrisonBreak.Shading.ShadingDebug
 
         Texture2D testSquare;
         Effect testEffect;
+        Vector2 mousePos;
 
         SpriteFont debugFont;
         Dictionary<String, String> debugStatements;
@@ -70,6 +71,7 @@ namespace PrisonBreak.Shading.ShadingDebug
                 this.Exit();
 
             MouseState mState = Mouse.GetState();
+            mousePos = new Vector2(mState.X, mState.Y);
 
             KeyboardState kState = Keyboard.GetState();
             if (kState.GetPressedKeys().Length == 0)
@@ -96,9 +98,12 @@ namespace PrisonBreak.Shading.ShadingDebug
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullClockwise, testEffect);
+            testEffect.Parameters["light"].SetValue(new Vector3(mousePos.X, mousePos.Y, 1000));
+            testEffect.Parameters["pos"].SetValue(new Vector2(testSquare.Bounds.X, testSquare.Bounds.Y));
+            testEffect.Parameters["dim"].SetValue(new Vector2(testSquare.Width, testSquare.Height));
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, testEffect);
 
-            spriteBatch.Draw(testSquare, new Vector2(100f, 100f), testSquare.Bounds, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(testSquare, new Vector2(0f, 0f), testSquare.Bounds, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
             spriteBatch.End();
 
