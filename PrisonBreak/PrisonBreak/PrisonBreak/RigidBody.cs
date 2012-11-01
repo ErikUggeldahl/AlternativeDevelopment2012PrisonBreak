@@ -7,6 +7,12 @@ namespace PrisonBreak
 {
     class RigidBody : BaseComponent
     {
+
+        public RigidBody(GameObject parent)
+            : base(parent)
+        {
+
+        }
         public override void Update()
         {
 

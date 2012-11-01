@@ -14,15 +14,15 @@ namespace PrisonBreak
     {
         public Rectangle BoundingBox = Rectangle.Empty;
 
-        public void Collide()
+        public Collider(GameObject parent) : base (parent)
         {
 
         }
 
         public override void Update()
         {
-            BoundingBox.X = (int)Position.X;
-            BoundingBox.Y = (int)Position.Y;
+            BoundingBox.X = (int) par.CTransform.Position.X;
+            BoundingBox.Y = (int) par.CTransform.Position.Y;
         }
     }
 }

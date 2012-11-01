@@ -11,23 +11,13 @@ namespace PrisonBreak
 {
     public abstract class BaseComponent : IComponent
     {
+        protected GameObject par;
 
-        public abstract void Update();
-        public GameTime gameTime;
-       
-        public Vector2 Position;
-        public float Rotation;
-
-        public int Camera
+        public BaseComponent(GameObject parent)
         {
-            get
-            {
-                return Camera;
-            }
-            set
-            {
-            }
+            par = parent;
         }
 
+        public abstract void Update();
     }
 }

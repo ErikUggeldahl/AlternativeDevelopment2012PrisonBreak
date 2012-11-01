@@ -7,6 +7,12 @@ namespace PrisonBreak
 {
    public class DialogueBox : BaseComponent
     {
+
+       public DialogueBox(GameObject parent)
+           : base(parent)
+       {
+
+       }
        public override void Update()
        {
 

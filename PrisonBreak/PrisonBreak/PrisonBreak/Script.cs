@@ -5,12 +5,15 @@ using System.Text;
 
 namespace PrisonBreak
 {
-    class Script : BaseComponent
+   public abstract class Script : BaseComponent
     {
-        public override void Update()
+
+        public Script(GameObject parent)
+            : base(parent)
         {
 
         }
-
+       // public abstract void Update();
+       
     }
 }

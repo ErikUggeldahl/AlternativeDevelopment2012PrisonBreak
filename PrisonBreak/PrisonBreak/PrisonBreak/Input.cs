@@ -17,46 +17,39 @@ namespace PrisonBreak
     
     public class Input 
     {
-        
+        private static MouseState mouseState;
+        private static KeyboardState keyboardState;
+        private static GamePadState gamePadState;
 
-        public int KeyboardState
+        public static KeyboardState KeyboardState
         {
-            get
-            {
-                return KeyboardState;
-            }
-            set
-            {
-        
-            }
+            get { return keyboardState; }
+
+            set { keyboardState = value; }
 
         }
 
-        public int MouseState
+        public static MouseState MouseState
         {
-            get
-            {
-                return MouseState;
-            }
-            set
-            {
+            get { return mouseState; }
 
-            }
+            set { mouseState = value; }
 
         }
 
-        public int GamepadState
+        public static GamePadState GamepadState
         {
-            get
-            {
-                return GamepadState;
-            }
-            set
-            {
+            get { return gamePadState; }
 
-            }
+            set { gamePadState = value; }
 
+        }
 
+        public static void Update()
+        {
+            mouseState = Mouse.GetState();
+            gamePadState = GamePad.GetState(PlayerIndex.One);
+            keyboardState = Keyboard.GetState();
         }
        
     }

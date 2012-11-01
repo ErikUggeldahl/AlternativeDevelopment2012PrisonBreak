@@ -20,6 +20,10 @@ namespace PrisonBreak
             gameObjects = new List<GameObject>();
         }
       
+        public void AddGameObject(GameObject go)
+        {
+            gameObjects.Add(go);
+        }
 
         public void Update()
         {

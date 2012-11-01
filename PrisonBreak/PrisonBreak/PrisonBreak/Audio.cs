@@ -9,6 +9,11 @@ namespace PrisonBreak
     {
         private int sound;
 
+        public Audio(GameObject parent)
+            : base(parent)
+        {
+
+        }
         public override void Update()
         {
         }

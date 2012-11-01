@@ -9,16 +9,17 @@ using Microsoft.Xna.Framework;
 
 namespace PrisonBreak
 {
-    class Transform : BaseComponent
+    public class Transform : BaseComponent
     {
         List<Transform> children;
 
         Transform parent;
-        public Vector2 position;
-        float rotation;
-        float scale;
+        private Vector2 position;
+        private float rotation;
+        private float scale;
 
-        public int Parent
+        //Properties
+        public Transform Parent
         {
             get
             {
@@ -28,6 +29,31 @@ namespace PrisonBreak
             {
 
             }
+        }
+
+
+        public Transform(GameObject parent)
+            : base(parent)
+        {
+
+        }
+        public Vector2 Position
+        {
+            get { return position; }
+            set { position = value; }
+          
+        }
+
+        public float Rotation
+        {
+            get { return rotation; }
+            set { rotation = value; }
+        }
+
+        public float Scale
+        {
+            get { return scale; }
+            set { scale = value; }
         }
 
         public void Translate(Vector2 delta)
@@ -40,7 +66,7 @@ namespace PrisonBreak
             rotation += delta;
         }
 
-        public void Scale(float delta)
+        public void LocalScale(float delta)
         {
             scale += delta;
         }

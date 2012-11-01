@@ -11,18 +11,19 @@ namespace PrisonBreak
 {
     public class Camera : BaseComponent
     {
+
+        public static Camera MainCamera;
+
         // Get the camera's viewport
         public Viewport viewPort;
 
-        public Vector2 position;
-
         // get the camera's limits
-        private Rectangle limits;
+        //private Rectangle limits;
 
         // the origin or center of the screen
         public Vector2 Origin { get; set; }
 
-        public Rectangle Limits
+        /*public Rectangle Limits
         {
             get
             {
@@ -47,39 +48,21 @@ namespace PrisonBreak
                 }
 
             }
-        }
-
-        public Vector2 Position
-        {
-            get
-            {
-                return position;
-            }
-            set
-            {
-                position = value;
-                //If there's a limit set there is no zoom or rotation clamp the position
-                if (Limits != null)
-                {
-                    position.X = MathHelper.Clamp(Position.X, limits.X, limits.X + limits.Width - viewPort.Width);
-                    position.Y = MathHelper.Clamp(Position.Y, limits.Y, limits.Y + limits.Height - viewPort.Height);
-
-                }
-            }
-        }
+        }*/
 
         public Matrix viewMatrix
         {
             get
             {
-                return Matrix.CreateTranslation(new Vector3(-Position, 0)) *
+                return Matrix.CreateTranslation(new Vector3(-par.CTransform.Position, 0)) *
                        Matrix.CreateTranslation(new Vector3(-Origin, 0)) *
-                       Matrix.CreateRotationZ(Rotation) *
+                       Matrix.CreateRotationZ(par.CTransform.Rotation) *
+                       Matrix.CreateScale(1f, 1f, 1f) *
                        Matrix.CreateTranslation(new Vector3(Origin, 0));
             }
         }
 
-        public Camera(Viewport vp)
+        public Camera(GameObject parent, Viewport vp, bool isMain) : base(parent)
         {
             // set the viewport
             viewPort = vp;
@@ -87,25 +70,11 @@ namespace PrisonBreak
             //Calculate the origin, center of the screen
             Origin = new Vector2(viewPort.Width / 2, viewPort.Height / 2);
 
-
-        }
-
-
-        public void LookAt(Vector2 lookAtPosition)
-        {
-            this.Position = lookAtPosition - Origin;
-        }
-
-        public void Move(Vector2 displacment, bool respectRotation = false)
-        {
-            if (respectRotation)
+            if (isMain)
             {
-                displacment = Vector2.Transform(displacment, Matrix.CreateRotationZ(-Rotation));
+                Camera.MainCamera = this;
             }
-            this.Position += displacment;
         }
-
-
 
         public void Cull()
         {

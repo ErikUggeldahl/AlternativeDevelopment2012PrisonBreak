@@ -11,26 +11,21 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace PrisonBreak
+namespace PrisonBreak.Scripts
 {
-    public class Renderer : BaseComponent
+    public class PlayerScripts : Script
     {
-        SpriteBatch sb;
+        public PlayerScripts(GameObject parent) : base (parent)
+        {
 
-        public Renderer(GameObject parent, SpriteBatch sb) 
-            : base(parent)
-        {
-            this.sb = sb;
-        }
-        public void Draw()
-        {
-            sb.Draw(par.CAnimation.CurrentFrame, par.CTransform.Position, Color.White);
         }
 
         public override void Update()
         {
-
-        }
-
+            if (Input.KeyboardState.IsKeyDown(Keys.D))
+            {
+                par.CTransform.Translate(new Vector2(2f, 0f));
+            }
+        } 
     }
 }
