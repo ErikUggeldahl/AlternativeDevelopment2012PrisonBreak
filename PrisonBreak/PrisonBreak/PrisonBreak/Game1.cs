@@ -19,10 +19,18 @@ namespace PrisonBreak
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+   Texture2D ground;
+   Texture2D dude;
+   Camera myCamera;
+   Vector2 characterPosition = Vector2.Zero;
+      
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            GameObject g = new GameObject();
+            g.AddComponent(new Audio());
         }
 
         /// <summary>
@@ -48,6 +56,13 @@ namespace PrisonBreak
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            ground = Content.Load<Texture2D>("ground");
+            dude = Content.Load<Texture2D>("dude");
+
+
+            myCamera = new Camera(GraphicsDevice.Viewport);
+            myCamera.Limits = new Rectangle(0, 0, 3200, 600);
+          
         }
 
         /// <summary>
@@ -71,7 +86,29 @@ namespace PrisonBreak
                 this.Exit();
 
             // TODO: Add your update logic here
+            KeyboardState keyState = Keyboard.GetState();
+            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+
+            if (keyState.IsKeyDown(Keys.Right))
+            {
+                characterPosition.X += 100.0f * elapsedTime;
+            }
+            if (keyState.IsKeyDown(Keys.Left))
+            {
+                characterPosition.X -= 100.0f * elapsedTime;
+            }
+            if (keyState.IsKeyDown(Keys.Down))
+            {
+                characterPosition.Y += 100.0f * elapsedTime;
+            }
+            if (keyState.IsKeyDown(Keys.Up))
+            {
+                characterPosition.Y -= 100.0f * elapsedTime;
+            }
+
+            myCamera.LookAt(characterPosition);
+            
             base.Update(gameTime);
         }
 
@@ -85,6 +122,12 @@ namespace PrisonBreak
 
             // TODO: Add your drawing code here
 
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, myCamera.viewMatrix);
+
+            spriteBatch.Draw(ground, new Vector2(0, -600), Color.White);
+            spriteBatch.Draw(dude, characterPosition, Color.White);
+
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
