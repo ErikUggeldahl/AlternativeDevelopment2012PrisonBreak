@@ -16,6 +16,7 @@ namespace PrisonBreak
     public class Renderer : BaseComponent
     {
         SpriteBatch sb;
+        SpriteEffects flip = SpriteEffects.None;
 
         public Renderer(GameObject parent, SpriteBatch sb) 
             : base(parent)
@@ -24,7 +25,9 @@ namespace PrisonBreak
         }
         public void Draw()
         {
+           
             sb.Draw(par.CAnimation.CurrentFrame, par.CTransform.Position, Color.White);
+            sb.Draw(par.CAnimation.CurrentFrame, position, 
         }
 
         public override void Update()

@@ -64,7 +64,7 @@ namespace PrisonBreak
             player.AddScript(new PlayerScripts(player));
             manager.AddGameObject(player);
             player.CTransform.Translate(new Vector2(30f, -0f));
-
+           
             GameObject camera = new GameObject();
             camera.AddTransform();
             camera.AddCamera(GraphicsDevice.Viewport, true);
