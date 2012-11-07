@@ -16,19 +16,29 @@ namespace PrisonBreak
         public Texture2D spriteSheet;
         //add property
 
+        public Rectangle source;
+
         private float time;
 
-        //static float framerate
+        static float framerate;
+    //private dictionary that also hold the tuple
+        private Dictionary<string, Tuple<int, int>> animationFrames;
+
+        void Test()
+        {
+            // the tuple holds two items, the first is the start frame in the animation and the second one is the end frame in the animation
+            Tuple<int, int> frames = new Tuple<int, int>(6, 13);
+
+            animationFrames.Add("Walk", frames);
+        }
 
         //private dictionary
-
-       
-
+    
         int frameIndex;
 
         public float FrameTime
         {
-            get { return //framerate; }
+            get { return framerate; }
         }
 
  
@@ -36,13 +46,9 @@ namespace PrisonBreak
         {
             get { return frameIndex; }
         }
-        public Texture2D CurrentFrame
+        public Rectangle CurrentFrame
         {
-            get
-            {
-                return //source rect;
-            }
-           
+            get { return source;}   
         }
 
        //origin is under transform
