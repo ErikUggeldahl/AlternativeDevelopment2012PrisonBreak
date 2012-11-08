@@ -17,7 +17,8 @@ namespace PrisonBreak.Scripts
     {
         public PlayerScripts(GameObject parent) : base (parent)
         {
-
+            par.CAnimation.Play("idle");
+            
         }
 
         public override void Update()
@@ -25,6 +26,7 @@ namespace PrisonBreak.Scripts
             if (Input.KeyboardState.IsKeyDown(Keys.D))
             {
                 par.CTransform.Translate(new Vector2(2f, 0f));
+                par.CAnimation.Play("run");
             }
             if (Input.KeyboardState.IsKeyDown(Keys.A))
             {

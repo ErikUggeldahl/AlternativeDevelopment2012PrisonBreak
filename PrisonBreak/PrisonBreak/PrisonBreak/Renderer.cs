@@ -25,9 +25,9 @@ namespace PrisonBreak
         }
         public void Draw()
         {
-           
-            sb.Draw(par.CAnimation.CurrentFrame, par.CTransform.Position, Color.White);
-            sb.Draw(par.CAnimation.CurrentFrame, position, 
+
+
+            sb.Draw(par.CAnimation.SpriteSheet, par.CTransform.Position, par.CAnimation.CurrentFrame, Color.White, par.CTransform.Rotation, Vector2.Zero, 1.0f, SpriteEffects.None, 0.0f); 
         }
 
         public override void Update()

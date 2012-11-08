@@ -53,14 +53,13 @@ namespace PrisonBreak
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-
-
             manager = new GameObjectManager();
             player = new GameObject();
             player.AddTransform();
             player.AddRenderer(spriteBatch);
-            player.AddAnimation(Content.Load<Texture2D> ("dude"));
+            player.AddAnimation(Content.Load<Texture2D> ("Kid"), new Rectangle(0,0,33, 33));
+            player.CAnimation.AddAnimation("idle", 0, 1);
+            player.CAnimation.AddAnimation("run", 1, 2);
             player.AddScript(new PlayerScripts(player));
             manager.AddGameObject(player);
             player.CTransform.Translate(new Vector2(30f, -0f));
@@ -91,7 +90,8 @@ namespace PrisonBreak
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            GameTimeGlobal.GameTime = gameTime;
+
             Input.Update();
             manager.Update();
             base.Update(gameTime);

@@ -64,11 +64,11 @@ namespace PrisonBreak
            }
        }
 
-       public void AddAnimation(Texture2D spriteSheet)
+       public void AddAnimation(Texture2D spriteSheet, Rectangle cellSize)
        {
            if (CAnimation == null)
            {
-               CAnimation = new Animation(this, spriteSheet);
+               CAnimation = new Animation(this, spriteSheet, cellSize);
                components.Add(CAnimation);
            }
        }

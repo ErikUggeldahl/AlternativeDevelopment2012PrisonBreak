@@ -13,17 +13,23 @@ namespace PrisonBreak
 {
     public class Animation : BaseComponent
     {
-        public Texture2D spriteSheet;
-        //add property
+        #region Feilds
+        private Texture2D spriteSheet;
 
-        public Rectangle source;
+        private Rectangle source;
 
-        private float time;
+        private float frameTime;
 
-        static float framerate;
-    //private dictionary that also hold the tuple
+        private int frameIndex;
+
+        private string currentAnimationName;
+
+        static float framerate = 6f;
+        #endregion
+        //private dictionary that also hold the tuple
         private Dictionary<string, Tuple<int, int>> animationFrames;
 
+        Tuple<int, int> currentAnimation;
         void Test()
         {
             // the tuple holds two items, the first is the start frame in the animation and the second one is the end frame in the animation
@@ -34,13 +40,17 @@ namespace PrisonBreak
 
         //private dictionary
     
-        int frameIndex;
+        
 
         public float FrameTime
         {
             get { return framerate; }
         }
 
+        public Texture2D SpriteSheet
+        {
+            get { return spriteSheet; }
+        }
  
         public int FrameIndex
         {
@@ -49,6 +59,13 @@ namespace PrisonBreak
         public Rectangle CurrentFrame
         {
             get { return source;}   
+        }
+
+
+
+        public void AddAnimation(string name, int row, int frameCount)
+        {
+            animationFrames.Add(name, new Tuple<int, int>(row, frameCount));
         }
 
        //origin is under transform
@@ -70,18 +87,48 @@ namespace PrisonBreak
 
          
 
-        public Animation(GameObject parent, Texture2D spriteSheet)
+        public Animation(GameObject parent, Texture2D spriteSheet, Rectangle cellSize)
             : base(parent)
         {
             this.spriteSheet = spriteSheet;
-          
+            source = cellSize;
+
             this.frameIndex = 0;
-            this.time = 0.0f;
-            
+            this.frameTime = 0.0f;
+            animationFrames = new Dictionary<string, Tuple<int, int>>();
+           
+        }
+
+        public void Play(string toPlay)
+        {
+            if (toPlay != currentAnimationName)
+            {
+                currentAnimation = animationFrames[toPlay];
+                frameIndex = 0;
+                currentAnimationName = toPlay;
+            }
+          
+
         }
         public override void Update()
         {
+            frameTime += (float)GameTimeGlobal.GameTime.ElapsedGameTime.TotalSeconds;
+            if (frameTime >= 1f / framerate)
+            {
+                frameTime = 0;
+                frameIndex++;
+            }
 
+            //check to see if the current from is greater then the frame count. if it is set it 0.
+          
+            if (frameIndex == currentAnimation.Item2 )
+            {
+                frameIndex = 0;
+            }
+
+            source.X = frameIndex * source.Width;
+            source.Y = currentAnimation.Item1 * source.Height;
+           
         }
 
     }

@@ -116,6 +116,7 @@
     <Compile Include="DialogueBox.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />
+    <Compile Include="GameTimeGlobal.cs" />
     <Compile Include="IBounded.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="Input.cs" />
