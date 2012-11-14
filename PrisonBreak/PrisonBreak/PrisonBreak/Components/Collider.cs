@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
-namespace PrisonBreak
+namespace PrisonBreak.Components
 {
     public class Collider : BaseComponent
     {
@@ -16,7 +13,6 @@ namespace PrisonBreak
 
         public Collider(GameObject parent) : base (parent)
         {
-
         }
 
         public override void Update()

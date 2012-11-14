@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
 using Microsoft.Xna.Framework;
 
-
-namespace PrisonBreak
+namespace PrisonBreak.Components
 {
     public class Transform : BaseComponent
     {
@@ -27,10 +25,8 @@ namespace PrisonBreak
             }
             set
             {
-
             }
         }
-
 
         public Transform(GameObject parent)
             : base(parent)
@@ -41,7 +37,6 @@ namespace PrisonBreak
         {
             get { return position; }
             set { position = value; }
-          
         }
 
         public float Rotation
@@ -70,10 +65,9 @@ namespace PrisonBreak
         {
             scale += delta;
         }
+
         public override void Update()
         {
-            
         }
-
     }
 }

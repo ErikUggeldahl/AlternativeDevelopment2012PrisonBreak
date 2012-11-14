@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PrisonBreak
+namespace PrisonBreak.Components
 {
-    public class BoxCollider:Collider
+    public class BoxCollider : Collider
     {
-
         public BoxCollider(GameObject parent)
             : base(parent)
         {
-
         }
-        private int boundingBox;
     }
 }

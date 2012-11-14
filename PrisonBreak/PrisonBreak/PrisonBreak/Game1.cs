@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using PrisonBreak.Components;
 using PrisonBreak.Scripts;
 
 namespace PrisonBreak
@@ -27,8 +28,6 @@ namespace PrisonBreak
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
-          
         }
 
         /// <summary>
@@ -39,8 +38,6 @@ namespace PrisonBreak
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -76,7 +73,6 @@ namespace PrisonBreak
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -94,6 +90,7 @@ namespace PrisonBreak
 
             Input.Update();
             manager.Update();
+
             base.Update(gameTime);
         }
 
@@ -104,8 +101,6 @@ namespace PrisonBreak
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
 
             spriteBatch.Begin(SpriteSortMode.Immediate,null, null, null, null, null, Camera.MainCamera.viewMatrix);
 
