@@ -23,29 +23,41 @@ namespace PrisonBreak.Scripts
 
         public override void Update()
         {
-            if (Input.KeyboardState.IsKeyDown(Keys.D))
+            if (Input.KeyboardState != null)
             {
-                par.CTransform.Translate(new Vector2(2f, 0f));
-                par.CAnimation.Play("run");
-            }
-            if (Input.KeyboardState.IsKeyDown(Keys.A))
-            {
-                par.CTransform.Translate(new Vector2(-2f, 0f));
-            }
-            if (Input.KeyboardState.IsKeyDown(Keys.S))
-            {
-                par.CTransform.Translate(new Vector2(0f, 2f));
-            }
-            if (Input.KeyboardState.IsKeyDown(Keys.W))
-            {
-                par.CTransform.Translate(new Vector2(0f, -2f));
-            }
-            // the player's special move
-            //if (Input.KeyboardState.IsKeyDown(Keys.Space))
-            //{
+                if (Input.KeyboardState.IsKeyDown(Keys.D))
+                {
+                    par.CTransform.Translate(new Vector2(2f, 0f));
+                    par.CAnimation.Play("run");
 
-            //}
+                    par.CRenderer.flip = SpriteEffects.None;
+                }
+                if (Input.KeyboardState.IsKeyDown(Keys.A))
+                {
+                    par.CTransform.Translate(new Vector2(-2f, 0f));
+                    par.CAnimation.Play("run");
+                    par.CRenderer.flip = SpriteEffects.FlipHorizontally;
+                }
+                if (Input.KeyboardState.IsKeyDown(Keys.S))
+                {
+                    par.CTransform.Translate(new Vector2(0f, 2f));
+                }
+                if (Input.KeyboardState.IsKeyDown(Keys.W))
+                {
+                    par.CTransform.Translate(new Vector2(0f, -2f));
+                }
+                // the player's special move
+                //if (Input.KeyboardState.IsKeyDown(Keys.Space))
+                //{
 
+                //}
+                else if
+                {
+                    par.CAnimation.Play("idle");
+            }
+            }
+          
+            /*
             if (Input.GamepadState.IsConnected)
             {
                 if(Input.GamepadState.IsButtonDown(Buttons.LeftThumbstickRight))
@@ -71,7 +83,8 @@ namespace PrisonBreak.Scripts
                    //{
 
                    //}
+             * */
             }
         } 
     }
-}
+

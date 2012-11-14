@@ -63,7 +63,7 @@ namespace PrisonBreak
             player.AddScript(new PlayerScripts(player));
             manager.AddGameObject(player);
             player.CTransform.Translate(new Vector2(30f, -0f));
-           
+          
             GameObject camera = new GameObject();
             camera.AddTransform();
             camera.AddCamera(GraphicsDevice.Viewport, true);
@@ -107,7 +107,7 @@ namespace PrisonBreak
 
             // TODO: Add your drawing code here
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Camera.MainCamera.viewMatrix);
+            spriteBatch.Begin(SpriteSortMode.Immediate,null, null, null, null, null, Camera.MainCamera.viewMatrix);
 
             manager.Render();
 
