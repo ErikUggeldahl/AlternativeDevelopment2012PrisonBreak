@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using PrisonBreak.Components;
+
 namespace PrisonBreak
 {
     public class GameObjectManager
@@ -31,6 +33,8 @@ namespace PrisonBreak
             {
                 gameObjects[i].Update();
             }
+
+			RigidBody.WorldStep();
         }
 
         public void Render()

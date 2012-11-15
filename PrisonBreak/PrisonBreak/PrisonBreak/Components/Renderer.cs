@@ -13,26 +13,37 @@ using Microsoft.Xna.Framework.Media;
 
 namespace PrisonBreak.Components
 {
-    public class Renderer : BaseComponent
-    {
-        SpriteBatch sb;
-        public SpriteEffects flip = SpriteEffects.None;
+	public class Renderer : BaseComponent
+	{
+		SpriteBatch sb;
+		private bool isFlipped;
+		private SpriteEffects flipEffect = SpriteEffects.None;
 
-        public Renderer(GameObject parent, SpriteBatch sb) 
-            : base(parent)
-        {
-            this.sb = sb;
-        }
+		public bool IsFlipped
+		{
+			get { return isFlipped; }
+			set
+			{
+				isFlipped = value;
+				flipEffect = isFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			}
+		}
 
-        public void Draw()
-        {
-            Console.WriteLine(flip);
+		public Renderer(GameObject parent, SpriteBatch sb)
+			: base(parent)
+		{
+			this.sb = sb;
+			isFlipped = false;
+		}
 
-            sb.Draw(par.CAnimation.SpriteSheet, par.CTransform.Position, par.CAnimation.CurrentFrame, Color.White, par.CTransform.Rotation, Vector2.Zero, 1.0f, flip, 0.0f); 
-        }
+		public void Draw()
+		{
+			Vector2 positionWithOffset = go.Transform.Position - new Vector2(go.Animation.CurrentFrame.Width / 2f, go.Animation.CurrentFrame.Height / 2f);
+			sb.Draw(go.Animation.SpriteSheet, positionWithOffset , go.Animation.CurrentFrame, Color.White, go.Transform.Rotation, Vector2.Zero, 1.0f, flipEffect, 0.0f);
+		}
 
-        public override void Update()
-        {
-        }
-    }
+		public override void Update()
+		{
+		}
+	}
 }

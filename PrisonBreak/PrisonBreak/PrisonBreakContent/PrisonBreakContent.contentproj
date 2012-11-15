@@ -47,8 +47,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="ground.png">
-      <Name>ground</Name>
+    <Compile Include="Ground.png">
+      <Name>Ground</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -56,6 +56,13 @@
   <ItemGroup>
     <Compile Include="Kid.png">
       <Name>Kid</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="RedDot.png">
+      <Name>RedDot</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

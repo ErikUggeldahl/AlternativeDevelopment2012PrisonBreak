@@ -125,7 +125,8 @@
     <Compile Include="Components\Renderer.cs" />
     <Compile Include="Components\RigidBody.cs" />
     <Compile Include="Components\Script.cs" />
-    <Compile Include="Scripts\PlayerScripts.cs" />
+    <Compile Include="Scripts\CameraScript.cs" />
+    <Compile Include="Scripts\PlayerScript.cs" />
     <Compile Include="Components\Transform.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +134,14 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DebugView XNA\DebugView XNA.csproj">
+      <Project>{FC7845FA-13FE-4FF8-822A-A577F3F59B00}</Project>
+      <Name>DebugView XNA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Farseer Physics Engine 3.3.1 XNA\Farseer Physics XNA.csproj">
+      <Project>{0A850700-1ABB-4288-A391-6726B90EBEB9}</Project>
+      <Name>Farseer Physics XNA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PrisonBreakContent\PrisonBreakContent.contentproj">
       <Name>PrisonBreakContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>

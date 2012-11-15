@@ -5,27 +5,27 @@ using System.Text;
 
 namespace PrisonBreak.Components
 {
-    public class Audio : BaseComponent
-    {
-        public Audio(GameObject parent)
-            : base(parent)
-        {
-        }
+	public class Audio : BaseComponent
+	{
+		public Audio(GameObject parent)
+			: base(parent)
+		{
+		}
 
-        public override void Update()
-        {
-        }
+		public override void Update()
+		{
+		}
 
-        public void Play()
-        {
-        }
+		public void Play()
+		{
+		}
 
-        public void Pause()
-        {
-        }
+		public void Pause()
+		{
+		}
 
-        public void Stop()
-        {
-        }
-    }
+		public void Stop()
+		{
+		}
+	}
 }

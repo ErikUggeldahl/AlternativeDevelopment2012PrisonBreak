@@ -5,11 +5,11 @@ using System.Text;
 
 namespace PrisonBreak.Components
 {
-    public class BoxCollider : Collider
-    {
-        public BoxCollider(GameObject parent)
-            : base(parent)
-        {
-        }
-    }
+	public class BoxCollider : Collider
+	{
+		public BoxCollider(GameObject parent)
+			: base(parent)
+		{
+		}
+	}
 }

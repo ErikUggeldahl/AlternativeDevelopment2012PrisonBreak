@@ -7,11 +7,17 @@ namespace PrisonBreak.Components
 {
     public abstract class BaseComponent : IComponent
     {
-        protected GameObject par;
+        protected GameObject go;
+
+		// TODO: Remove after component references have been added
+		public GameObject GO
+		{
+			get { return go; }
+		}
 
         public BaseComponent(GameObject parent)
         {
-            par = parent;
+            go = parent;
         }
 
         public abstract void Update();
