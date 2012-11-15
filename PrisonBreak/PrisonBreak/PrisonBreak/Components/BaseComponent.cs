@@ -5,6 +5,7 @@ using System.Text;
 
 namespace PrisonBreak.Components
 {
+	// TODO: Add events to diffuse updates to components so that par doesn't have to be referenced.
     public abstract class BaseComponent : IComponent
     {
         protected GameObject go;

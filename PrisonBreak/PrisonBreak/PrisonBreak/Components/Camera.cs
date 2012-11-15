@@ -10,6 +10,8 @@ namespace PrisonBreak.Components
 {
 	public class Camera : BaseComponent
 	{
+		// TODO: Add camera Z
+
 		public static Camera MainCamera;
 
 		private Viewport viewport;

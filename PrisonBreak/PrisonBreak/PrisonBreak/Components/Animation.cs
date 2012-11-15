@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace PrisonBreak.Components
 {
+	// RODO: Remove dependency on animation for graphics for static objects
+
 	public class Animation : BaseComponent
 	{
 		#region Fields
