@@ -12,16 +12,19 @@ using PrisonBreak.Components;
 
 namespace PrisonBreak
 {
+    public delegate void ComponentAdded(IComponent component);
+
 	public class GameObject
 	{
 		List<IComponent> components;
 		public Animation Animation;
 		public Audio Audio;
 		public Camera Camera;
-		public Collider Collider;
 		public Renderer Renderer;
 		public RigidBody RigidBody;
 		public Transform Transform;
+
+        public event ComponentAdded ComponentAdded;
 
 		public GameObject()
 		{
@@ -35,6 +38,7 @@ namespace PrisonBreak
 				Animation = new Animation(this, spriteSheet, cellSize);
 				components.Add(Animation);
 			}
+            ComponentAdded(Animation);
 		}
 
 		public void AddAudio()
@@ -44,6 +48,7 @@ namespace PrisonBreak
 				Audio = new Audio(this);
 				components.Add(Audio);
 			}
+            ComponentAdded(Audio);
 		}
 
 		public void AddCamera(Viewport vp, bool isMain)
@@ -53,15 +58,7 @@ namespace PrisonBreak
 				Camera = new Camera(this, vp, isMain);
 				components.Add(Camera);
 			}
-		}
-
-		public void AddCollier()
-		{
-			if (Collider == null)
-			{
-				Collider = new Collider(this);
-				components.Add(Collider);
-			}
+            ComponentAdded(Camera);
 		}
 
 		public void AddRenderer(SpriteBatch sb)
@@ -71,6 +68,7 @@ namespace PrisonBreak
 				Renderer = new Renderer(this, sb);
 				components.Add(Renderer);
 			}
+            ComponentAdded(Renderer);
 		}
 
 		public void AddStaticRigidBody(Vector2 size)
@@ -80,6 +78,7 @@ namespace PrisonBreak
 				RigidBody = new RigidBody(this, BodyType.Static, size);
 				components.Add(RigidBody);
 			}
+            ComponentAdded(RigidBody);
 		}
 
 		public void AddDynamicRigidBody(Vector2 size)
@@ -89,6 +88,7 @@ namespace PrisonBreak
 				RigidBody = new RigidBody(this, BodyType.Dynamic, size);
 				components.Add(RigidBody);
 			}
+            ComponentAdded(RigidBody);
 		}
 
 		public void AddTransform()
@@ -98,6 +98,7 @@ namespace PrisonBreak
 				Transform = new Transform(this);
 				components.Add(Transform);
 			}
+            ComponentAdded(Transform);
 		}
 
 		public void AddScript(Script script)

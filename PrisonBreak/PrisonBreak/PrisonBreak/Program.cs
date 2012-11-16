@@ -13,9 +13,6 @@ namespace PrisonBreak
             using (Game1 game = new Game1())
             {
                 game.Run();
-                //coles awesome
-                // check me out
-                //Gears of WAR!!!
             }
         }
     }

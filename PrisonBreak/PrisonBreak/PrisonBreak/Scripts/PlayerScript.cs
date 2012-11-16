@@ -19,7 +19,7 @@ namespace PrisonBreak.Scripts
 		public PlayerScript(GameObject parent)
 			: base(parent)
 		{
-			go.Animation.Play("idle");
+			Animation.Play("idle");
 		}
 
 		public override void Update()
@@ -36,25 +36,25 @@ namespace PrisonBreak.Scripts
 			if (Input.KeyboardState.IsKeyDown(Keys.A))
 			{
 				movement.X -= 1f;
-				go.Renderer.IsFlipped = true;
+				Renderer.IsFlipped = true;
 			}
 			if (Input.KeyboardState.IsKeyDown(Keys.D))
 			{
 				movement.X += 1f;
-				go.Renderer.IsFlipped = false;
+				Renderer.IsFlipped = false;
 			}
 
 			if (movement.Length() > 0)
 			{
 				movement.Normalize();
 				movement /= RigidBody.MInPx;
-				if (go.RigidBody.Body.LinearVelocity.LengthSquared() < maxSpeed)
-				go.RigidBody.ApplyImpulse(movement * moveSpeed);
-				go.Animation.Play("run");
+				if (RigidBody.Body.LinearVelocity.LengthSquared() < maxSpeed)
+				RigidBody.ApplyImpulse(movement * moveSpeed);
+				Animation.Play("run");
 			}
 			else
 			{
-				go.Animation.Play("idle");
+				Animation.Play("idle");
 			}
 			/*
 			if (Input.GamepadState.IsConnected)

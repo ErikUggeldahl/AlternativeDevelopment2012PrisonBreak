@@ -13,10 +13,12 @@ namespace PrisonBreak.Components
 
 		Transform parent;
 		private Vector2 position;
+        private float z;
 		private float rotation;
 		private float scale;
 
 		//Properties
+        // TODO: Implement parenting
 		public Transform Parent
 		{
 			get
@@ -31,7 +33,6 @@ namespace PrisonBreak.Components
 		public Transform(GameObject parent)
 			: base(parent)
 		{
-
 		}
 
 		public Vector2 Position
@@ -39,6 +40,12 @@ namespace PrisonBreak.Components
 			get { return position; }
 			set { position = value; }
 		}
+
+        public float Z
+        {
+            get { return z; }
+            set { z = value; }
+        }
 
 		public float Rotation
 		{

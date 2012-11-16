@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace PrisonBreak.Components
 {
-	// RODO: Remove dependency on animation for graphics for static objects
+	// TODO: Remove dependency on animation for graphics for static objects
 
 	public class Animation : BaseComponent
 	{
@@ -51,23 +51,6 @@ namespace PrisonBreak.Components
 		{
 			animationFrames.Add(name, new Tuple<int, int>(row, frameCount));
 		}
-
-		//origin is under transform
-
-		//public Animation Animation
-		//{
-		//    get { return Animation; }
-		//}
-
-		//public void PlayAnimation(Animation spriteSheet)
-		//{
-		//    if (Animation == animation)
-		//        return;
-
-		//    this.animation = animation;
-		//    this.frameIndex = 0;
-		//    this.time = 0.0f;
-		//}
 
 		public Animation(GameObject parent, Texture2D spriteSheet, Rectangle cellSize)
 			: base(parent)

@@ -21,7 +21,6 @@ namespace PrisonBreak.Components
 		public const float MInPx = 33f;	// TODO: Change MInPx to account for camera Z
 
 		private Body body;
-		private Vector2 oldPos;
 
 		public Body Body
 		{
@@ -43,14 +42,20 @@ namespace PrisonBreak.Components
 		public static void DebugRender()
 		{
 			Matrix projection = Matrix.CreateOrthographicOffCenter(0f, Camera.MainCamera.Viewport.Width / MInPx, Camera.MainCamera.Viewport.Height / MInPx, 0f, 0f, 1f);
-			Matrix view = Matrix.CreateTranslation(new Vector3(-Camera.MainCamera.GO.Transform.Position / MInPx, 0f));
+			Matrix view = Matrix.CreateTranslation(new Vector3(-Camera.MainCamera.Transform.Position / MInPx, 0f)) *
+				Matrix.CreateTranslation(new Vector3(-Camera.MainCamera.Origin / MInPx, 0)) *
+				Matrix.CreateRotationZ(Camera.MainCamera.Transform.Rotation) *
+				//Matrix.CreateScale((float)Math.Exp((float)Camera.MainCamera.Transform.Z / MInPx)) *
+				Matrix.CreateScale(1f) *
+				Matrix.CreateTranslation(new Vector3(Camera.MainCamera.Origin / MInPx, 0)) *
+                Matrix.CreateTranslation(new Vector3(Camera.MainCamera.Transform.Position / MInPx, 0f));
 			debugView.RenderDebugData(ref projection, ref view);
 		}
 
 		public RigidBody(GameObject parent, BodyType bodyType, Vector2 size)
 			: base(parent)
 		{
-			body = BodyFactory.CreateRectangle(world, size.X / MInPx, size.Y / MInPx, 1f, go.Transform.Position / MInPx);
+			body = BodyFactory.CreateRectangle(world, size.X / MInPx, size.Y / MInPx, 1f, Transform.Position / MInPx);
 			body.BodyType = bodyType;
 			body.Friction = 2f;
 			body.FixedRotation = true;
@@ -60,9 +65,8 @@ namespace PrisonBreak.Components
 		{
 			if (body.BodyType == BodyType.Static)
 				return;
-			go.Transform.Position = body.Position * MInPx;
-			go.Transform.Rotation = body.Rotation;
-			oldPos = body.Position;
+			Transform.Position = body.Position * MInPx;
+			Transform.Rotation = body.Rotation;
 		}
 
 		public void ApplyImpulse(Vector2 impulse)

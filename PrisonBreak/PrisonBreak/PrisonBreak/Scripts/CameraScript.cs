@@ -39,10 +39,19 @@ namespace PrisonBreak.Scripts
 				movement.X += 1f;
 			}
 
+			if (Input.KeyboardState.IsKeyDown(Keys.Q))
+			{
+				Transform.Z += 0.1f * GameTimeGlobal.DeltaSec;
+			}
+			if (Input.KeyboardState.IsKeyDown(Keys.E))
+			{
+				Transform.Z -= 0.1f * GameTimeGlobal.DeltaSec;
+			}
+
 			if (movement.Length() > 0)
 			{
 				movement.Normalize();
-				go.Transform.Translate(movement * moveSpeed * GameTimeGlobal.DeltaSec);
+				Transform.Translate(movement * moveSpeed * GameTimeGlobal.DeltaSec);
 			}
 		}
 	}

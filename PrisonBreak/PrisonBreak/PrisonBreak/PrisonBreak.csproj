@@ -110,9 +110,7 @@
     <Compile Include="Components\Animation.cs" />
     <Compile Include="Components\Audio.cs" />
     <Compile Include="Components\BaseComponent.cs" />
-    <Compile Include="Components\BoxCollider.cs" />
     <Compile Include="Components\Camera.cs" />
-    <Compile Include="Components\Collider.cs" />
     <Compile Include="Components\DialogueBox.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />

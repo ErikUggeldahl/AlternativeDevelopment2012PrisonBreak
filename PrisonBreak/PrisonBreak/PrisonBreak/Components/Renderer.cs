@@ -38,8 +38,9 @@ namespace PrisonBreak.Components
 
 		public void Draw()
 		{
-			Vector2 positionWithOffset = go.Transform.Position - new Vector2(go.Animation.CurrentFrame.Width / 2f, go.Animation.CurrentFrame.Height / 2f);
-			sb.Draw(go.Animation.SpriteSheet, positionWithOffset , go.Animation.CurrentFrame, Color.White, go.Transform.Rotation, Vector2.Zero, 1.0f, flipEffect, 0.0f);
+			Vector2 positionWithOffset = Transform.Position - new Vector2(Animation.CurrentFrame.Width / 2f, Animation.CurrentFrame.Height / 2f);
+			sb.Draw(Animation.SpriteSheet, positionWithOffset, Animation.CurrentFrame, Color.White, Transform.Rotation, Vector2.Zero, 1f, flipEffect, 0.0f);
+			//sb.Draw(Animation.SpriteSheet, positionWithOffset, Animation.CurrentFrame, Color.White, Transform.Rotation, Vector2.Zero, (float)Math.Exp((float)Transform.Z), flipEffect, 0.0f);
 		}
 
 		public override void Update()
