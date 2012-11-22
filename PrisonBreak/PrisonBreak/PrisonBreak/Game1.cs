@@ -20,6 +20,7 @@ namespace PrisonBreak
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+		SpriteFont Text;
         GameObjectManager manager;
         GameObject player;
 
@@ -63,7 +64,8 @@ namespace PrisonBreak
             player.AddScript(new PlayerScripts(player));
             manager.AddGameObject(player);
             player.CTransform.Translate(new Vector2(30f, -0f));
-          
+			player.AddDialogBox(Content.Load<SpriteFont>("SpriteFont"));
+			
             GameObject camera = new GameObject();
             camera.AddTransform();
             camera.AddCamera(GraphicsDevice.Viewport, true);

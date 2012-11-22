@@ -51,11 +51,11 @@ namespace PrisonBreak.Scripts
                 //{
 
                 //}
-                else if
+                else 
                 {
                     par.CAnimation.Play("idle");
-            }
-            }
+			    }
+			     }
           
             /*
             if (Input.GamepadState.IsConnected)

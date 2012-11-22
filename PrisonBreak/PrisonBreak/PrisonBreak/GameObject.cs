@@ -19,6 +19,7 @@ namespace PrisonBreak
        public Collider CCollider;
        public Camera CCamera;
        public Renderer CRenderer;
+	   public DialogBox CDialogBox;
 
        public GameObject()
        {
@@ -72,7 +73,19 @@ namespace PrisonBreak
                components.Add(CAnimation);
            }
        }
+	
+	   
+	 // still working on this
 
+	   public void AddDialogBox(SpriteFont spriteFont)
+	   {
+		   if (CDialogBox == null)
+		   {
+			   CDialogBox = new DialogBox();
+			   components.Add(CDialogBox);
+		   }
+
+	   }
        public void AddCamera(Viewport vp, bool isMain)
        {
            if (CCamera == null)
