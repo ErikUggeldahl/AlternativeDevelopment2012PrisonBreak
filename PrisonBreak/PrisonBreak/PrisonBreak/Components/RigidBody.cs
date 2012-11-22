@@ -47,7 +47,7 @@ namespace PrisonBreak.Components
 				Matrix.CreateRotationZ(Camera.MainCamera.Transform.Rotation) *
 				//Matrix.CreateScale((float)Math.Exp((float)Camera.MainCamera.Transform.Z / MInPx)) *
 				Matrix.CreateScale(1f) *
-				Matrix.CreateTranslation(new Vector3(Camera.MainCamera.Origin / MInPx, 0)) *
+				//Matrix.CreateTranslation(new Vector3(Camera.MainCamera.Origin / MInPx, 0)) *
                 Matrix.CreateTranslation(new Vector3(Camera.MainCamera.Transform.Position / MInPx, 0f));
 			debugView.RenderDebugData(ref projection, ref view);
 		}

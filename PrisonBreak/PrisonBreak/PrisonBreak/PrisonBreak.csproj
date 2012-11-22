@@ -123,6 +123,7 @@
     <Compile Include="Components\Renderer.cs" />
     <Compile Include="Components\RigidBody.cs" />
     <Compile Include="Components\Script.cs" />
+    <Compile Include="Quad.cs" />
     <Compile Include="Scripts\CameraScript.cs" />
     <Compile Include="Scripts\PlayerScript.cs" />
     <Compile Include="Components\Transform.cs" />

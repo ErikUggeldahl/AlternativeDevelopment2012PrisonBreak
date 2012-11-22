@@ -61,11 +61,11 @@ namespace PrisonBreak
             ComponentAdded(Camera);
 		}
 
-		public void AddRenderer(SpriteBatch sb)
+		public void AddRenderer(GraphicsDevice gd)
 		{
 			if (Renderer == null)
 			{
-				Renderer = new Renderer(this, sb);
+				Renderer = new Renderer(this, gd);
 				components.Add(Renderer);
 			}
             ComponentAdded(Renderer);

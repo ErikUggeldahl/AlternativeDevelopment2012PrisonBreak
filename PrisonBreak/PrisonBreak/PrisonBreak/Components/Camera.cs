@@ -12,7 +12,7 @@ namespace PrisonBreak.Components
 	{
 		public static Camera MainCamera;
 
-        private Vector2 origin;
+		private Vector2 origin;
 		private Viewport viewport;
 
 		public Viewport Viewport
@@ -21,21 +21,19 @@ namespace PrisonBreak.Components
 		}
 
 		public Vector2 Origin
-        {
-            get { return origin; }
-        }
+		{
+			get { return origin; }
+		}
 
 		public Matrix ViewMatrix
 		{
 			get
 			{
-				return Matrix.CreateTranslation(new Vector3(-Transform.Position, 0f)) *//Transform.Z)) *
-					   Matrix.CreateTranslation(new Vector3(-Origin, 0f)) *
-					   Matrix.CreateRotationZ(Transform.Rotation) *
-					   //Matrix.CreateScale((float)Math.Exp(Transform.Z)) *
-					   Matrix.CreateScale(1f) *
-					   Matrix.CreateTranslation(new Vector3(Origin, 0f)) *
-                       Matrix.CreateTranslation(new Vector3(Transform.Position, 0f));
+				return Matrix.CreateTranslation(new Vector3(-Origin, 0f)) *
+					Matrix.CreateScale(1f) *
+					Matrix.CreateRotationZ(Transform.Rotation) *
+					//Matrix.CreateTranslation(new Vector3(Transform.Position, 0f)) *
+					Matrix.CreateLookAt(new Vector3(Transform.Position, Transform.Z), Vector3.Zero, Vector3.Up);
 			}
 		}
 
