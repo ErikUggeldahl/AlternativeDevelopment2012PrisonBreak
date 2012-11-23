@@ -23,7 +23,25 @@ namespace PrisonBreak
 		bool ToLong = false;
 		int loopcounter = 10;
 		string text;
-		
+		//public GameObject par;
+		SpriteFont SpriteFont1;
+		 public DialogBox(GameObject parent)
+			 : base(parent)
+        {
+            par = parent;
+
+        }
+		 public DialogBox(GameObject parent, SpriteFont spriteFont)
+			 : base(parent)
+		 {
+			 par = parent;
+			 SpriteFont1 = spriteFont;
+		 }
+		 public SpriteFont SpriteSheet
+		 {
+			 get { return SpriteFont1; }
+		 }
+ 
 		public string InputText()
 		{
 
@@ -50,7 +68,7 @@ namespace PrisonBreak
 
 		public override void Update()
 		{
-			Words = new DialogBox();
+			Words = new DialogBox(par);
 			output = Words.InputText();
 
 

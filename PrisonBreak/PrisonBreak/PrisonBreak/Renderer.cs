@@ -19,9 +19,9 @@ namespace PrisonBreak
         SpriteBatch sb;
 		SpriteFont Text;
 		DialogBox OutputText;
-
+	
        public SpriteEffects flip = SpriteEffects.None;
-
+	
         public Renderer(GameObject parent, SpriteBatch sb) 
             : base(parent)
         {
@@ -30,10 +30,14 @@ namespace PrisonBreak
         public void Draw()
         {
            Console.WriteLine(flip);
+		   OutputText = new DialogBox(par);
+		   string blah = OutputText.InputText();
+		   
 
 		   Vector2 FontOrigin = new Vector2(5, 5);
             sb.Draw(par.CAnimation.SpriteSheet, par.CTransform.Position, par.CAnimation.CurrentFrame, Color.White, par.CTransform.Rotation, Vector2.Zero, 1.0f, flip, 0.0f);
-			sb.DrawString(Text, OutputText.InputText(), FontOrigin, Color.White);
+			
+			sb.DrawString(par.CDialogBox.SpriteSheet, blah.Substring(0), FontOrigin, Color.White);
 		}
 
         public override void Update()

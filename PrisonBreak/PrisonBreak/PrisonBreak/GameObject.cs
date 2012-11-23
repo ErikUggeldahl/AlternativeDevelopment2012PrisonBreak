@@ -81,7 +81,9 @@ namespace PrisonBreak
 	   {
 		   if (CDialogBox == null)
 		   {
-			   CDialogBox = new DialogBox();
+			   CDialogBox = new DialogBox(this, spriteFont);
+			
+
 			   components.Add(CDialogBox);
 		   }
 
