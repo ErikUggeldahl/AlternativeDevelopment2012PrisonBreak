@@ -21,9 +21,8 @@ namespace PrisonBreak.Components
 		GraphicsDevice graphicsDevice;
 		public Quad quad;
 		Matrix view, proj;
-		public BasicEffect shader;
 
-		public Texture2D testTexture;
+		static BasicEffect shader;
 
 		public bool IsFlipped
 		{
@@ -45,18 +44,14 @@ namespace PrisonBreak.Components
 			// New
 			this.graphicsDevice = graphicsDevice;
 
-			quad = new Quad(Vector3.Zero, Vector3.Backward, Vector3.Up, 1f, 1f);
+			quad = new Quad(Vector3.Zero, Vector3.Backward, Vector3.Up, Animation.SpriteSheet.Width, Animation.SpriteSheet.Height);
 
-			view = Matrix.CreateLookAt(new Vector3(0, 0, 5), Vector3.Zero, Vector3.Up);
-			proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60f), 16f / 9f, 0.5f, 1000f);
-
-			shader = new BasicEffect(graphicsDevice);
-			shader.EnableDefaultLighting();
-			shader.World = Matrix.CreateScale(1) * Matrix.CreateTranslation(Vector3.Zero);
-			shader.View = view;
-			shader.Projection = proj;
-			shader.TextureEnabled = true;
-			//shader.Texture = testTexture;
+			if (shader == null)
+			{
+				shader = new BasicEffect(graphicsDevice);
+				shader.EnableDefaultLighting();
+				shader.TextureEnabled = true;
+			}
 		}
 
 		public void Draw()
@@ -67,7 +62,15 @@ namespace PrisonBreak.Components
 			//sb.Draw(Animation.SpriteSheet, positionWithOffset, Animation.CurrentFrame, Color.White, Transform.Rotation, Vector2.Zero, (float)Math.Exp((float)Transform.Z), flipEffect, 0.0f);
 
 			// New
-			
+			view = Matrix.CreateLookAt(new Vector3(Camera.MainCamera.Transform.Position, Camera.MainCamera.Transform.Z), new Vector3(Camera.MainCamera.Transform.Position, Camera.MainCamera.Transform.Z - 2000f), Vector3.Up);// *
+				//Matrix.CreateReflection(new Plane(Vector3.UnitY, 0f));
+			proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60f), 16f / 9f, 0.5f, 5000f);
+
+			shader.World = Matrix.CreateTranslation(new Vector3(Transform.Position, Transform.Z));
+			shader.View = view;
+			shader.Projection = proj;
+			shader.TextureEnabled = true;
+			shader.Texture = Animation.SpriteSheet;
 
 			foreach (EffectPass pass in shader.CurrentTechnique.Passes)
 			{

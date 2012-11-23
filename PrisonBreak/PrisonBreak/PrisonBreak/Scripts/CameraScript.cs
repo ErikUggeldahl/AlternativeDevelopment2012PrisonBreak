@@ -41,11 +41,11 @@ namespace PrisonBreak.Scripts
 
 			if (Input.KeyboardState.IsKeyDown(Keys.Q))
 			{
-				Transform.Z += 0.1f * GameTimeGlobal.DeltaSec;
+				Transform.Z += 100f * GameTimeGlobal.DeltaSec;
 			}
 			if (Input.KeyboardState.IsKeyDown(Keys.E))
 			{
-				Transform.Z -= 0.1f * GameTimeGlobal.DeltaSec;
+				Transform.Z -= 100f * GameTimeGlobal.DeltaSec;
 			}
 
 			if (movement.Length() > 0)

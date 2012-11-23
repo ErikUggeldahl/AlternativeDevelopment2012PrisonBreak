@@ -21,8 +21,6 @@ namespace PrisonBreak
 		SpriteBatch spriteBatch;
 		GameObjectManager manager;
 
-		GameObject player;
-
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
@@ -40,6 +38,8 @@ namespace PrisonBreak
 		/// </summary>
 		protected override void Initialize()
 		{
+			GraphicsDevice.BlendState = BlendState.AlphaBlend;
+
 			base.Initialize();
 		}
 
@@ -56,21 +56,21 @@ namespace PrisonBreak
 
 			manager = new GameObjectManager();
 
-			player = new GameObject();
+			GameObject player = new GameObject();
 			player.AddTransform();
 			player.Transform.Translate(new Vector2(30f, -0f));
 			
-			player.AddAnimation(Content.Load<Texture2D>("Glass"), new Rectangle(0, 0, 33, 33));
+			player.AddAnimation(Content.Load<Texture2D>("Kid"), new Rectangle(0, 0, 33, 33));
 			player.Animation.AddAnimation("idle", 0, 1);
 			player.Animation.AddAnimation("run", 1, 2);
 			player.AddRenderer(GraphicsDevice);
-			player.Renderer.shader.Texture = Content.Load<Texture2D>("Glass");
 			player.AddDynamicRigidBody(new Vector2(33f, 33f));
 			player.AddScript(new PlayerScript(player));
 			manager.AddGameObject(player);
 
 			GameObject camera = new GameObject();
 			camera.AddTransform();
+			camera.Transform.Z = 1000f;
 			camera.AddCamera(GraphicsDevice.Viewport, true);
 			camera.AddScript(new CameraScript(camera));
 			manager.AddGameObject(camera);
@@ -78,8 +78,7 @@ namespace PrisonBreak
 			GameObject ground = new GameObject();
 			ground.AddTransform();
 			ground.Transform.Translate(new Vector2(640f, 650f));
-			
-			ground.AddAnimation(Content.Load<Texture2D>("Ground"), new Rectangle(0, 0, 1280, 10));
+			ground.AddAnimation(Content.Load<Texture2D>("DebugGround"), new Rectangle(0, 0, 1280, 10));
 			ground.Animation.AddAnimation("idle", 0, 1);
 			ground.Animation.Play("idle");
 			ground.AddRenderer(graphics.GraphicsDevice);
@@ -121,23 +120,9 @@ namespace PrisonBreak
 		protected override void Draw(GameTime gameTime)
 		{
 			GraphicsDevice.Clear(Color.CornflowerBlue);
-			GraphicsDevice.BlendState = BlendState.AlphaBlend;
 
-		//	spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Camera.MainCamera.ViewMatrix);
-			//manager.Render();
+			manager.Render();
 
-			foreach (EffectPass pass in player.Renderer.shader.CurrentTechnique.Passes)
-			{
-				pass.Apply();
-
-				GraphicsDevice.DrawUserIndexedPrimitives
-					<VertexPositionNormalTexture>(
-					PrimitiveType.TriangleList,
-					player.Renderer.quad.Vertices, 0, 4,
-					player.Renderer.quad.Indexes, 0, 2);
-			}
-
-		//	spriteBatch.End();
 			base.Draw(gameTime);
 			//RigidBody.DebugRender();
 		}
