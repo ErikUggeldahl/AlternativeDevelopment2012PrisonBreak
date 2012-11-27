@@ -58,7 +58,8 @@ namespace PrisonBreak
 
 			GameObject player = new GameObject();
 			player.AddTransform();
-			player.Transform.Translate(new Vector2(30f, -0f));
+			player.Transform.Translate(new Vector2(0f, 50f));
+			player.Transform.Z = 200f;
 			
 			player.AddAnimation(Content.Load<Texture2D>("Kid"), new Rectangle(0, 0, 33, 33));
 			player.Animation.AddAnimation("idle", 0, 1);
@@ -77,7 +78,7 @@ namespace PrisonBreak
 
 			GameObject ground = new GameObject();
 			ground.AddTransform();
-			ground.Transform.Translate(new Vector2(640f, 650f));
+			ground.Transform.Translate(new Vector2(0f, 0f));
 			ground.AddAnimation(Content.Load<Texture2D>("DebugGround"), new Rectangle(0, 0, 1280, 10));
 			ground.Animation.AddAnimation("idle", 0, 1);
 			ground.Animation.Play("idle");

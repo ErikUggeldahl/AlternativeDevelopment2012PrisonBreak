@@ -27,11 +27,11 @@ namespace PrisonBreak.Scripts
 			Vector2 movement = Vector2.Zero;
 			if (Input.KeyboardState.IsKeyDown(Keys.W))
 			{
-				movement.Y -= 1f;
+				movement.Y += 1f;
 			}
 			if (Input.KeyboardState.IsKeyDown(Keys.S))
 			{
-				movement.Y += 1f;
+				movement.Y -= 1f;
 			}
 			if (Input.KeyboardState.IsKeyDown(Keys.A))
 			{

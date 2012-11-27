@@ -16,7 +16,7 @@ namespace PrisonBreak.Components
 {
 	public class RigidBody : BaseComponent
 	{
-		private static World world = new World(new Vector2(0f, 9.82f));
+		private static World world = new World(new Vector2(0f, -9.82f));
 		private static DebugViewXNA debugView = new DebugViewXNA(world);
 		public const float MInPx = 33f;	// TODO: Change MInPx to account for camera Z
 
