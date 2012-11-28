@@ -12,6 +12,7 @@ namespace PrisonBreak.Components
         public Camera Camera;
         public Renderer Renderer;
         public RigidBody RigidBody;
+		public StaticSprite StaticSprite;
         public Transform Transform;
 
         protected GameObject go;
@@ -30,6 +31,7 @@ namespace PrisonBreak.Components
             Camera = parent.Camera;
             Renderer = parent.Renderer;
             RigidBody = parent.RigidBody;
+			StaticSprite = parent.StaticSprite;
             Transform = parent.Transform;
 
             parent.ComponentAdded += UpdateReferences;
@@ -37,18 +39,20 @@ namespace PrisonBreak.Components
 
         public void UpdateReferences(IComponent component)
         {
-            if (component.GetType() ==  typeof(Animation))
-                Animation = (Animation)component;
-            else if (component.GetType() == typeof(Audio))
-                Audio = (Audio)component;
-            else if (component.GetType() == typeof(Camera))
-                Camera = (Camera)component;
-            else if (component.GetType() == typeof(Renderer))
-                Renderer = (Renderer)component;
-            else if (component.GetType() == typeof(RigidBody))
-                RigidBody = (RigidBody)component;
-            else if (component.GetType() == typeof(Transform))
-                Transform = (Transform)component;
+			if (component.GetType() == typeof(Animation))
+				Animation = (Animation)component;
+			else if (component.GetType() == typeof(Audio))
+				Audio = (Audio)component;
+			else if (component.GetType() == typeof(Camera))
+				Camera = (Camera)component;
+			else if (component.GetType() == typeof(Renderer))
+				Renderer = (Renderer)component;
+			else if (component.GetType() == typeof(RigidBody))
+				RigidBody = (RigidBody)component;
+			else if (component.GetType() == typeof(StaticSprite))
+				StaticSprite = (StaticSprite)component;
+			else if (component.GetType() == typeof(Transform))
+				Transform = (Transform)component;
         }
 
         public abstract void Update();

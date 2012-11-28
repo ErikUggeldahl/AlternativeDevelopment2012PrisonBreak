@@ -64,11 +64,18 @@ namespace PrisonBreak.Components
 			position += delta;
 		}
 
+		public void Translate(Vector3 delta)
+		{
+			position += new Vector2(delta.X, delta.Y);
+			z += delta.Z;
+		}
+
 		public void Rotate(float delta)
 		{
 			rotation += delta;
 		}
 
+		// TODO : Fix scale
 		public void LocalScale(float delta)
 		{
 			scale += delta;

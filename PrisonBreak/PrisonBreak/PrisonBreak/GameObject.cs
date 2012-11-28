@@ -22,6 +22,7 @@ namespace PrisonBreak
 		public Camera Camera;
 		public Renderer Renderer;
 		public RigidBody RigidBody;
+		public StaticSprite StaticSprite;
 		public Transform Transform;
 
         public event ComponentAdded ComponentAdded;
@@ -31,7 +32,7 @@ namespace PrisonBreak
 			components = new List<IComponent>();
 		}
 
-		public void AddAnimation(Texture2D spriteSheet, Rectangle cellSize)
+		public void AddAnimation(Texture2D spriteSheet, Vector2 cellSize)
 		{
 			if (Animation == null)
 			{
@@ -91,6 +92,16 @@ namespace PrisonBreak
             ComponentAdded(RigidBody);
 		}
 
+		public void AddStaticSprite(Texture2D sprite)
+		{
+			if (StaticSprite == null)
+			{
+				StaticSprite = new StaticSprite(this, sprite);
+				components.Add(StaticSprite);
+			}
+			ComponentAdded(StaticSprite);
+		}
+
 		public void AddTransform()
 		{
 			if (Transform == null)
@@ -114,12 +125,39 @@ namespace PrisonBreak
 			}
 		}
 
+		public void RenderTargets()
+		{
+			if (Renderer != null)
+			{
+				Renderer.DrawTargets();
+			}
+		}
+
 		public void Render()
 		{
 			if (Renderer != null)
 			{
 				Renderer.Draw();
 			}
+		}
+
+		public static GameObject CreateStaticPhysicsGO(GraphicsDevice graphicsDevice, Texture2D sprite)
+		{
+			GameObject staticGO = CreateStaticGO(graphicsDevice, sprite);
+			staticGO.AddStaticRigidBody(new Vector2(sprite.Bounds.Width, sprite.Bounds.Height));
+
+			return staticGO;
+		}
+
+		public static GameObject CreateStaticGO(GraphicsDevice graphicsDevice, Texture2D sprite)
+		{
+			GameObject staticGO = new GameObject();
+
+			staticGO.AddTransform();
+			staticGO.AddStaticSprite(sprite);
+			staticGO.AddRenderer(graphicsDevice);
+
+			return staticGO;
 		}
 	}
 }

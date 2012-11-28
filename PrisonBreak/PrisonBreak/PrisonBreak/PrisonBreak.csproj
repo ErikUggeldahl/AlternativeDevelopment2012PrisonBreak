@@ -111,6 +111,7 @@
     <Compile Include="Components\Audio.cs" />
     <Compile Include="Components\BaseComponent.cs" />
     <Compile Include="Components\Camera.cs" />
+    <Compile Include="Components\StaticSprite.cs" />
     <Compile Include="Components\DialogueBox.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />

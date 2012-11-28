@@ -21,6 +21,9 @@ namespace PrisonBreak
 		SpriteBatch spriteBatch;
 		GameObjectManager manager;
 
+		public static Effect tEffect;
+		public static Effect sEffect;
+
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
@@ -56,12 +59,16 @@ namespace PrisonBreak
 
 			manager = new GameObjectManager();
 
+			tEffect = Content.Load<Effect>("Effects/Render");
+
+			GameObject glassBack = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"));
+			glassBack.Transform.Translate(new Vector3(100f, 20f, -100f));
+			manager.AddGameObject(glassBack);
+
 			GameObject player = new GameObject();
 			player.AddTransform();
-			player.Transform.Translate(new Vector2(0f, 50f));
-			player.Transform.Z = 200f;
-			
-			player.AddAnimation(Content.Load<Texture2D>("Kid"), new Rectangle(0, 0, 33, 33));
+			player.Transform.Translate(new Vector3(-100f, 50f, 0f));
+			player.AddAnimation(Content.Load<Texture2D>("Kid"), new Vector2(33, 33));
 			player.Animation.AddAnimation("idle", 0, 1);
 			player.Animation.AddAnimation("run", 1, 2);
 			player.AddRenderer(GraphicsDevice);
@@ -69,22 +76,19 @@ namespace PrisonBreak
 			player.AddScript(new PlayerScript(player));
 			manager.AddGameObject(player);
 
+			GameObject ground = GameObject.CreateStaticPhysicsGO(GraphicsDevice, Content.Load<Texture2D>("DebugGround"));
+			manager.AddGameObject(ground);
+
+			GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"));
+			glassFront.Transform.Translate(new Vector3(0f, 20f, 50f));
+			manager.AddGameObject(glassFront);
+
 			GameObject camera = new GameObject();
 			camera.AddTransform();
 			camera.Transform.Z = 1000f;
 			camera.AddCamera(GraphicsDevice.Viewport, true);
 			camera.AddScript(new CameraScript(camera));
 			manager.AddGameObject(camera);
-
-			GameObject ground = new GameObject();
-			ground.AddTransform();
-			ground.Transform.Translate(new Vector2(0f, 0f));
-			ground.AddAnimation(Content.Load<Texture2D>("DebugGround"), new Rectangle(0, 0, 1280, 10));
-			ground.Animation.AddAnimation("idle", 0, 1);
-			ground.Animation.Play("idle");
-			ground.AddRenderer(graphics.GraphicsDevice);
-			ground.AddStaticRigidBody(new Vector2(1280f, 10f));
-			manager.AddGameObject(ground);
 		}
 
 		/// <summary>
