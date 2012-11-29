@@ -13,8 +13,6 @@ using Microsoft.Xna.Framework.Media;
 
 namespace PrisonBreak
 {
-    
-    
     public class Input 
     {
         private static MouseState mouseState;
@@ -24,25 +22,19 @@ namespace PrisonBreak
         public static KeyboardState KeyboardState
         {
             get { return keyboardState; }
-
             set { keyboardState = value; }
-
         }
 
         public static MouseState MouseState
         {
             get { return mouseState; }
-
             set { mouseState = value; }
-
         }
 
         public static GamePadState GamepadState
         {
             get { return gamePadState; }
-
             set { gamePadState = value; }
-
         }
 
         public static void Update()
@@ -51,6 +43,5 @@ namespace PrisonBreak
             gamePadState = GamePad.GetState(PlayerIndex.One);
             keyboardState = Keyboard.GetState();
         }
-       
     }
 }

@@ -1,119 +1,155 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
+using PrisonBreak.Components;
 using PrisonBreak.Scripts;
+using PrisonBreak.Scripts.AI;
 
 namespace PrisonBreak
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
-    {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-		SpriteFont Text;
-        GameObjectManager manager;
-        GameObject player;
+	/// <summary>
+	/// This is the main type for your game
+	/// </summary>
+	public class Game1 : Microsoft.Xna.Framework.Game
+	{
+		GraphicsDeviceManager graphics;
+		SpriteBatch spriteBatch;
+		GameObjectManager manager;
 
-        public Game1()
-        {
-            graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+        List<Vector2> points = new List<Vector2>();
 
-          
-        }
+        Vector2 targetA = new Vector2(200f, 620f);
+        Vector2 targetB = new Vector2(300f, 620f);
+        Vector2 targetC = new Vector2(400f, 620f);
+        Vector2 targetD = new Vector2(500f, 620f);
+        Vector2 targetE = new Vector2(600f, 620f);
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
-        protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
+        
 
-            base.Initialize();
-        }
+		public Game1()
+		{
+			graphics = new GraphicsDeviceManager(this);
+			graphics.PreferredBackBufferWidth = 1280;
+			graphics.PreferredBackBufferHeight = 720;
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+			Content.RootDirectory = "Content";
+		}
 
-            manager = new GameObjectManager();
-            player = new GameObject();
-            player.AddTransform();
-            player.AddRenderer(spriteBatch);
-            player.AddAnimation(Content.Load<Texture2D> ("Kid"), new Rectangle(0,0,33, 33));
-            player.CAnimation.AddAnimation("idle", 0, 1);
-            player.CAnimation.AddAnimation("run", 1, 2);
-            player.AddScript(new PlayerScripts(player));
-            manager.AddGameObject(player);
-            player.CTransform.Translate(new Vector2(30f, -0f));
-			player.AddDialogBox(Content.Load<SpriteFont>("SpriteFont"));
-			
-            GameObject camera = new GameObject();
-            camera.AddTransform();
-            camera.AddCamera(GraphicsDevice.Viewport, true);
-            manager.AddGameObject(player);
-        }
+		/// <summary>
+		/// Allows the game to perform any initialization it needs to before starting to run.
+		/// This is where it can query for any required services and load any non-graphic
+		/// related content.  Calling base.Initialize will enumerate through any components
+		/// and initialize them as well.
+		/// </summary>
+		protected override void Initialize()
+		{
+			base.Initialize();
+		}
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
-        }
+		/// <summary>
+		/// LoadContent will be called once per game and is the place to load
+		/// all of your content.
+		/// </summary>
+        /// 
+  
+		protected override void LoadContent()
+		{
+            // adding points to the list of positions for the gaurd to patrol
+            points.Add(targetA);
+            points.Add(targetB);
+            points.Add(targetC);
+            points.Add(targetD);
+            points.Add(targetE);
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
-        {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
 
-            GameTimeGlobal.GameTime = gameTime;
+			// Create a new SpriteBatch, which can be used to draw textures.
+			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Input.Update();
-            manager.Update();
-            base.Update(gameTime);
-        }
+			RigidBody.DebugLoadContent(GraphicsDevice, Content);
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+			manager = new GameObjectManager();
 
-            // TODO: Add your drawing code here
+			GameObject player = new GameObject();
+			player.AddTransform();
+			player.Transform.Translate(new Vector2(30f, 620f));
+			player.AddRenderer(spriteBatch);
+			player.AddAnimation(Content.Load<Texture2D>("Kid"), new Rectangle(0, 0, 33, 33));
+			player.Animation.AddAnimation("idle", 0, 1);
+			player.Animation.AddAnimation("run", 1, 2);
+			player.AddDynamicRigidBody(new Vector2(33f, 33f));
+			//player.AddScript(new PlayerScript(player));
 
-            spriteBatch.Begin(SpriteSortMode.Immediate,null, null, null, null, null, Camera.MainCamera.viewMatrix);
+            //adding the gaurdScript
+            
+            player.AddScript(new GuardScript(player, points));
+            player.Animation.Play("idle");
+			manager.AddGameObject(player);
 
-            manager.Render();
+			GameObject camera = new GameObject();
+			camera.AddTransform();
+			camera.AddCamera(GraphicsDevice.Viewport, true);
+			camera.AddScript(new CameraScript(camera));
+			manager.AddGameObject(camera);
 
-            spriteBatch.End();
-        }
-    }
+			GameObject ground = new GameObject();
+			ground.AddTransform();
+			ground.Transform.Translate(new Vector2(640f, 650f));
+			ground.AddRenderer(spriteBatch);
+			ground.AddAnimation(Content.Load<Texture2D>("Ground"), new Rectangle(0, 0, 1280, 10));
+			ground.Animation.AddAnimation("idle", 0, 1);
+			ground.Animation.Play("idle");
+			ground.AddStaticRigidBody(new Vector2(1280f, 10f));
+			manager.AddGameObject(ground);
+		}
+
+   
+
+		/// <summary>
+		/// UnloadContent will be called once per game and is the place to unload
+		/// all content.
+		/// </summary>
+		protected override void UnloadContent()
+		{
+		}
+
+		/// <summary>
+		/// Allows the game to run logic such as updating the world,
+		/// checking for collisions, gathering input, and playing audio.
+		/// </summary>
+		/// <param name="gameTime">Provides a snapshot of timing values.</param>
+		protected override void Update(GameTime gameTime)
+		{
+			// Allows the game to exit
+			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+				this.Exit();
+
+			GameTimeGlobal.GameTime = gameTime;
+
+			Input.Update();
+			manager.Update();
+
+			base.Update(gameTime);
+		}
+
+		/// <summary>
+		/// This is called when the game should draw itself.
+		/// </summary>
+		/// <param name="gameTime">Provides a snapshot of timing values.</param>
+		protected override void Draw(GameTime gameTime)
+		{
+			GraphicsDevice.Clear(Color.CornflowerBlue);
+
+			spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Camera.MainCamera.ViewMatrix);
+			manager.Render();
+			spriteBatch.End();
+
+			RigidBody.DebugRender();
+		}
+	}
 }
