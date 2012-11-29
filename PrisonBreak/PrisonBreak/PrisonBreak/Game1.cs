@@ -21,8 +21,6 @@ namespace PrisonBreak
 		SpriteBatch spriteBatch;
 		GameObjectManager manager;
 
-		public static Effect tEffect;
-
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
@@ -58,13 +56,11 @@ namespace PrisonBreak
 
 			manager = new GameObjectManager();
 
-			tEffect = Content.Load<Effect>("Effects/Render");
-
-			GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"));
+			GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
 			glassFront.Transform.Translate(new Vector3(0f, 20f, 50f));
 			manager.AddGameObject(glassFront);
 
-			GameObject glassBack = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"));
+			GameObject glassBack = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
 			glassBack.Transform.Translate(new Vector3(100f, 20f, -100f));
 			manager.AddGameObject(glassBack);
 
@@ -74,12 +70,12 @@ namespace PrisonBreak
 			player.AddAnimation(Content.Load<Texture2D>("Kid"), new Vector2(33, 33));
 			player.Animation.AddAnimation("idle", 0, 1);
 			player.Animation.AddAnimation("run", 1, 2);
-			player.AddRenderer(GraphicsDevice);
+			player.AddRenderer(GraphicsDevice, SpriteTransparency.Transparent);
 			player.AddDynamicRigidBody(new Vector2(33f, 33f));
 			player.AddScript(new PlayerScript(player));
 			manager.AddGameObject(player);
 
-			GameObject ground = GameObject.CreateStaticPhysicsGO(GraphicsDevice, Content.Load<Texture2D>("DebugGround"));
+			GameObject ground = GameObject.CreateStaticPhysicsGO(GraphicsDevice, Content.Load<Texture2D>("DebugGround"), SpriteTransparency.Opaque);
 			manager.AddGameObject(ground);
 
 			GameObject camera = new GameObject();

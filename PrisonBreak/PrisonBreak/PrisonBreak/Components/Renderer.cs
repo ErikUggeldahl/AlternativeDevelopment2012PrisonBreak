@@ -10,7 +10,7 @@ using TexturedQuad;
 
 namespace PrisonBreak.Components
 {
-	public class Renderer : BaseComponent
+	public class Renderer : BaseComponent, IComparable
 	{
 		private bool animated;
 
@@ -36,7 +36,7 @@ namespace PrisonBreak.Components
 			}
 		}
 
-		public Renderer(GameObject parent, GraphicsDevice graphicsDevice)
+		public Renderer(GameObject parent, GraphicsDevice graphicsDevice, bool opaque)
 			: base(parent)
 		{
 			animated = Animation != null ? true : false;
@@ -49,6 +49,11 @@ namespace PrisonBreak.Components
 				AnimatedInit();
 			else
 				StaticInit();
+
+			if (opaque)
+				RenderManager.Instance.AddOpaque(this);
+			else
+				RenderManager.Instance.AddTransparent(this);
 
 			if (shader == null)
 			{
@@ -64,6 +69,7 @@ namespace PrisonBreak.Components
 			sb = new SpriteBatch(graphicsDevice);
 			rt = new RenderTarget2D(graphicsDevice, Animation.CurrentFrame.Width, Animation.CurrentFrame.Height, false, graphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24Stencil8);
 			quad = new Quad(Vector3.Zero, Vector3.Backward, Vector3.Up, Animation.CurrentFrame.Width, Animation.CurrentFrame.Height);
+			RenderManager.Instance.AddAnimated(this);
 		}
 
 		private void StaticInit()
@@ -71,11 +77,8 @@ namespace PrisonBreak.Components
 			quad = new Quad(Vector3.Zero, Vector3.Backward, Vector3.Up, StaticSprite.Sprite.Width, StaticSprite.Sprite.Height);
 		}
 
-		public void DrawTargets()
+		public void DrawRenderTarget()
 		{
-			if (!animated)
-				return;
-
 			graphicsDevice.SetRenderTarget(rt);
 
 			sb.Begin(SpriteSortMode.Immediate, BlendState.Opaque, null, DepthStencilState.Default, null);
@@ -98,18 +101,6 @@ namespace PrisonBreak.Components
 			shader.TextureEnabled = true;
 			shader.Texture = animated ? currentFrame : StaticSprite.Sprite;
 
-			EffectParameter tWorld = Game1.tEffect.Parameters["World"];
-			tWorld.SetValue(world);
-			EffectParameter tView = Game1.tEffect.Parameters["View"];
-			tView.SetValue(view);
-			EffectParameter tProj = Game1.tEffect.Parameters["Projection"];
-			tProj.SetValue(proj);
-			EffectParameter tTex = Game1.tEffect.Parameters["Texture"];
-			if (animated)
-				tTex.SetValue(currentFrame);
-			else
-				tTex.SetValue(StaticSprite.Sprite);
-
 			graphicsDevice.BlendState = BlendState.AlphaBlend;
 			graphicsDevice.DepthStencilState = DepthStencilState.Default;
 			foreach (EffectPass pass in shader.CurrentTechnique.Passes)
@@ -119,17 +110,87 @@ namespace PrisonBreak.Components
 				graphicsDevice.DrawUserIndexedPrimitives<VertexPositionNormalTexture>
 					(PrimitiveType.TriangleList, quad.Vertices, 0, 4, quad.Indexes, 0, 2);
 			}
-
-			//foreach (EffectPass pass in Game1.tEffect.CurrentTechnique.Passes)
-			//{
-			//    pass.Apply();
-
-			//    graphicsDevice.DrawUserIndexedPrimitives<VertexPositionNormalTexture>(PrimitiveType.TriangleList, quad.Vertices, 0, 4, quad.Indexes, 0, 2);
-			//}
 		}
 
 		public override void Update()
 		{
+		}
+
+		public int CompareTo(Object obj)
+		{
+			return (int)(Transform.Z - ((Renderer)obj).Transform.Z);
+		}
+	}
+
+	public enum SpriteTransparency
+	{
+		Opaque,
+		Transparent
+	}
+
+	public class RenderManager
+	{
+		private static RenderManager instance;
+
+		public static RenderManager Instance
+		{
+			get
+			{
+				if (instance == null)
+					instance = new RenderManager();
+				return instance;
+			}
+		}
+
+		private List<Renderer> animated;
+		private List<Renderer> opaques;
+		private List<Renderer> transparents;
+
+		private RenderManager()
+		{
+			animated = new List<Renderer>();
+			opaques = new List<Renderer>();
+			transparents = new List<Renderer>();
+		}
+
+		public void AddAnimated(Renderer r)
+		{
+			animated.Add(r);
+		}
+
+		public void AddOpaque(Renderer r)
+		{
+			opaques.Add(r);
+		}
+
+		public void AddTransparent(Renderer r)
+		{
+			transparents.Add(r);
+		}
+
+		public void DrawRenderTargets()
+		{
+			for (int i = 0; i < animated.Count; i++)
+			{
+				animated[i].DrawRenderTarget();
+			}
+		}
+
+		public void DrawOpaque()
+		{
+			for (int i = 0; i < opaques.Count; i++)
+			{
+				opaques[i].Draw();
+			}
+		}
+
+		public void DrawTransparent()
+		{
+			transparents.Sort();
+			for (int i = 0; i < transparents.Count; i++)
+			{
+				transparents[i].Draw();
+			}
 		}
 	}
 }

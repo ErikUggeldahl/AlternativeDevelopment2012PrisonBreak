@@ -39,15 +39,9 @@ namespace PrisonBreak
 
         public void Render()
         {
-			for (int i = 0; i < gameObjects.Count; i++)
-			{
-				gameObjects[i].RenderTargets();
-			}
-
-            for (int i = 0; i < gameObjects.Count; i++)
-            {
-                gameObjects[i].Render();
-            }
+			RenderManager.Instance.DrawRenderTargets();
+			RenderManager.Instance.DrawOpaque();
+			RenderManager.Instance.DrawTransparent();
         }
 
     }

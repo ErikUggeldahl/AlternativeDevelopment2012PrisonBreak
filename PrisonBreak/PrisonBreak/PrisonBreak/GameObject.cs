@@ -62,11 +62,12 @@ namespace PrisonBreak
             ComponentAdded(Camera);
 		}
 
-		public void AddRenderer(GraphicsDevice gd)
+		public void AddRenderer(GraphicsDevice gd, SpriteTransparency transparency)
 		{
 			if (Renderer == null)
 			{
-				Renderer = new Renderer(this, gd);
+				bool isOpaque = transparency == SpriteTransparency.Opaque ? true : false;
+				Renderer = new Renderer(this, gd, isOpaque);
 				components.Add(Renderer);
 			}
             ComponentAdded(Renderer);
@@ -125,37 +126,22 @@ namespace PrisonBreak
 			}
 		}
 
-		public void RenderTargets()
+		// TODO: Create factory helper with GD and Content. Make Tex a string, load in factory.
+		public static GameObject CreateStaticPhysicsGO(GraphicsDevice graphicsDevice, Texture2D sprite, SpriteTransparency transparency)
 		{
-			if (Renderer != null)
-			{
-				Renderer.DrawTargets();
-			}
-		}
-
-		public void Render()
-		{
-			if (Renderer != null)
-			{
-				Renderer.Draw();
-			}
-		}
-
-		public static GameObject CreateStaticPhysicsGO(GraphicsDevice graphicsDevice, Texture2D sprite)
-		{
-			GameObject staticGO = CreateStaticGO(graphicsDevice, sprite);
+			GameObject staticGO = CreateStaticGO(graphicsDevice, sprite, transparency);
 			staticGO.AddStaticRigidBody(new Vector2(sprite.Bounds.Width, sprite.Bounds.Height));
 
 			return staticGO;
 		}
 
-		public static GameObject CreateStaticGO(GraphicsDevice graphicsDevice, Texture2D sprite)
+		public static GameObject CreateStaticGO(GraphicsDevice graphicsDevice, Texture2D sprite, SpriteTransparency transparency)
 		{
 			GameObject staticGO = new GameObject();
 
 			staticGO.AddTransform();
 			staticGO.AddStaticSprite(sprite);
-			staticGO.AddRenderer(graphicsDevice);
+			staticGO.AddRenderer(graphicsDevice, transparency);
 
 			return staticGO;
 		}
