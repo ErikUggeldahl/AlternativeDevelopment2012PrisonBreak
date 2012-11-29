@@ -21,6 +21,7 @@ namespace PrisonBreak
        public Renderer CRenderer;
 	   public DialogBox CDialogBox;
 
+
        public GameObject()
        {
            components = new List<IComponent>();
@@ -73,15 +74,24 @@ namespace PrisonBreak
                components.Add(CAnimation);
            }
        }
-	
-	   
-	 // still working on this
 
-	   public void AddDialogBox(SpriteFont spriteFont)
+
+   /*    public void AddTextBox(Texture2D sprite)
+       {
+           if (CDialogBox == null)
+           {
+
+
+           }
+
+
+       }*/
+
+	   public void AddDialogBox(SpriteFont spriteFont, Texture2D Box)
 	   {
 		   if (CDialogBox == null)
 		   {
-			   CDialogBox = new DialogBox(this, spriteFont);
+			   CDialogBox = new DialogBox(this, spriteFont, Box);
 			
 
 			   components.Add(CDialogBox);

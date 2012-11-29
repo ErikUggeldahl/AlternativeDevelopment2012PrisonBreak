@@ -25,47 +25,88 @@ namespace PrisonBreak
 		string text;
 		//public GameObject par;
 		SpriteFont SpriteFont1;
-		 public DialogBox(GameObject parent)
+        Texture2D TextBox;
+         
+         
+         public DialogBox(GameObject parent)
 			 : base(parent)
         {
             par = parent;
 
         }
-		 public DialogBox(GameObject parent, SpriteFont spriteFont)
+		 public DialogBox(GameObject parent, SpriteFont spriteFont, Texture2D Box)
 			 : base(parent)
 		 {
 			 par = parent;
 			 SpriteFont1 = spriteFont;
+             TextBox = Box;
+             
 		 }
 		 public SpriteFont SpriteSheet
 		 {
 			 get { return SpriteFont1; }
 		 }
- 
+         public Texture2D DrawBox
+         {
+             get { return TextBox; }
+         }
+         public int TextureWidth
+         {
+             get { return TextBox.Width; }
+         }
 		public string InputText()
 		{
 
-			List<string> dogs = new List<string>();
-			dogs.Add("Hi"); // Add string 1
-			dogs.Add("Spitz"); // 2
-			dogs.Add("Mastiff"); // 3
-			dogs.Add("Finnish Spitz"); // 4
-			dogs.Add("Briard"); // 5
+			List<string> stringList = new List<string>();
+			stringList.Add("Hi"); // Add string 1
+			stringList.Add("this is a test"); // 2
+			stringList.Add("this is a test"); // 3
+			stringList.Add("this is a test"); // 4
+			stringList.Add("this is a test"); // 5
 
-			text = string.Join(",", dogs.ToArray());
+			text = string.Join(",", stringList.ToArray());
 
-			for (int i = 0; i < text.Length; i++)
+		/*	for (int i = 0; i < text.Length; i++)
 			{
-				if ((float)i % 5f == 0)
+				if ((float)i % TextBox.Width == 0)
 				{
 					text = text.Insert(i, "\n");
 				}
-			}
-			Console.WriteLine(text);
+			}*/
 			return text;
 		}
 
 
+
+
+
+
+
+
+        public string CurrentString
+        {
+            get
+            {  
+                return output.Substring(0,subIndex);
+            }
+            set
+            {
+                
+            
+           
+                for (int i = 0; i < output.Length; i++)
+                {
+                    if ((float)i % TextureWidth == 0)
+                    {
+                        output = output.Insert(i, "\n");
+                    }
+                }
+            
+            }
+        }
+
+   
+        
 		public override void Update()
 		{
 			Words = new DialogBox(par);
@@ -84,14 +125,16 @@ namespace PrisonBreak
 				if (ToLong == true)
 				{
 					output += "\n";
-					//FontPos.Y += 20;
 					ToLong = false;
 				}
-
+                
 				timeCounter = 0;
 				subIndex++;
 
 			}
+
+          
+           
 
 		}
 	

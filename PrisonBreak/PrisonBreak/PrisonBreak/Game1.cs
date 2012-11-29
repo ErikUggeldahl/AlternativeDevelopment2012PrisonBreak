@@ -64,8 +64,10 @@ namespace PrisonBreak
             player.AddScript(new PlayerScripts(player));
             manager.AddGameObject(player);
             player.CTransform.Translate(new Vector2(30f, -0f));
-			player.AddDialogBox(Content.Load<SpriteFont>("SpriteFont"));
+			player.AddDialogBox(Content.Load<SpriteFont>("SpriteFont"), Content.Load<Texture2D>("Box"));
 			
+            
+
             GameObject camera = new GameObject();
             camera.AddTransform();
             camera.AddCamera(GraphicsDevice.Viewport, true);
