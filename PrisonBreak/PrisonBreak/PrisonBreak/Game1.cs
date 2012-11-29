@@ -13,143 +13,134 @@ using PrisonBreak.Scripts.AI;
 
 namespace PrisonBreak
 {
-	/// <summary>
-	/// This is the main type for your game
-	/// </summary>
-	public class Game1 : Microsoft.Xna.Framework.Game
-	{
-		GraphicsDeviceManager graphics;
-		SpriteBatch spriteBatch;
-		GameObjectManager manager;
+    /// <summary>
+    /// This is the main type for your game
+    /// </summary>
+    public class Game1 : Microsoft.Xna.Framework.Game
+    {
+        GraphicsDeviceManager graphics;
+        SpriteBatch spriteBatch;
+        GameObjectManager manager;
 
-        List<Vector2> points = new List<Vector2>();
+        public Game1()
+        {
+            graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
 
-        Vector2 targetA = new Vector2(200f, 620f);
-        Vector2 targetB = new Vector2(300f, 620f);
-        Vector2 targetC = new Vector2(400f, 620f);
-        Vector2 targetD = new Vector2(500f, 620f);
-        Vector2 targetE = new Vector2(600f, 620f);
+            Content.RootDirectory = "Content";
+        }
 
-        
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
+        protected override void Initialize()
+        {
+            base.Initialize();
+        }
 
-		public Game1()
-		{
-			graphics = new GraphicsDeviceManager(this);
-			graphics.PreferredBackBufferWidth = 1280;
-			graphics.PreferredBackBufferHeight = 720;
-
-			Content.RootDirectory = "Content";
-		}
-
-		/// <summary>
-		/// Allows the game to perform any initialization it needs to before starting to run.
-		/// This is where it can query for any required services and load any non-graphic
-		/// related content.  Calling base.Initialize will enumerate through any components
-		/// and initialize them as well.
-		/// </summary>
-		protected override void Initialize()
-		{
-			base.Initialize();
-		}
-
-		/// <summary>
-		/// LoadContent will be called once per game and is the place to load
-		/// all of your content.
-		/// </summary>
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
         /// 
-  
-		protected override void LoadContent()
-		{
-            // adding points to the list of positions for the gaurd to patrol
-            points.Add(targetA);
-            points.Add(targetB);
-            points.Add(targetC);
-            points.Add(targetD);
-            points.Add(targetE);
 
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			// Create a new SpriteBatch, which can be used to draw textures.
-			spriteBatch = new SpriteBatch(GraphicsDevice);
+            RigidBody.DebugLoadContent(GraphicsDevice, Content);
 
-			RigidBody.DebugLoadContent(GraphicsDevice, Content);
+            manager = new GameObjectManager();
 
-			manager = new GameObjectManager();
+            //GameObject player = new GameObject();
+            //player.AddTransform();
+            //player.Transform.Translate(new Vector2(30f, 620f));
+            //player.AddRenderer(spriteBatch);
+            //player.AddAnimation(Content.Load<Texture2D>("Kid"), new Rectangle(0, 0, 33, 33));
+            //player.Animation.AddAnimation("idle", 0, 1);
+            //player.Animation.AddAnimation("run", 1, 2);
+            //player.AddDynamicRigidBody(new Vector2(33f, 33f));
 
-			GameObject player = new GameObject();
-			player.AddTransform();
-			player.Transform.Translate(new Vector2(30f, 620f));
-			player.AddRenderer(spriteBatch);
-			player.AddAnimation(Content.Load<Texture2D>("Kid"), new Rectangle(0, 0, 33, 33));
-			player.Animation.AddAnimation("idle", 0, 1);
-			player.Animation.AddAnimation("run", 1, 2);
-			player.AddDynamicRigidBody(new Vector2(33f, 33f));
-			//player.AddScript(new PlayerScript(player));
-
-            //adding the gaurdScript
+            //player.AddScript(new GuardScript(player, points));
+            //player.Animation.Play("idle");
+            //manager.AddGameObject(player);
+            //player.AddScript(new PlayerScript(player));
+            List<Vector2> patrolPoints = GuardScript.CreatePatrolPoints(200f, 620f, 300f, 620f, 400f, 620f, 500f, 620f, 550f, 620f);
             
-            player.AddScript(new GuardScript(player, points));
-            player.Animation.Play("idle");
-			manager.AddGameObject(player);
+            GameObject guard = GuardScript.CreateGuardGO(spriteBatch, Content, patrolPoints);
+            manager.AddGameObject(guard);
+           
+            patrolPoints = GuardScript.CreatePatrolPoints(900f, 620f, 800f, 620f, 700f, 620f, 600f, 620f, 550f, 620f);
+            GameObject guard2 = GuardScript.CreateGuardGO(spriteBatch, Content, patrolPoints);
+            guard2.Transform.Translate(new Vector2(1000f, 120f));
+           
+            manager.AddGameObject(guard2);
+            
 
-			GameObject camera = new GameObject();
-			camera.AddTransform();
-			camera.AddCamera(GraphicsDevice.Viewport, true);
-			camera.AddScript(new CameraScript(camera));
-			manager.AddGameObject(camera);
+            GameObject camera = new GameObject();
+            camera.AddTransform();
+            camera.AddCamera(GraphicsDevice.Viewport, true);
+            camera.AddScript(new CameraScript(camera));
+            manager.AddGameObject(camera);
 
-			GameObject ground = new GameObject();
-			ground.AddTransform();
-			ground.Transform.Translate(new Vector2(640f, 650f));
-			ground.AddRenderer(spriteBatch);
-			ground.AddAnimation(Content.Load<Texture2D>("Ground"), new Rectangle(0, 0, 1280, 10));
-			ground.Animation.AddAnimation("idle", 0, 1);
-			ground.Animation.Play("idle");
-			ground.AddStaticRigidBody(new Vector2(1280f, 10f));
-			manager.AddGameObject(ground);
-		}
+            GameObject ground = new GameObject();
+            ground.AddTransform();
+            ground.Transform.Translate(new Vector2(640f, 650f));
+            ground.AddRenderer(spriteBatch);
+            ground.AddAnimation(Content.Load<Texture2D>("Ground"), new Rectangle(0, 0, 1280, 10));
+            ground.Animation.AddAnimation("idle", 0, 1);
+            ground.Animation.Play("idle");
+            ground.AddStaticRigidBody(new Vector2(1280f, 10f));
+            manager.AddGameObject(ground);
+        }
 
-   
 
-		/// <summary>
-		/// UnloadContent will be called once per game and is the place to unload
-		/// all content.
-		/// </summary>
-		protected override void UnloadContent()
-		{
-		}
 
-		/// <summary>
-		/// Allows the game to run logic such as updating the world,
-		/// checking for collisions, gathering input, and playing audio.
-		/// </summary>
-		/// <param name="gameTime">Provides a snapshot of timing values.</param>
-		protected override void Update(GameTime gameTime)
-		{
-			// Allows the game to exit
-			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-				this.Exit();
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// all content.
+        /// </summary>
+        protected override void UnloadContent()
+        {
+        }
 
-			GameTimeGlobal.GameTime = gameTime;
+        /// <summary>
+        /// Allows the game to run logic such as updating the world,
+        /// checking for collisions, gathering input, and playing audio.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Update(GameTime gameTime)
+        {
+            // Allows the game to exit
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                this.Exit();
 
-			Input.Update();
-			manager.Update();
+            GameTimeGlobal.GameTime = gameTime;
 
-			base.Update(gameTime);
-		}
+            Input.Update();
+            manager.Update();
 
-		/// <summary>
-		/// This is called when the game should draw itself.
-		/// </summary>
-		/// <param name="gameTime">Provides a snapshot of timing values.</param>
-		protected override void Draw(GameTime gameTime)
-		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
+            base.Update(gameTime);
+        }
 
-			spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Camera.MainCamera.ViewMatrix);
-			manager.Render();
-			spriteBatch.End();
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
-			RigidBody.DebugRender();
-		}
-	}
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Camera.MainCamera.ViewMatrix);
+            manager.Render();
+            spriteBatch.End();
+
+            RigidBody.DebugRender();
+        }
+    }
 }

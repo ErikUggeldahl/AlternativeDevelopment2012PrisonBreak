@@ -6,6 +6,7 @@ using System.Text;
 
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -27,13 +28,6 @@ namespace PrisonBreak.Scripts.AI
         TimeSpan TimePassed = TimeSpan.Zero;
 
         int currentTargetCount = 0;
-
-        //Vector2 targetA;
-        //Vector2 targetB;
-        //Vector2 targetC;
-        //Vector2 targetD;
-        //Vector2 targetE;
-
 
         Vector2 currentTarget;
 
@@ -59,21 +53,21 @@ namespace PrisonBreak.Scripts.AI
             : base(parent)
         {
             this.points = points;
-            
+
             currentTarget = points[currentTargetCount];
         }
-       
-       
-        
+
+
+
         public void DirectionMoving()
         {
 
             Vector2 direction = currentTarget - go.Transform.Position;
             direction = new Vector2(direction.X, 0f);
-       
+
             if ((currentTarget - (go.Transform.Position + go.RigidBody.Body.LinearVelocity)).Length() > tolerance)
             {
-                
+
                 direction.Normalize();
                 if (direction.X < 0)
                 {
@@ -97,18 +91,18 @@ namespace PrisonBreak.Scripts.AI
                     TimePassed = TimeSpan.Zero;
                     currentTarget = points[currentTargetCount];
                     currentTargetCount++;
-                    if (currentTargetCount >= 5) 
-                    currentTargetCount = 0;
+                    if (currentTargetCount >= points.Count)
+                        currentTargetCount = 0;
                     WaitTimeCounter = TimeSpan.Zero;
-                    
-                   
+
+
                 }
                 //else if (currentTarget == points[currentTargetCount])
                 //{
                 //    currentTarget = points[currentTargetCount];
-              
+
                 //        go.Renderer.IsFlipped = true;
-                    
+
                 //}
 
             }
@@ -130,9 +124,9 @@ namespace PrisonBreak.Scripts.AI
             //    }
 
 
-                //float LerpAmount = (float)TimePassed.Ticks / MoveTime.Ticks;
-                //currentPosition = Vector2.Lerp(source, destination, LerpAmount);
-                //go.Transform.Position = currentPosition;
+            //float LerpAmount = (float)TimePassed.Ticks / MoveTime.Ticks;
+            //currentPosition = Vector2.Lerp(source, destination, LerpAmount);
+            //go.Transform.Position = currentPosition;
 
 
             //}
@@ -142,18 +136,59 @@ namespace PrisonBreak.Scripts.AI
             //    WaitTimeCounter += GameTimeGlobal.GameTime.ElapsedGameTime;
             //    if (WaitTimeCounter > MaxWaitTime)
             //    {
-                    //TimePassed = TimeSpan.Zero;
-                    //destination = source;
-                    //source = currentPosition;
-                    //WaitTimeCounter = TimeSpan.Zero;
-                //}
+            //TimePassed = TimeSpan.Zero;
+            //destination = source;
+            //source = currentPosition;
+            //WaitTimeCounter = TimeSpan.Zero;
+            //}
 
 
 
             //}
         }
 
+        private static Texture2D guardTexture;
+        private static SpriteBatch spriteBatch;
 
+        public static GameObject CreateGuardGO(SpriteBatch sb, ContentManager content, List<Vector2> points)
+        {
+            if (guardTexture == null)
+            {
+                guardTexture = content.Load<Texture2D>("Kid");
+            }
+            if (sb == null)
+            {
+                sb = spriteBatch;
+            }
 
+            GameObject guard = new GameObject();
+
+            guard.AddTransform();
+            guard.Transform.Translate(new Vector2(30f, 620f));
+            guard.AddAnimation(guardTexture, new Rectangle(0, 0, 33, 33));
+            guard.AddScript(new GuardScript(guard, points));
+            guard.Animation.AddAnimation("idle", 0, 1);
+            guard.Animation.AddAnimation("run", 1, 2);
+            guard.AddDynamicRigidBody(new Vector2(33f, 33f));
+            guard.Animation.Play("idle");
+            guard.AddRenderer(sb);
+
+            return guard;
+        }
+
+        public static List<Vector2> CreatePatrolPoints(params float[] points)
+        {
+            List<Vector2> patrolPoints = new List<Vector2>();
+
+            if (points.Length % 2 != 0)
+                throw new ArgumentException("Uneven number of patrol points.");
+
+            for (int i = 0; i < points.Length; i += 2)
+            {
+                patrolPoints.Add(new Vector2(points[i], points[i + 1]));
+            }
+
+            return patrolPoints;
+        }
     }
 }
