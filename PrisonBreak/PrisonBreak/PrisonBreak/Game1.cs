@@ -22,7 +22,6 @@ namespace PrisonBreak
 		GameObjectManager manager;
 
 		public static Effect tEffect;
-		public static Effect sEffect;
 
 		public Game1()
 		{
@@ -61,6 +60,10 @@ namespace PrisonBreak
 
 			tEffect = Content.Load<Effect>("Effects/Render");
 
+			GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"));
+			glassFront.Transform.Translate(new Vector3(0f, 20f, 50f));
+			manager.AddGameObject(glassFront);
+
 			GameObject glassBack = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"));
 			glassBack.Transform.Translate(new Vector3(100f, 20f, -100f));
 			manager.AddGameObject(glassBack);
@@ -78,10 +81,6 @@ namespace PrisonBreak
 
 			GameObject ground = GameObject.CreateStaticPhysicsGO(GraphicsDevice, Content.Load<Texture2D>("DebugGround"));
 			manager.AddGameObject(ground);
-
-			GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"));
-			glassFront.Transform.Translate(new Vector3(0f, 20f, 50f));
-			manager.AddGameObject(glassFront);
 
 			GameObject camera = new GameObject();
 			camera.AddTransform();

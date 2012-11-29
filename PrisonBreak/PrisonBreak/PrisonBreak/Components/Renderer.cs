@@ -62,7 +62,7 @@ namespace PrisonBreak.Components
 		private void AnimatedInit()
 		{
 			sb = new SpriteBatch(graphicsDevice);
-			rt = new RenderTarget2D(graphicsDevice, 33, 33, false, graphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24Stencil8);
+			rt = new RenderTarget2D(graphicsDevice, Animation.CurrentFrame.Width, Animation.CurrentFrame.Height, false, graphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24Stencil8);
 			quad = new Quad(Vector3.Zero, Vector3.Backward, Vector3.Up, Animation.CurrentFrame.Width, Animation.CurrentFrame.Height);
 		}
 
@@ -76,7 +76,6 @@ namespace PrisonBreak.Components
 			if (!animated)
 				return;
 
-			currentFrame = new Texture2D(graphicsDevice, 33, 33);
 			graphicsDevice.SetRenderTarget(rt);
 
 			sb.Begin(SpriteSortMode.Immediate, BlendState.Opaque, null, DepthStencilState.Default, null);
@@ -112,6 +111,7 @@ namespace PrisonBreak.Components
 				tTex.SetValue(StaticSprite.Sprite);
 
 			graphicsDevice.BlendState = BlendState.AlphaBlend;
+			graphicsDevice.DepthStencilState = DepthStencilState.Default;
 			foreach (EffectPass pass in shader.CurrentTechnique.Passes)
 			{
 				pass.Apply();
