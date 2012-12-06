@@ -150,6 +150,8 @@ namespace PrisonBreak.Scripts.AI
         private static Texture2D guardTexture;
         private static SpriteBatch spriteBatch;
 
+
+
         public static GameObject CreateGuardGO(SpriteBatch sb, ContentManager content, List<Vector2> points)
         {
             if (guardTexture == null)
@@ -161,10 +163,12 @@ namespace PrisonBreak.Scripts.AI
                 sb = spriteBatch;
             }
 
+
+
             GameObject guard = new GameObject();
 
             guard.AddTransform();
-            guard.Transform.Translate(new Vector2(30f, 620f));
+            //guard.Transform.Translate( new Vector2(30f, 620f));
             guard.AddAnimation(guardTexture, new Rectangle(0, 0, 33, 33));
             guard.AddScript(new GuardScript(guard, points));
             guard.Animation.AddAnimation("idle", 0, 1);

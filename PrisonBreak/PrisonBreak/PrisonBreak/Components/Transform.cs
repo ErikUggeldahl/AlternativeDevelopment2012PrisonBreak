@@ -7,68 +7,82 @@ using Microsoft.Xna.Framework;
 
 namespace PrisonBreak.Components
 {
-	public class Transform : BaseComponent
-	{
-		List<Transform> children;
+    public class Transform : BaseComponent
+    {
+        List<Transform> children;
 
-		Transform parent;
-		private Vector2 position;
-		private float rotation;
-		private float scale;
+        Transform parent;
+        private Vector2 position;
+        private float rotation;
+        private float scale;
 
-		//Properties
-		public Transform Parent
-		{
-			get
-			{
-				throw new System.NotImplementedException();
-			}
-			set
-			{
-			}
-		}
+        //Properties
+        public Transform Parent
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
 
-		public Transform(GameObject parent)
-			: base(parent)
-		{
+        public Transform(GameObject parent)
+            : base(parent)
+        {
 
-		}
+        }
 
-		public Vector2 Position
-		{
-			get { return position; }
-			set { position = value; }
-		}
+        public Vector2 Position
+        {
+            get { return position; }
+            set 
+            { 
 
-		public float Rotation
-		{
-			get { return rotation; }
-			set { rotation = value; }
-		}
+                position = value;
+                if (go.RigidBody != null)
+                {
+                    //go.RigidBody.Body.SetTransform(go.RigidBody.Body.Position + delta, go.RigidBody.Body.Rotation);
+                    go.RigidBody.Body.Position = position / RigidBody.MInPx;
+                }
+            }
+        }
 
-		public float Scale
-		{
-			get { return scale; }
-			set { scale = value; }
-		}
+        public float Rotation
+        {
+            get { return rotation; }
+            set { rotation = value; }
+        }
 
-		public void Translate(Vector2 delta)
-		{
-			position += delta;
-		}
+        public float Scale
+        {
+            get { return scale; }
+            set { scale = value; }
+        }
 
-		public void Rotate(float delta)
-		{
-			rotation += delta;
-		}
+        public void Translate(Vector2 delta)
+        {
+            position += delta;
+            if (go.RigidBody != null)
+            {
+                //go.RigidBody.Body.SetTransform(go.RigidBody.Body.Position + delta, go.RigidBody.Body.Rotation);
+                go.RigidBody.Body.Position += delta / RigidBody.MInPx;
+            }
+        }
 
-		public void LocalScale(float delta)
-		{
-			scale += delta;
-		}
+        public void Rotate(float delta)
+        {
+            rotation += delta;
+        }
 
-		public override void Update()
-		{
-		}
-	}
+        public void LocalScale(float delta)
+        {
+            scale += delta;
+        }
+
+        public override void Update()
+        {
+        }
+    }
 }

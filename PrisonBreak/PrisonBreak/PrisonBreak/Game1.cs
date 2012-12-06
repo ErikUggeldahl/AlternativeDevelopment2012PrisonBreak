@@ -70,17 +70,19 @@ namespace PrisonBreak
             //player.Animation.Play("idle");
             //manager.AddGameObject(player);
             //player.AddScript(new PlayerScript(player));
-            List<Vector2> patrolPoints = GuardScript.CreatePatrolPoints(200f, 620f, 300f, 620f, 400f, 620f, 500f, 620f, 550f, 620f);
-            
+
+            List<Vector2> patrolPoints = GuardScript.CreatePatrolPoints(200f, 620f, 300f, 620f, 400f, 620f, 500f, 620f, 500f, 620f);
+
             GameObject guard = GuardScript.CreateGuardGO(spriteBatch, Content, patrolPoints);
+            guard.Transform.Translate(new Vector2(0f, 620f));
             manager.AddGameObject(guard);
-           
-            patrolPoints = GuardScript.CreatePatrolPoints(900f, 620f, 800f, 620f, 700f, 620f, 600f, 620f, 550f, 620f);
+
+            patrolPoints = GuardScript.CreatePatrolPoints(900f, 620f, 800f, 620f, 700f, 620f, 600f, 620f, 540f, 620f);
+
             GameObject guard2 = GuardScript.CreateGuardGO(spriteBatch, Content, patrolPoints);
-            guard2.Transform.Translate(new Vector2(1000f, 120f));
-           
+            guard2.Transform.Translate(new Vector2(1000f, 620f));
             manager.AddGameObject(guard2);
-            
+
 
             GameObject camera = new GameObject();
             camera.AddTransform();
