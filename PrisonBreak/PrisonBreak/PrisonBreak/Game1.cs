@@ -64,7 +64,17 @@ namespace PrisonBreak
             player.AddScript(new PlayerScripts(player));
             manager.AddGameObject(player);
             player.CTransform.Translate(new Vector2(30f, -0f));
-			player.AddDialogBox(Content.Load<SpriteFont>("SpriteFont"), Content.Load<Texture2D>("Box"));
+
+			string dialogueText;
+			List<string> stringList = new List<string>();
+			stringList.Add("Hi"); // Add string 1
+			stringList.Add("this is a test"); // 2
+			stringList.Add("this is a test"); // 3
+			stringList.Add("this is a test"); // 4
+			stringList.Add("this is a test"); // 5
+
+			dialogueText = string.Join(",", stringList.ToArray());
+			player.AddDialogueBox(dialogueText, Content.Load<SpriteFont>("SpriteFont"), Content.Load<Texture2D>("Box"));
 			
             
 

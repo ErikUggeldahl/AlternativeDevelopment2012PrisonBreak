@@ -113,7 +113,6 @@
     <Compile Include="BoxCollider.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Collider.cs" />
-    <Compile Include="DialogBox.cs" />
     <Compile Include="DialogueBox.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />

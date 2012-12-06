@@ -19,7 +19,7 @@ namespace PrisonBreak
        public Collider CCollider;
        public Camera CCamera;
        public Renderer CRenderer;
-	   public DialogBox CDialogBox;
+	   public DialogueBox CDialogBox;
 
 
        public GameObject()
@@ -87,13 +87,11 @@ namespace PrisonBreak
 
        }*/
 
-	   public void AddDialogBox(SpriteFont spriteFont, Texture2D Box)
+	   public void AddDialogueBox(string dialogueText, SpriteFont spriteFont, Texture2D Box)
 	   {
 		   if (CDialogBox == null)
 		   {
-			   CDialogBox = new DialogBox(this, spriteFont, Box);
-			
-
+			   CDialogBox = new DialogueBox(this, dialogueText, spriteFont, Box);
 			   components.Add(CDialogBox);
 		   }
 
