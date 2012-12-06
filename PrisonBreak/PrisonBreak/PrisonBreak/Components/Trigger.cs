@@ -14,6 +14,7 @@ namespace PrisonBreak.Components
 	public class Trigger : BaseComponent
 	{
 		private Body volume;
+        private bool enabled;
 
 		public event OnCollisionEventHandler OnEnter;
 		public event OnSeparationEventHandler OnExit;
@@ -26,20 +27,28 @@ namespace PrisonBreak.Components
 			volume.IsSensor = true;
 			volume.CollisionCategories = CollisionCats.TriggerCategory;
 
+            enabled = true;
+
 			volume.OnCollision += new OnCollisionEventHandler(HandleOnCollision);
 			volume.OnSeparation += new OnSeparationEventHandler(HandleOnSeparation);
 		}
 
-		bool HandleOnCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
+        public bool Enabled
+        {
+            get { return enabled; }
+            set { enabled = value; }
+        }
+
+		private bool HandleOnCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
 		{
-			if (OnEnter != null)
+			if (enabled && OnEnter != null)
 				OnEnter(fixtureA, fixtureB, contact);
 			return true;
 		}
 
-		void HandleOnSeparation(Fixture fixtureA, Fixture fixtureB)
+		private void HandleOnSeparation(Fixture fixtureA, Fixture fixtureB)
 		{
-			if (OnExit != null)
+			if (enabled && OnExit != null)
 				OnExit(fixtureA, fixtureB);
 		}
 
@@ -50,9 +59,6 @@ namespace PrisonBreak.Components
 
 		public override void Update()
 		{
-
-			//Contact
-			//if (volume.ContactList
 		}
 	}
 }

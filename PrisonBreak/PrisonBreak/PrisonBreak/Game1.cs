@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 using PrisonBreak.Components;
 using PrisonBreak.Scripts;
+using PrisonBreak.Scripts.AI;
 
 namespace PrisonBreak
 {
@@ -63,6 +64,10 @@ namespace PrisonBreak
 			GameObject glassBack = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
 			glassBack.Transform.Translate(new Vector3(100f, 20f, -100f));
 			manager.AddGameObject(glassBack);
+
+            GameObject fan = FanScript.CreateFanGO(Content, GraphicsDevice);
+            manager.AddGameObject(fan);
+            fan.Transform.Translate(new Vector3(300f, 30f, 0f));
 
 			GameObject player = new GameObject();
 			player.AddTransform();

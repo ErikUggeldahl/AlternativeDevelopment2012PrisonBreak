@@ -129,6 +129,10 @@ namespace PrisonBreak
 			components.Add(script);
 		}
 
+        public void GetComponent()
+        {
+        }
+
 		public void Update()
 		{
 			for (int i = 0; i < components.Count; i++)
