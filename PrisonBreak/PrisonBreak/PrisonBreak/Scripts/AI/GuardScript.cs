@@ -21,7 +21,7 @@ namespace PrisonBreak.Scripts.AI
         //Vector2 currentPosition;
         List<Vector2> points;
 
-        float moveSpeed = 1f;
+        float moveSpeed = 0.5f;
         float maxSpeed = 10f;
         float tolerance = 10f;
         TimeSpan MoveTime = TimeSpan.FromSeconds(5.0f);
@@ -156,7 +156,7 @@ namespace PrisonBreak.Scripts.AI
         {
             if (guardTexture == null)
             {
-                guardTexture = content.Load<Texture2D>("Kid");
+                guardTexture = content.Load<Texture2D>("Guard");
             }
             if (sb == null)
             {
@@ -169,11 +169,11 @@ namespace PrisonBreak.Scripts.AI
 
             guard.AddTransform();
             //guard.Transform.Translate( new Vector2(30f, 620f));
-            guard.AddAnimation(guardTexture, new Rectangle(0, 0, 33, 33));
+            guard.AddAnimation(guardTexture, new Rectangle(0, 0, 20, 34));
             guard.AddScript(new GuardScript(guard, points));
-            guard.Animation.AddAnimation("idle", 0, 1);
-            guard.Animation.AddAnimation("run", 1, 2);
-            guard.AddDynamicRigidBody(new Vector2(33f, 33f));
+            guard.Animation.AddAnimation("idle", 1, 1);
+            guard.Animation.AddAnimation("run", 0, 4);
+            guard.AddDynamicRigidBody(new Vector2(20f, 34f));
             guard.Animation.Play("idle");
             guard.AddRenderer(sb);
 

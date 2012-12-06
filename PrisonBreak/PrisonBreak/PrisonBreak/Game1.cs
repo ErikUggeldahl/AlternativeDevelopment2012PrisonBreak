@@ -57,32 +57,33 @@ namespace PrisonBreak
 
             manager = new GameObjectManager();
 
-            //GameObject player = new GameObject();
-            //player.AddTransform();
-            //player.Transform.Translate(new Vector2(30f, 620f));
-            //player.AddRenderer(spriteBatch);
-            //player.AddAnimation(Content.Load<Texture2D>("Kid"), new Rectangle(0, 0, 33, 33));
-            //player.Animation.AddAnimation("idle", 0, 1);
-            //player.Animation.AddAnimation("run", 1, 2);
-            //player.AddDynamicRigidBody(new Vector2(33f, 33f));
+            GameObject player = new GameObject();
+            player.AddTransform();
+            player.Transform.Translate(new Vector2(30f, 620f));
+           
+            player.AddAnimation(Content.Load<Texture2D>("MainCharacter"), new Rectangle(0, 0, 30, 30));
+            player.Animation.AddAnimation("idle", 0, 1);
+            player.Animation.AddAnimation("run", 0, 4);
+            player.Animation.AddAnimation("stab", 2, 1);
+            player.Animation.AddAnimation("stealth", 1, 4);
+            player.Animation.AddAnimation("climb", 3, 4);
+            player.AddRenderer(spriteBatch);
+            player.Animation.Play("idle");
+            player.AddDynamicRigidBody(new Vector2(30f, 30f));
 
-            //player.AddScript(new GuardScript(player, points));
-            //player.Animation.Play("idle");
-            //manager.AddGameObject(player);
-            //player.AddScript(new PlayerScript(player));
+            manager.AddGameObject(player);
 
-            List<Vector2> patrolPoints = GuardScript.CreatePatrolPoints(200f, 620f, 300f, 620f, 400f, 620f, 500f, 620f, 500f, 620f);
+            //List<Vector2> patrolPoints = GuardScript.CreatePatrolPoints(200f, 620f, 300f, 620f, 400f, 620f, 500f, 620f, 500f, 620f);
 
-            GameObject guard = GuardScript.CreateGuardGO(spriteBatch, Content, patrolPoints);
-            guard.Transform.Translate(new Vector2(0f, 620f));
-            manager.AddGameObject(guard);
+            //GameObject guard = GuardScript.CreateGuardGO(spriteBatch, Content, patrolPoints);
+            //guard.Transform.Translate(new Vector2(0f, 610f));
+            //manager.AddGameObject(guard);
 
-            patrolPoints = GuardScript.CreatePatrolPoints(900f, 620f, 800f, 620f, 700f, 620f, 600f, 620f, 540f, 620f);
+            //patrolPoints = GuardScript.CreatePatrolPoints(900f, 620f, 800f, 620f, 700f, 620f, 600f, 620f, 540f, 620f);
 
-            GameObject guard2 = GuardScript.CreateGuardGO(spriteBatch, Content, patrolPoints);
-            guard2.Transform.Translate(new Vector2(1000f, 620f));
-            manager.AddGameObject(guard2);
-
+            //GameObject guard2 = GuardScript.CreateGuardGO(spriteBatch, Content, patrolPoints);
+            //guard2.Transform.Translate(new Vector2(1000f, 610f));
+            //manager.AddGameObject(guard2);
 
             GameObject camera = new GameObject();
             camera.AddTransform();
@@ -126,6 +127,7 @@ namespace PrisonBreak
 
             Input.Update();
             manager.Update();
+            
 
             base.Update(gameTime);
         }
