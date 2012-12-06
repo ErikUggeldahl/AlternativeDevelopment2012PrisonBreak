@@ -31,8 +31,8 @@ namespace PrisonBreak.Components
 			{
 				return Matrix.CreateTranslation(new Vector3(-Origin, 0f)) *
 					Matrix.CreateScale(1f) *
-					Matrix.CreateRotationZ(Transform.Rotation) *
-					//Matrix.CreateTranslation(new Vector3(Transform.Position, 0f)) *
+					Matrix.CreateTranslation(new Vector3(Transform.Offset, Transform.Z)) *
+					Matrix.CreateFromQuaternion(Transform.Rotation) *
 					Matrix.CreateLookAt(new Vector3(Transform.Position, Transform.Z), Vector3.Zero, Vector3.Up);
 			}
 		}

@@ -24,6 +24,7 @@ namespace PrisonBreak
 		public RigidBody RigidBody;
 		public StaticSprite StaticSprite;
 		public Transform Transform;
+		public Trigger Trigger;
 
         public event ComponentAdded ComponentAdded;
 
@@ -111,6 +112,16 @@ namespace PrisonBreak
 				components.Add(Transform);
 			}
             ComponentAdded(Transform);
+		}
+
+		public void AddTrigger(Vector2 size)
+		{
+			if (Trigger == null)
+			{
+				Trigger = new Trigger(this, size);
+				components.Add(Trigger);
+			}
+			ComponentAdded(Trigger);
 		}
 
 		public void AddScript(Script script)

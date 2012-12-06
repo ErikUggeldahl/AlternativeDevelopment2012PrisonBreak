@@ -14,6 +14,7 @@ namespace PrisonBreak.Components
         public RigidBody RigidBody;
 		public StaticSprite StaticSprite;
         public Transform Transform;
+		public Trigger Trigger;
 
         protected GameObject go;
 
@@ -33,6 +34,7 @@ namespace PrisonBreak.Components
             RigidBody = parent.RigidBody;
 			StaticSprite = parent.StaticSprite;
             Transform = parent.Transform;
+			Trigger = parent.Trigger;
 
             parent.ComponentAdded += UpdateReferences;
         }
@@ -53,6 +55,8 @@ namespace PrisonBreak.Components
 				StaticSprite = (StaticSprite)component;
 			else if (component.GetType() == typeof(Transform))
 				Transform = (Transform)component;
+			else if (component.GetType() == typeof(Trigger))
+				Trigger = (Trigger)component;
         }
 
         public abstract void Update();

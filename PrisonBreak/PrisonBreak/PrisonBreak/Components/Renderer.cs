@@ -91,7 +91,7 @@ namespace PrisonBreak.Components
 
 		public void Draw()
 		{
-			world = Matrix.CreateTranslation(new Vector3(Transform.Position, Transform.Z));
+			world = Transform.WorldMatrix;
 			view = Matrix.CreateLookAt(new Vector3(Camera.MainCamera.Transform.Position, Camera.MainCamera.Transform.Z), new Vector3(Camera.MainCamera.Transform.Position, Camera.MainCamera.Transform.Z - 2000f), Vector3.Up);
 			proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60f), 16f / 9f, 0.5f, 5000f);
 

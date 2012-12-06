@@ -113,6 +113,7 @@
     <Compile Include="Components\Camera.cs" />
     <Compile Include="Components\StaticSprite.cs" />
     <Compile Include="Components\DialogueBox.cs" />
+    <Compile Include="Components\Trigger.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />
     <Compile Include="GameTimeGlobal.cs" />

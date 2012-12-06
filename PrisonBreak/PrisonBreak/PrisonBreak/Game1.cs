@@ -66,14 +66,26 @@ namespace PrisonBreak
 
 			GameObject player = new GameObject();
 			player.AddTransform();
-			player.Transform.Translate(new Vector3(-100f, 50f, 0f));
+			player.Transform.Translate(new Vector3(-200f, 50f, 0f));
 			player.AddAnimation(Content.Load<Texture2D>("Kid"), new Vector2(33, 33));
 			player.Animation.AddAnimation("idle", 0, 1);
 			player.Animation.AddAnimation("run", 1, 2);
 			player.AddRenderer(GraphicsDevice, SpriteTransparency.Transparent);
 			player.AddDynamicRigidBody(new Vector2(33f, 33f));
+			player.RigidBody.CollisionCategory = CollisionCats.PlayerCategory;
+			//player.AddTrigger(new Vector2(16f, 5f));
 			player.AddScript(new PlayerScript(player));
 			manager.AddGameObject(player);
+
+			GameObject player2 = new GameObject();
+			player2.AddTransform();
+			player2.Transform.Parent = player.Transform;
+			player2.Transform.Translate(new Vector3(-200f, 100f, 0f));
+			player2.AddAnimation(Content.Load<Texture2D>("Kid"), new Vector2(33, 33));
+			player2.Animation.AddAnimation("idle", 0, 1);
+			player2.Animation.Play("idle");
+			player2.AddRenderer(GraphicsDevice, SpriteTransparency.Transparent);
+			manager.AddGameObject(player2);
 
 			GameObject ground = GameObject.CreateStaticPhysicsGO(GraphicsDevice, Content.Load<Texture2D>("DebugGround"), SpriteTransparency.Opaque);
 			manager.AddGameObject(ground);
@@ -84,6 +96,27 @@ namespace PrisonBreak
 			camera.AddCamera(GraphicsDevice.Viewport, true);
 			camera.AddScript(new CameraScript(camera));
 			manager.AddGameObject(camera);
+
+			GameObject trigger = new GameObject();
+			trigger.AddTransform();
+			trigger.AddStaticSprite(Content.Load<Texture2D>("DebugVolume"));
+			trigger.AddRenderer(GraphicsDevice, SpriteTransparency.Transparent);
+			trigger.AddTrigger(new Vector2(50f, 50f));
+			trigger.Trigger.OnEnter += new FarseerPhysics.Dynamics.OnCollisionEventHandler(Trigger_OnEnter);
+			trigger.Trigger.OnExit += new FarseerPhysics.Dynamics.OnSeparationEventHandler(Trigger_OnExit);
+			trigger.Trigger.CollidesWith = CollisionCats.PlayerCategory | CollisionCats.EnemyCategory;
+			manager.AddGameObject(trigger);
+		}
+
+		void Trigger_OnExit(FarseerPhysics.Dynamics.Fixture fixtureA, FarseerPhysics.Dynamics.Fixture fixtureB)
+		{
+			Console.WriteLine("Exit!");
+		}
+
+		bool Trigger_OnEnter(FarseerPhysics.Dynamics.Fixture fixtureA, FarseerPhysics.Dynamics.Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
+		{
+			Console.WriteLine("Enter!");
+			return false;
 		}
 
 		/// <summary>
