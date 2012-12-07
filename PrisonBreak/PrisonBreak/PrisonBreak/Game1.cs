@@ -62,6 +62,7 @@ namespace PrisonBreak
             player.Transform.Translate(new Vector2(30f, 620f));
            
             player.AddAnimation(Content.Load<Texture2D>("MainCharacter"), new Rectangle(0, 0, 30, 30));
+           
             player.Animation.AddAnimation("idle", 0, 1);
             player.Animation.AddAnimation("run", 0, 4);
             player.Animation.AddAnimation("stab", 2, 1);
@@ -70,7 +71,7 @@ namespace PrisonBreak
             player.AddRenderer(spriteBatch);
             player.Animation.Play("idle");
             player.AddDynamicRigidBody(new Vector2(30f, 30f));
-
+            player.AddScript(new PlayerScript(player));
             manager.AddGameObject(player);
 
             //List<Vector2> patrolPoints = GuardScript.CreatePatrolPoints(200f, 620f, 300f, 620f, 400f, 620f, 500f, 620f, 500f, 620f);
