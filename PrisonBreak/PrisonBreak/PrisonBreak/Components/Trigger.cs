@@ -33,6 +33,11 @@ namespace PrisonBreak.Components
 			volume.OnSeparation += new OnSeparationEventHandler(HandleOnSeparation);
 		}
 
+		public Body Volume
+		{
+			get { return volume; }
+		}
+
         public bool Enabled
         {
             get { return enabled; }

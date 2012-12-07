@@ -39,7 +39,18 @@ namespace PrisonBreak.Components
 		public Vector2 Position
 		{
 			get { return position; }
-			set { position = value; }
+			set
+			{
+				position = value;
+				if (RigidBody != null)
+				{
+					RigidBody.Body.Position = position / RigidBody.MInPx;
+				}
+				if (Trigger != null)
+				{
+					Trigger.Volume.Position = position / RigidBody.MInPx;
+				}
+			}
 		}
 
         public float Z
@@ -78,15 +89,24 @@ namespace PrisonBreak.Components
 			{
 				RigidBody.Body.Position += delta / RigidBody.MInPx;
 			}
+			if (Trigger != null)
+			{
+				Trigger.Volume.Position += delta / RigidBody.MInPx;
+			}
 		}
 
 		public void Translate(Vector3 delta)
 		{
 			position += new Vector2(delta.X, delta.Y);
 			z += delta.Z;
+
 			if (RigidBody != null)
 			{
 				RigidBody.Body.Position += new Vector2(delta.X, delta.Y) / RigidBody.MInPx;
+			}
+			if (Trigger != null)
+			{
+				Trigger.Volume.Position += new Vector2(delta.X, delta.Y) / RigidBody.MInPx;
 			}
 		}
 

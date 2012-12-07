@@ -11,6 +11,11 @@ using PrisonBreak.Components;
 using PrisonBreak.Scripts;
 using PrisonBreak.Scripts.AI;
 
+using FarseerPhysics.Common;
+using FarseerPhysics.Common.Decomposition;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
+
 namespace PrisonBreak
 {
 	/// <summary>
@@ -21,6 +26,8 @@ namespace PrisonBreak
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		GameObjectManager manager;
+
+		Texture2D debugRoomTex;
 
 		public Game1()
 		{
@@ -52,6 +59,59 @@ namespace PrisonBreak
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
+
+			debugRoomTex = Content.Load<Texture2D>("DebugRoom");
+			uint[] data = new uint[debugRoomTex.Width * debugRoomTex.Height];
+			debugRoomTex.GetData(data);
+			//Vertices verts = PolygonTools.CreatePolygon(data, debugRoomTex.Width, 0f, 0, true, true);
+			List<Vertices> v = PolygonTools.CreatePolygon(data, debugRoomTex.Width, 100f, 0, false, false);
+			//Vertices verts = v[0];
+			List<Vector2> rawVerts = new List<Vector2>();
+			rawVerts.Add(new Vector2(50f,50f));
+			rawVerts.Add(new Vector2(50f,-50f));
+			rawVerts.Add(new Vector2(-50f,-50f));
+			rawVerts.Add(new Vector2(-50f,50f));
+			rawVerts.Add(new Vector2(-25f, 25f));
+			rawVerts.Add(new Vector2(-25f, -25f));
+			rawVerts.Add(new Vector2(25f, -25f));
+			rawVerts.Add(new Vector2(25f, 25f));
+
+			rawVerts.Add(new Vector2(-25f, 25f));
+			rawVerts.Add(new Vector2(-50f, 50f));
+			//rawVerts.Add(new Vector2(-10f, 10f));
+			//rawVerts.Add(new Vector2(10f, 10f));
+			//rawVerts.Add(new Vector2(10f, -10f));
+			//rawVerts.Add(new Vector2(-10f, -10f));
+
+			sbyte[,] bytes = new sbyte[300, 300];
+			for (int i = 0; i < 300; i++)
+			{
+				for (int j = 0; j < 300; j++)
+				{
+					if (j == 50 || j == 51)
+					{
+						bytes[i, j] = 0;
+						break;
+					}
+					bytes[i, j] = 1;
+				}
+			}
+
+			List<Vertices> v2 = MarchingSquares.DetectSquares(new FarseerPhysics.Collision.AABB(new Vector2(0f,0f), new Vector2(50f,50f)), 10f, 10f, bytes, 0, true);
+
+
+			Vertices verts = new Vertices(rawVerts);
+			//Vertices verts = PolygonTools.CreateRectangle(10f, 10f);
+			Vector2 scale = new Vector2(1f/RigidBody.MInPx, 1f/RigidBody.MInPx);
+			verts.Scale(ref scale);
+			//List<Vertices> vertList = BayazitDecomposer.ConvexPartition(verts);
+			//List<Vertices> vertList = CDTDecomposer.ConvexPartition(verts);
+			List<Vertices> vertList = EarclipDecomposer.ConvexPartition(verts);
+			//List<Vertices> vertList = FlipcodeDecomposer.ConvexPartition(verts);
+			Body body = BodyFactory.CreateBody(RigidBody.World);
+			List<Fixture> compound = FixtureFactory.AttachCompoundPolygon(v2, 1f, body);
+			Vector2 pos = new Vector2(1f, 2f);
+			body.SetTransform(ref pos, 0f);
 
 			RigidBody.DebugLoadContent(GraphicsDevice, Content);
 
@@ -137,6 +197,8 @@ namespace PrisonBreak
 		/// checking for collisions, gathering input, and playing audio.
 		/// </summary>
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
+
+		bool canDebugSwitch = true;
 		protected override void Update(GameTime gameTime)
 		{
 			// Allows the game to exit
@@ -144,6 +206,15 @@ namespace PrisonBreak
 				this.Exit();
 
 			GameTimeGlobal.GameTime = gameTime;
+
+			// Toggle debug physics view
+			if (canDebugSwitch && Input.KeyboardState.IsKeyDown(Keys.NumPad0))
+			{
+				RigidBody.IsDebugEnabled = !RigidBody.IsDebugEnabled;
+				canDebugSwitch = false;
+			}
+			if (!canDebugSwitch && Input.KeyboardState.IsKeyUp(Keys.NumPad0))
+				canDebugSwitch = true;
 
 			Input.Update();
 			manager.Update();
@@ -162,7 +233,9 @@ namespace PrisonBreak
 			manager.Render();
 
 			base.Draw(gameTime);
-			//RigidBody.DebugRender();
+			
+			if (RigidBody.IsDebugEnabled)
+				RigidBody.DebugRender();
 		}
 	}
 }

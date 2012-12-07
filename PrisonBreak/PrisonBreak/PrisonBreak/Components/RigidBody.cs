@@ -25,8 +25,18 @@ namespace PrisonBreak.Components
 	public class RigidBody : BaseComponent
 	{
 		private static World world = new World(new Vector2(0f, -9.82f));
+		public const float MInPx = 33f;
+
 		private static DebugViewXNA debugView = new DebugViewXNA(world);
-		public const float MInPx = 33f;	// TODO: Change MInPx to account for camera Z
+		private static bool isDebugEnabled = false;
+		private static Matrix debugViewMatrix;
+		private static Matrix debugProjMatrix;
+
+		public static bool IsDebugEnabled
+		{
+			get { return isDebugEnabled; }
+			set { isDebugEnabled = value; }
+		}
 
 		public static World World
 		{
@@ -64,13 +74,9 @@ namespace PrisonBreak.Components
 
 		public static void DebugRender()
 		{
-			/*Matrix projection = Matrix.CreateOrthographicOffCenter(0f, Camera.MainCamera.Viewport.Width / MInPx, Camera.MainCamera.Viewport.Height / MInPx, 0f, 0f, 1f);
-			Matrix view = Matrix.CreateTranslation(new Vector3(-Camera.MainCamera.Transform.Position / MInPx, 0f)) *
-				Matrix.CreateTranslation(new Vector3(-Camera.MainCamera.Origin / MInPx, 0)) *
-				Matrix.CreateRotationZ(Camera.MainCamera.Transform.Rotation) *
-				Matrix.CreateScale(1f) *
-                Matrix.CreateTranslation(new Vector3(Camera.MainCamera.Transform.Position / MInPx, 0f));
-			debugView.RenderDebugData(ref projection, ref view);*/
+			debugViewMatrix = Matrix.CreateLookAt(new Vector3(Camera.MainCamera.Transform.Position / MInPx, Camera.MainCamera.Transform.Z / MInPx), new Vector3(Camera.MainCamera.Transform.Position / MInPx, (Camera.MainCamera.Transform.Z - 2000f) / MInPx), Vector3.Up);
+			debugProjMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60f), 16f / 9f, 0.5f, 5000f);
+			debugView.RenderDebugData(ref debugProjMatrix, ref debugViewMatrix);
 		}
 
 		public RigidBody(GameObject parent, BodyType bodyType, Vector2 size)
