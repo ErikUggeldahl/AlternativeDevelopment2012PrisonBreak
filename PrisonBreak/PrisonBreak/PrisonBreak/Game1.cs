@@ -11,6 +11,7 @@ using PrisonBreak.Components;
 using PrisonBreak.Scripts;
 using PrisonBreak.Scripts.AI;
 
+using FarseerPhysics.Collision;
 using FarseerPhysics.Common;
 using FarseerPhysics.Common.Decomposition;
 using FarseerPhysics.Dynamics;
@@ -61,57 +62,51 @@ namespace PrisonBreak
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			debugRoomTex = Content.Load<Texture2D>("DebugRoom");
-			uint[] data = new uint[debugRoomTex.Width * debugRoomTex.Height];
-			debugRoomTex.GetData(data);
-			//Vertices verts = PolygonTools.CreatePolygon(data, debugRoomTex.Width, 0f, 0, true, true);
-			List<Vertices> v = PolygonTools.CreatePolygon(data, debugRoomTex.Width, 100f, 0, false, false);
-			//Vertices verts = v[0];
-			List<Vector2> rawVerts = new List<Vector2>();
-			rawVerts.Add(new Vector2(50f,50f));
-			rawVerts.Add(new Vector2(50f,-50f));
-			rawVerts.Add(new Vector2(-50f,-50f));
-			rawVerts.Add(new Vector2(-50f,50f));
-			rawVerts.Add(new Vector2(-25f, 25f));
-			rawVerts.Add(new Vector2(-25f, -25f));
-			rawVerts.Add(new Vector2(25f, -25f));
-			rawVerts.Add(new Vector2(25f, 25f));
-
-			rawVerts.Add(new Vector2(-25f, 25f));
-			rawVerts.Add(new Vector2(-50f, 50f));
-			//rawVerts.Add(new Vector2(-10f, 10f));
-			//rawVerts.Add(new Vector2(10f, 10f));
-			//rawVerts.Add(new Vector2(10f, -10f));
-			//rawVerts.Add(new Vector2(-10f, -10f));
-
 			sbyte[,] bytes = new sbyte[300, 300];
-			for (int i = 0; i < 300; i++)
+			uint[] texData = new uint[debugRoomTex.Width * debugRoomTex.Height];
+			debugRoomTex.GetData(texData);
+			for (int y = 0; y < debugRoomTex.Height; y++)
 			{
-				for (int j = 0; j < 300; j++)
+				for (int x = 0; x < debugRoomTex.Width; x++)
 				{
-					if (j == 50 || j == 51)
-					{
-						bytes[i, j] = 0;
-						break;
-					}
-					bytes[i, j] = 1;
+					if (texData[y * debugRoomTex.Width + x] == 0)
+						bytes[x, y] = 1;
+					else
+						bytes[x, y] = -1;
 				}
 			}
 
-			List<Vertices> v2 = MarchingSquares.DetectSquares(new FarseerPhysics.Collision.AABB(new Vector2(0f,0f), new Vector2(50f,50f)), 10f, 10f, bytes, 0, true);
+			int cellSize = 5;
+			int subCellSize = 2;
+			int nXCells = 59;
+			int nYCells = 59;
 
+			List<Body>[,] bodyGrid = new List<Body>[nXCells, nYCells];
 
-			Vertices verts = new Vertices(rawVerts);
-			//Vertices verts = PolygonTools.CreateRectangle(10f, 10f);
-			Vector2 scale = new Vector2(1f/RigidBody.MInPx, 1f/RigidBody.MInPx);
-			verts.Scale(ref scale);
-			//List<Vertices> vertList = BayazitDecomposer.ConvexPartition(verts);
-			//List<Vertices> vertList = CDTDecomposer.ConvexPartition(verts);
-			List<Vertices> vertList = EarclipDecomposer.ConvexPartition(verts);
-			//List<Vertices> vertList = FlipcodeDecomposer.ConvexPartition(verts);
-			Body body = BodyFactory.CreateBody(RigidBody.World);
-			List<Fixture> compound = FixtureFactory.AttachCompoundPolygon(v2, 1f, body);
-			Vector2 pos = new Vector2(1f, 2f);
-			body.SetTransform(ref pos, 0f);
+			for (int gridY = 0; gridY < nYCells; gridY++)
+			{
+				for (int gridX = 0; gridX < nXCells; gridX++)
+				{
+					float adjustedX = gridX * cellSize;
+					float adjustedY = gridY * cellSize;
+					List<Vertices> polys = MarchingSquares.DetectSquares(new AABB(new Vector2(adjustedX, adjustedY), new Vector2(adjustedX + cellSize, adjustedY + cellSize)), subCellSize, subCellSize, bytes, 2, true);
+					//List<Vertices> polys = MarchingSquares.DetectSquares(new AABB(new Vector2(gridX, gridY), new Vector2(gridX + cellSize, gridY + cellSize)), subCellSize, subCellSize, bytes, 2, true);
+					bodyGrid[gridX, gridY] = new List<Body>();
+
+					for (int i = 0; i < polys.Count; i++)
+					{
+						Vertices verts = FarseerPhysics.Common.PolygonManipulation.SimplifyTools.CollinearSimplify(polys[i]);
+						List<Vertices> decomposedPolys = new List<Vertices>();
+						decomposedPolys = EarclipDecomposer.ConvexPartition(verts);
+
+						for (int j = 0; j < decomposedPolys.Count; j++)
+						{
+							if (decomposedPolys[i].Count > 2)
+								bodyGrid[gridX, gridY].Add(BodyFactory.CreatePolygon(RigidBody.World, decomposedPolys[i], 1));
+						}
+					}
+				}
+			}
 
 			RigidBody.DebugLoadContent(GraphicsDevice, Content);
 

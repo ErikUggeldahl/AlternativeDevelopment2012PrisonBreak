@@ -12,7 +12,8 @@ namespace PrisonBreak.Scripts
 {
 	public class CameraScript : Script
 	{
-		float moveSpeed = 200f;
+		float moveSpeed = 800f;
+		float zoomSpeed = 200f;
 
 		public CameraScript(GameObject parent)
 			: base(parent)
@@ -41,11 +42,11 @@ namespace PrisonBreak.Scripts
 
 			if (Input.KeyboardState.IsKeyDown(Keys.Q))
 			{
-				Transform.Z += 100f * GameTimeGlobal.DeltaSec;
+				Transform.Z += zoomSpeed * GameTimeGlobal.DeltaSec;
 			}
 			if (Input.KeyboardState.IsKeyDown(Keys.E))
 			{
-				Transform.Z -= 100f * GameTimeGlobal.DeltaSec;
+				Transform.Z -= zoomSpeed * GameTimeGlobal.DeltaSec;
 			}
 
 			if (movement.Length() > 0)
