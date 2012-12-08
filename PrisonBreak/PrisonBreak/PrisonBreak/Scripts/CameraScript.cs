@@ -13,7 +13,7 @@ namespace PrisonBreak.Scripts
 	public class CameraScript : Script
 	{
 		float moveSpeed = 800f;
-		float zoomSpeed = 200f;
+		float zoomSpeed = 800f;
 
 		public CameraScript(GameObject parent)
 			: base(parent)

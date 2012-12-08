@@ -62,7 +62,10 @@ namespace PrisonBreak
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			debugRoomTex = Content.Load<Texture2D>("DebugRoom");
-			sbyte[,] bytes = new sbyte[300, 300];
+			int width = debugRoomTex.Width;
+			int height = debugRoomTex.Height;
+			int tileSize = 10;
+			sbyte[,] bytes = new sbyte[301, 301];
 			uint[] texData = new uint[debugRoomTex.Width * debugRoomTex.Height];
 			debugRoomTex.GetData(texData);
 			for (int y = 0; y < debugRoomTex.Height; y++)
@@ -76,10 +79,35 @@ namespace PrisonBreak
 				}
 			}
 
-			int cellSize = 5;
-			int subCellSize = 2;
-			int nXCells = 59;
-			int nYCells = 59;
+			for (int y = 0; y < debugRoomTex.Height; y += tileSize)
+			{
+				for (int x = 0; x < debugRoomTex.Width; x += tileSize)
+				{
+					int currentX = x;
+					while (currentX < debugRoomTex.Width && bytes[currentX, y] == -1)
+					{
+						currentX++;
+					}
+
+					if (currentX == x)
+						continue;
+
+					currentX -= x;
+					Body tileBody = BodyFactory.CreateRectangle(RigidBody.World, currentX / RigidBody.MInPx, tileSize / RigidBody.MInPx, 0);
+					Vector2 transform = new Vector2(x / RigidBody.MInPx, y / RigidBody.MInPx);
+					tileBody.SetTransform(transform, 0f);
+
+					x += currentX;
+					currentX /= tileSize;
+					Console.WriteLine(currentX);
+				}
+			}
+			// Consider using above data without decomposition. Check right position, compose largest horizontal bodies. More optimal.
+
+			int cellSize = 10;
+			float subCellSize = 1f;
+			int nXCells = width / cellSize;
+			int nYCells = height / cellSize;
 
 			List<Body>[,] bodyGrid = new List<Body>[nXCells, nYCells];
 
@@ -90,19 +118,22 @@ namespace PrisonBreak
 					float adjustedX = gridX * cellSize;
 					float adjustedY = gridY * cellSize;
 					List<Vertices> polys = MarchingSquares.DetectSquares(new AABB(new Vector2(adjustedX, adjustedY), new Vector2(adjustedX + cellSize, adjustedY + cellSize)), subCellSize, subCellSize, bytes, 2, true);
-					//List<Vertices> polys = MarchingSquares.DetectSquares(new AABB(new Vector2(gridX, gridY), new Vector2(gridX + cellSize, gridY + cellSize)), subCellSize, subCellSize, bytes, 2, true);
 					bodyGrid[gridX, gridY] = new List<Body>();
 
+					Vector2 scale = new Vector2(1f / RigidBody.MInPx, -1f / RigidBody.MInPx);
+					Vector2 translate = new Vector2(((float)width / -2f) / RigidBody.MInPx, ((float)150f / 2f) / RigidBody.MInPx);
 					for (int i = 0; i < polys.Count; i++)
 					{
+						polys[i].Scale(ref scale);
+						polys[i].Translate(ref translate);
+						polys[i].ForceCounterClockWise();
 						Vertices verts = FarseerPhysics.Common.PolygonManipulation.SimplifyTools.CollinearSimplify(polys[i]);
-						List<Vertices> decomposedPolys = new List<Vertices>();
-						decomposedPolys = EarclipDecomposer.ConvexPartition(verts);
+						List<Vertices> decomposedPolys = EarclipDecomposer.ConvexPartition(verts);
 
 						for (int j = 0; j < decomposedPolys.Count; j++)
 						{
-							if (decomposedPolys[i].Count > 2)
-								bodyGrid[gridX, gridY].Add(BodyFactory.CreatePolygon(RigidBody.World, decomposedPolys[i], 1));
+							//if (decomposedPolys[i].Count > 2)
+								//bodyGrid[gridX, gridY].Add(BodyFactory.CreatePolygon(RigidBody.World, decomposedPolys[i], 1));
 						}
 					}
 				}
@@ -112,13 +143,13 @@ namespace PrisonBreak
 
 			manager = new GameObjectManager();
 
-			GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
-			glassFront.Transform.Translate(new Vector3(0f, 20f, 50f));
-			manager.AddGameObject(glassFront);
+			//GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
+			//glassFront.Transform.Translate(new Vector3(0f, 20f, 50f));
+			//manager.AddGameObject(glassFront);
 
-			GameObject glassBack = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
-			glassBack.Transform.Translate(new Vector3(100f, 20f, -100f));
-			manager.AddGameObject(glassBack);
+			//GameObject glassBack = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
+			//glassBack.Transform.Translate(new Vector3(100f, 20f, -100f));
+			//manager.AddGameObject(glassBack);
 
             GameObject fan = FanScript.CreateFanGO(Content, GraphicsDevice);
             manager.AddGameObject(fan);
