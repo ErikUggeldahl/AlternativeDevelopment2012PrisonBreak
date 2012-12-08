@@ -63,7 +63,7 @@ namespace PrisonBreak
             player.CAnimation.AddAnimation("run", 1, 2);
             player.AddScript(new PlayerScripts(player));
             manager.AddGameObject(player);
-            player.CTransform.Translate(new Vector2(30f, -0f));
+            player.CTransform.Translate(new Vector2(60f, -0f));
 
 			string dialogueText;
 			List<string> stringList = new List<string>();
@@ -72,11 +72,12 @@ namespace PrisonBreak
 			stringList.Add("this is a test"); // 3
 			stringList.Add("this is a test"); // 4
 			stringList.Add("this is a test"); // 5
+			stringList.Add("this is a test"); // 5
+			stringList.Add("this is a test"); // 5
 
-			dialogueText = string.Join(",", stringList.ToArray());
+			//dialogueText = string.Join(", ", stringList.ToArray());
+			dialogueText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et feugiat arcu. Phasellus sed velit in sapien congue adipiscing. Nulla faucibus egestas ante gravida porttitor. Etiam sed odio est, eget vehicula justo. Phasellus sodales nulla consectetur eros imperdiet vulputate. Morbi iaculis lobortis leo id posuere. Nunc viverra interdum nunc a condimentum. Mauris id velit eu lectus viverra feugiat non ac.";
 			player.AddDialogueBox(dialogueText, Content.Load<SpriteFont>("SpriteFont"), Content.Load<Texture2D>("Box"));
-			
-            
 
             GameObject camera = new GameObject();
             camera.AddTransform();

@@ -10,19 +10,15 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-
-
 namespace PrisonBreak
 {
 	public class DialogueBox : BaseComponent
 	{
-		const int boxCharacterWidth = 19;
+		const int boxCharacterWidth = 50;
 
 		// To make static
 		SpriteFont font;
 		Texture2D boxSprite;
-		char newLine = '\n';
-		char space = ' ';
 		string output;
 		int subIndex = 0;
 		float timeCounter = 0;
@@ -36,24 +32,17 @@ namespace PrisonBreak
 			boxSprite = Box;
 
 			// Format with new lines
-			for (int i = 0; i < output.Length; i++)
+			List<string> parts = new List<string>();
+			while (output.Length > boxCharacterWidth)
 			{
-				if (i % boxCharacterWidth == 0)
-				{
-					if ( output[i] == newLine && output[i+1] == space)
-					{
-						output.Remove(i + 1);
-	
-					}
-					if (output[i] == newLine && output[i + 1] != space)
-					{
-						i = output.LastIndexOf(space);
-						output.Insert(i, "\n");
-
-					}
-					output = output.Insert(i, "\n");
-				}
+				string toNewLine = output.Substring(0, boxCharacterWidth);
+				int index = toNewLine.LastIndexOf(' ');
+				parts.Add(output.Substring(0, index));
+				output = output.Substring(index + 1);
 			}
+			parts.Add(output);
+			output = string.Join("\n", parts.ToArray());
+
 		}
 
 		public SpriteFont Font
