@@ -32,6 +32,7 @@ namespace PrisonBreak
 			sb.Draw(par.CAnimation.SpriteSheet, par.CTransform.Position, par.CAnimation.CurrentFrame, Color.White, par.CTransform.Rotation, Vector2.Zero, 1.0f, flip, 0.0f);
 			sb.Draw(par.CDialogBox.BoxSprite, FontOrigin, Color.Red);
 			sb.DrawString(par.CDialogBox.Font, par.CDialogBox.CurrentString, FontOrigin, Color.White);
+	
 		}
 
 		public override void Update()

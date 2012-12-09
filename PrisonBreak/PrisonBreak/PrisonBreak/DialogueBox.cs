@@ -22,6 +22,9 @@ namespace PrisonBreak
 		string output;
 		int subIndex = 0;
 		float timeCounter = 0;
+		int lineCount = 0;
+		public int indexer = 0;
+
 
 		public DialogueBox(GameObject parent, string dialogueText, SpriteFont spriteFont, Texture2D Box)
 			: base(parent)
@@ -39,8 +42,43 @@ namespace PrisonBreak
 				int index = toNewLine.LastIndexOf(' ');
 				parts.Add(output.Substring(0, index));
 				output = output.Substring(index + 1);
+
+				if (index > boxCharacterWidth)
+				{
+					output.Remove(0,boxCharacterWidth);
+				}
+
+				if (lineCount == 0)
+				{
+
+					//output.Remove(0, 50);
+				//	indexer = output.IndexOf('\n');
+					//output.Remove(indexer, 5);
+
+				}
+				lineCount++;
+			
+
+				
+				
+				
+				/*
+
+				 * you would define a line limit, say 4, that would fit in the box. Then you check how many lines are printed and if
+				 * it's too many, you discard what was written before
+					so you need to count how many lines you're at
+				 */
+				if (parts.Count == lineCount)
+				{
+					parts.Remove(parts[0]);
+					
+				}
+
+
+
 			}
 			parts.Add(output);
+
 			output = string.Join("\n", parts.ToArray());
 
 		}
@@ -70,7 +108,24 @@ namespace PrisonBreak
 			{
 				timeCounter = 0f;
 				subIndex++;
+
+				if (lineCount == 4)
+				{
+
+					output.Remove(0, 50);
+					indexer = output.IndexOf('\n');
+					output.Remove(indexer, 5);
+					
+				}
+				lineCount++;
+			
 			}
+
+
+			}
+
+
+
 		}
 	}
-}
+
