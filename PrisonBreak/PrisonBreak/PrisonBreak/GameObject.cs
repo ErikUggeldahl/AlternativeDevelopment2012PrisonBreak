@@ -74,21 +74,21 @@ namespace PrisonBreak
             ComponentAdded(Renderer);
 		}
 
-		public void AddStaticRigidBody(Vector2 size)
+		public void AddStaticRigidBody(Vector2 size, bool fixedRotation = true, float friction = 2f)
 		{
 			if (RigidBody == null)
 			{
-				RigidBody = new RigidBody(this, BodyType.Static, size);
+				RigidBody = new RigidBody(this, BodyType.Static, size, fixedRotation, friction);
 				components.Add(RigidBody);
 			}
             ComponentAdded(RigidBody);
 		}
 
-		public void AddDynamicRigidBody(Vector2 size)
+		public void AddDynamicRigidBody(Vector2 size, bool fixedRotation = true, float friction = 2f)
 		{
 			if (RigidBody == null)
 			{
-				RigidBody = new RigidBody(this, BodyType.Dynamic, size);
+				RigidBody = new RigidBody(this, BodyType.Dynamic, size, fixedRotation, friction);
 				components.Add(RigidBody);
 			}
             ComponentAdded(RigidBody);
@@ -150,10 +150,10 @@ namespace PrisonBreak
 		}
 
 		// TODO: Create factory helper with GD and Content. Make Tex a string, load in factory.
-		public static GameObject CreateStaticPhysicsGO(GraphicsDevice graphicsDevice, Texture2D sprite, SpriteTransparency transparency)
+		public static GameObject CreateStaticPhysicsGO(GraphicsDevice graphicsDevice, Texture2D sprite, SpriteTransparency transparency, bool fixedRotation = false, float friction = 2f)
 		{
 			GameObject staticGO = CreateStaticGO(graphicsDevice, sprite, transparency);
-			staticGO.AddStaticRigidBody(new Vector2(sprite.Bounds.Width, sprite.Bounds.Height));
+			staticGO.AddStaticRigidBody(new Vector2(sprite.Bounds.Width, sprite.Bounds.Height), fixedRotation, friction);
 
 			return staticGO;
 		}

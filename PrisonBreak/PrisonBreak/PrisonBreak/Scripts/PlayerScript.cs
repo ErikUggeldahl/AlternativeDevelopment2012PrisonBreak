@@ -13,8 +13,8 @@ namespace PrisonBreak.Scripts
 {
 	public class PlayerScript : Script
 	{
-		float moveSpeed = 20f;
-		float maxSpeed = 100f;
+		float moveSpeed = 40f;
+		float maxSpeed = 150f;
 
 		public PlayerScript(GameObject parent)
 			: base(parent)

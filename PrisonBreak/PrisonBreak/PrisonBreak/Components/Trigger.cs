@@ -16,7 +16,11 @@ namespace PrisonBreak.Components
 		private Body volume;
         private bool enabled;
 
+		private bool staying;
+		private Fixture stayFixtureA, stayFixtureB;
+
 		public event OnCollisionEventHandler OnEnter;
+		public event OnSeparationEventHandler OnStay;
 		public event OnSeparationEventHandler OnExit;
 
 		public Trigger(GameObject parent, Vector2 size)
@@ -47,14 +51,22 @@ namespace PrisonBreak.Components
 		private bool HandleOnCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
 		{
 			if (enabled && OnEnter != null)
+			{
 				OnEnter(fixtureA, fixtureB, contact);
+				stayFixtureA = fixtureA;
+				stayFixtureB = fixtureB;
+				staying = true;
+			}
 			return true;
 		}
 
 		private void HandleOnSeparation(Fixture fixtureA, Fixture fixtureB)
 		{
 			if (enabled && OnExit != null)
+			{
 				OnExit(fixtureA, fixtureB);
+				staying = false;
+			}
 		}
 
 		public Category CollidesWith
@@ -64,6 +76,8 @@ namespace PrisonBreak.Components
 
 		public override void Update()
 		{
+			if (staying && OnStay != null)
+				OnStay(stayFixtureA, stayFixtureB);
 		}
 	}
 }

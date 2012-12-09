@@ -25,7 +25,7 @@ namespace PrisonBreak.Components
 	public class RigidBody : BaseComponent
 	{
 		private static World world = new World(new Vector2(0f, -9.82f));
-		public const float MInPx = 33f;
+		public const float MInPx = 16f;
 
 		private static DebugViewXNA debugView = new DebugViewXNA(world);
 		private static bool isDebugEnabled = false;
@@ -79,13 +79,22 @@ namespace PrisonBreak.Components
 			debugView.RenderDebugData(ref debugProjMatrix, ref debugViewMatrix);
 		}
 
-		public RigidBody(GameObject parent, BodyType bodyType, Vector2 size)
+		public RigidBody(GameObject parent, BodyType bodyType, Vector2 size, bool fixedRotation = true, float friction = 2f)
 			: base(parent)
 		{
 			body = BodyFactory.CreateRectangle(world, size.X / MInPx, size.Y / MInPx, 1f, Transform.Position / MInPx);
 			body.BodyType = bodyType;
-			body.Friction = 2f;
-			body.FixedRotation = true;
+			body.FixedRotation = fixedRotation;
+			body.Friction = friction;
+		}
+
+		public RigidBody(GameObject parent, Body body, bool fixedRotation = true, float friction = 2f)
+			: base(parent)
+		{
+			this.body = body;
+			this.body.BodyType = BodyType.Static;
+			this.body.FixedRotation = fixedRotation;
+			this.body.Friction = friction;
 		}
 
 		public override void Update()

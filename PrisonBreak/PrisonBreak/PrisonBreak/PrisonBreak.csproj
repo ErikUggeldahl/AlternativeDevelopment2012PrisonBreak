@@ -130,6 +130,7 @@
     <Compile Include="Scripts\CameraScript.cs" />
     <Compile Include="Scripts\PlayerScript.cs" />
     <Compile Include="Components\Transform.cs" />
+    <Compile Include="WorldGen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
