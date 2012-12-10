@@ -6,4 +6,7 @@ Content\DebugVolume.xnb
 Content\Fan.xnb
 Content\DebugRoom.xnb
 Content\DebugRoom2.xnb
+Content\DebugContent\TestSquare.xnb
+Content\DebugContent\TranslucentSquare.xnb
+Content\DebugContent\DebugFont.xnb
 Content\font.xnb

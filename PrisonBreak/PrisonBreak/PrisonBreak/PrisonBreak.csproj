@@ -131,6 +131,11 @@
     <Compile Include="Scripts\PlayerScript.cs" />
     <Compile Include="Components\Transform.cs" />
     <Compile Include="WorldGen.cs" />
+    <Compile Include="QuadTree\IBounded.cs" />
+    <Compile Include="QuadTree\QTDebug\DebugGO.cs" />
+    <Compile Include="QuadTree\QTDebug\TestQTGame.cs" />
+    <Compile Include="QuadTree\QuadTree.cs" />
+    <Compile Include="QuadTree\QuadTreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
