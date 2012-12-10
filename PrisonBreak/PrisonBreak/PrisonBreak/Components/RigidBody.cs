@@ -74,7 +74,8 @@ namespace PrisonBreak.Components
 
 		public static void DebugRender()
 		{
-			debugViewMatrix = Matrix.CreateLookAt(new Vector3(Camera.MainCamera.Transform.Position / MInPx, Camera.MainCamera.Transform.Z / MInPx), new Vector3(Camera.MainCamera.Transform.Position / MInPx, (Camera.MainCamera.Transform.Z - 2000f) / MInPx), Vector3.Up);
+			Vector3 cameraPos = Camera.MainCamera.Transform.WorldPosition;
+			debugViewMatrix = Matrix.CreateLookAt(cameraPos / MInPx, new Vector3(cameraPos.X / MInPx, cameraPos.Y, (cameraPos.Z - 2000f) / MInPx), Vector3.Up);
 			debugProjMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60f), 16f / 9f, 0.5f, 5000f);
 			debugView.RenderDebugData(ref debugProjMatrix, ref debugViewMatrix);
 		}
@@ -82,7 +83,7 @@ namespace PrisonBreak.Components
 		public RigidBody(GameObject parent, BodyType bodyType, Vector2 size, bool fixedRotation = true, float friction = 2f)
 			: base(parent)
 		{
-			body = BodyFactory.CreateRectangle(world, size.X / MInPx, size.Y / MInPx, 1f, Transform.Position / MInPx);
+			body = BodyFactory.CreateRectangle(world, size.X / MInPx, size.Y / MInPx, 1f, new Vector2(Transform.WorldPosition.X, Transform.WorldPosition.Y) / MInPx);
 			body.BodyType = bodyType;
 			body.FixedRotation = fixedRotation;
 			body.Friction = friction;

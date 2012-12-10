@@ -26,7 +26,7 @@ namespace PrisonBreak.Components
 		public Trigger(GameObject parent, Vector2 size)
 			: base(parent)
 		{
-			volume = BodyFactory.CreateRectangle(RigidBody.World, size.X /  RigidBody.MInPx, size.Y / RigidBody.MInPx, 1f, Transform.Position / RigidBody.MInPx);
+			volume = BodyFactory.CreateRectangle(RigidBody.World, size.X /  RigidBody.MInPx, size.Y / RigidBody.MInPx, 1f, new Vector2(Transform.WorldPosition.X, Transform.WorldPosition.Y) / RigidBody.MInPx);
 			volume.BodyType = BodyType.Kinematic;
 			volume.IsSensor = true;
 			volume.CollisionCategories = CollisionCats.TriggerCategory;

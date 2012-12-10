@@ -20,6 +20,7 @@ namespace PrisonBreak.Components
 
 		//Properties
         // TODO: Implement parent flipping
+		// TODO: Account for offset (currently snaps to parent at attach)
 		public Transform Parent
 		{
 			get { return parent; }
@@ -51,6 +52,10 @@ namespace PrisonBreak.Components
 					Trigger.Volume.Position = position / RigidBody.MInPx;
 				}
 			}
+		}
+		public Vector3 WorldPosition
+		{
+			get { return WorldMatrix.Translation; }
 		}
 
         public float Z

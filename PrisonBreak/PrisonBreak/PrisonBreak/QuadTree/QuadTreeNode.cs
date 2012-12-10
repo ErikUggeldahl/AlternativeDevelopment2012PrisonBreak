@@ -185,26 +185,15 @@ namespace PrisonBreak.QuadTree
             lChildren[2] = rSW.Intersects(queryArea.AABounds) ? sw.Query(queryArea) : null;
             lChildren[3] = rSE.Intersects(queryArea.AABounds) ? se.Query(queryArea) : null;
 
-            int childrenCount = 0;
             for (int i = 0; i < 4; i++)
             {
                 if (lChildren[i] != null)
                 {
-                    childrenCount += lChildren[i].Count;
+					intersectingElements.AddRange(lChildren[i]);
                 }
             }
 
-            List<T> all = new List<T>(childrenCount + intersectingElements.Count);
-            all.AddRange(intersectingElements);
-            for (int i = 0; i < 4; i++)
-            {
-                if (lChildren[i] != null)
-                {
-                    all.AddRange(lChildren[i]);
-                }
-            }
-
-            return all;
+			return intersectingElements;
         }
 
         public List<Rectangle> GetRectangles()
