@@ -15,7 +15,6 @@ namespace PrisonBreak
     public class GameObjectManager
     {
         private List<GameObject> gameObjects;
-        //private QuadTree<IBounded> qt;
 
         public GameObjectManager()
         {
@@ -39,9 +38,7 @@ namespace PrisonBreak
 
         public void Render()
         {
-			RenderManager.Instance.DrawRenderTargets();
-			RenderManager.Instance.DrawOpaque();
-			RenderManager.Instance.DrawTransparent();
+			RenderManager.Instance.Draw();
         }
 
     }

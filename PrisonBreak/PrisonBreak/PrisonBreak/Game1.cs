@@ -28,13 +28,14 @@ namespace PrisonBreak
 		SpriteBatch spriteBatch;
 		GameObjectManager manager;
 
-		Texture2D debugRoomTex;
+		public const int ResolutionWidth = 1280;
+		public const int ResolutionHeight = 720;
 
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
-			graphics.PreferredBackBufferWidth = 1280;
-			graphics.PreferredBackBufferHeight = 720;
+			graphics.PreferredBackBufferWidth = ResolutionWidth;
+			graphics.PreferredBackBufferHeight = ResolutionHeight;
 
 			Content.RootDirectory = "Content";
 		}
@@ -61,20 +62,24 @@ namespace PrisonBreak
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			debugRoomTex = Content.Load<Texture2D>("DebugRoom");
+			Texture2D debugRoomTex = Content.Load<Texture2D>("DebugRoom");
 			WorldGen.CreateStatic(debugRoomTex);
 
 			RigidBody.DebugLoadContent(GraphicsDevice, Content);
 
 			manager = new GameObjectManager();
 
-			//GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
-			//glassFront.Transform.Translate(new Vector3(0f, 20f, 50f));
-			//manager.AddGameObject(glassFront);
+			GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
+			glassFront.Transform.Translate(new Vector3(0f, 20f, 50f));
+			manager.AddGameObject(glassFront);
 
-			//GameObject glassBack = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
-			//glassBack.Transform.Translate(new Vector3(100f, 20f, -100f));
-			//manager.AddGameObject(glassBack);
+			GameObject glassMid = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
+			glassMid.Transform.Translate(new Vector3(600f, 0f, 0f));
+			manager.AddGameObject(glassMid);
+
+			GameObject glassBack = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
+			glassBack.Transform.Translate(new Vector3(0f, 20f, -100f));
+			manager.AddGameObject(glassBack);
 
             GameObject fan = FanScript.CreateFanGO(Content, GraphicsDevice);
             manager.AddGameObject(fan);
@@ -108,10 +113,15 @@ namespace PrisonBreak
 
 			GameObject camera = new GameObject();
 			camera.AddTransform();
-			camera.Transform.Z = 1000f;
+			camera.Transform.Z = 600f;
 			camera.AddCamera(GraphicsDevice.Viewport, true);
 			camera.AddScript(new CameraScript(camera));
 			manager.AddGameObject(camera);
+
+			GameObject cameraBounds = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("DebugCameraBounds"), SpriteTransparency.Transparent);
+			cameraBounds.Transform.Parent = camera.Transform;
+			cameraBounds.Transform.Z = -600f;
+			manager.AddGameObject(cameraBounds);
 
 			GameObject trigger = new GameObject();
 			trigger.AddTransform();

@@ -6,12 +6,13 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using TexturedQuad;
+using PrisonBreak.QuadTree;
 
 namespace PrisonBreak.Components
 {
-	public class Renderer : BaseComponent, IComparable
+	public class Renderer : BaseComponent, IComparable, IBounded
 	{
+		private bool enabled;
 		private bool animated;
 
 		private bool isFlipped;
@@ -22,9 +23,17 @@ namespace PrisonBreak.Components
 		private RenderTarget2D rt;
 		private Quad quad;
 		private Matrix world, view, proj;
+
 		private Texture2D currentFrame;
+		private Rectangle aaBounds;
 
 		private static BasicEffect shader;
+
+		public bool IsEnabled
+		{
+			get { return enabled; }
+			set { enabled = value; }
+		}
 
 		public bool IsFlipped
 		{
@@ -33,6 +42,17 @@ namespace PrisonBreak.Components
 			{
 				isFlipped = value;
 				flipEffect = isFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			}
+		}
+
+		// TODO: Add XY plane projection
+		public Rectangle AABounds
+		{
+			get
+			{
+				aaBounds.X = (int)Transform.WorldPosition.X - (int)(aaBounds.Width / 2f);
+				aaBounds.Y = (int)Transform.WorldPosition.Y - (int)(aaBounds.Height / 2f);
+				return aaBounds;
 			}
 		}
 
@@ -70,11 +90,15 @@ namespace PrisonBreak.Components
 			rt = new RenderTarget2D(graphicsDevice, Animation.CurrentFrame.Width, Animation.CurrentFrame.Height, false, graphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24Stencil8);
 			quad = new Quad(Vector3.Zero, Vector3.Backward, Vector3.Up, Animation.CurrentFrame.Width, Animation.CurrentFrame.Height);
 			RenderManager.Instance.AddAnimated(this);
+			enabled = true;
 		}
 
 		private void StaticInit()
 		{
 			quad = new Quad(Vector3.Zero, Vector3.Backward, Vector3.Up, StaticSprite.Sprite.Width, StaticSprite.Sprite.Height);
+			aaBounds = StaticSprite.Sprite.Bounds;
+			Camera.AddRenderer(this);
+			enabled = false;
 		}
 
 		public void DrawRenderTarget()
@@ -92,8 +116,14 @@ namespace PrisonBreak.Components
 		public void Draw()
 		{
 			world = Transform.WorldMatrix;
-			view = Matrix.CreateLookAt(new Vector3(Camera.MainCamera.Transform.Position, Camera.MainCamera.Transform.Z), new Vector3(Camera.MainCamera.Transform.Position, Camera.MainCamera.Transform.Z - 2000f), Vector3.Up);
+			view = Camera.MainCamera.ViewMatrix;
 			proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60f), 16f / 9f, 0.5f, 5000f);
+
+			// To remove
+			Vector3 s;
+			Quaternion q;
+			Vector3 t;
+			(world * proj).Decompose(out s, out q, out t); 
 
 			shader.World = world;
 			shader.View = view;
@@ -114,19 +144,23 @@ namespace PrisonBreak.Components
 
 		public override void Update()
 		{
+			if (!animated)
+				enabled = false;
 		}
 
 		public int CompareTo(Object obj)
 		{
-			return (int)(Transform.Z - ((Renderer)obj).Transform.Z);
+			return (int)(Transform.WorldPosition.Z - ((Renderer)obj).Transform.WorldPosition.Z);
 		}
 	}
+
 
 	public enum SpriteTransparency
 	{
 		Opaque,
 		Transparent
 	}
+
 
 	public class RenderManager
 	{
@@ -168,6 +202,14 @@ namespace PrisonBreak.Components
 			transparents.Add(r);
 		}
 
+		public void Draw()
+		{
+			Camera.MainCamera.Cull();
+			DrawRenderTargets();
+			DrawOpaque();
+			DrawTransparent();
+		}
+
 		public void DrawRenderTargets()
 		{
 			for (int i = 0; i < animated.Count; i++)
@@ -180,7 +222,8 @@ namespace PrisonBreak.Components
 		{
 			for (int i = 0; i < opaques.Count; i++)
 			{
-				opaques[i].Draw();
+				if (opaques[i].IsEnabled)
+					opaques[i].Draw();
 			}
 		}
 
@@ -189,7 +232,8 @@ namespace PrisonBreak.Components
 			transparents.Sort();
 			for (int i = 0; i < transparents.Count; i++)
 			{
-				transparents[i].Draw();
+				if (transparents[i].IsEnabled)
+					transparents[i].Draw();
 			}
 		}
 	}

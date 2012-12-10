@@ -6,14 +6,20 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using PrisonBreak.QuadTree;
+
 namespace PrisonBreak.Components
 {
-	public class Camera : BaseComponent
+	public class Camera : BaseComponent, IBounded
 	{
 		public static Camera MainCamera;
 
 		private Vector2 origin;
 		private Viewport viewport;
+
+		// TODO: Adjust to real world bounds! -- Doesn't seem to have an effect??
+		// Quads might not respond to transforms
+		private static PrisonBreak.QuadTree.QuadTree<IBounded> quadTree = new PrisonBreak.QuadTree.QuadTree<IBounded>(new Rectangle(0, 0, 1, 1));
 
 		public Viewport Viewport
 		{
@@ -25,15 +31,15 @@ namespace PrisonBreak.Components
 			get { return origin; }
 		}
 
-		public Matrix ViewMatrix
+		public Rectangle AABounds
 		{
+			// TODO: Add XY plane projection
 			get
 			{
-				return Matrix.CreateTranslation(new Vector3(-Origin, 0f)) *
-					Matrix.CreateScale(1f) *
-					Matrix.CreateTranslation(new Vector3(Transform.Offset, Transform.Z)) *
-					Matrix.CreateFromQuaternion(Transform.Rotation) *
-					Matrix.CreateLookAt(new Vector3(Transform.Position, Transform.Z), Vector3.Zero, Vector3.Up);
+				Rectangle aaBounds = viewport.Bounds;
+				aaBounds.X = (int)Transform.WorldPosition.X - (int)(aaBounds.Width / 2f);
+				aaBounds.Y = (int)Transform.WorldPosition.Y - (int)(aaBounds.Height / 2f);
+				return aaBounds;
 			}
 		}
 
@@ -50,8 +56,23 @@ namespace PrisonBreak.Components
 			}
 		}
 
+		public Matrix ViewMatrix
+		{
+			get { return Matrix.CreateLookAt(Transform.WorldPosition, new Vector3(Transform.WorldPosition.X, Transform.WorldPosition.Y, Transform.WorldPosition.Z - 2000f), Vector3.Up); }
+		}
+
+		public static void AddRenderer(Renderer toAdd)
+		{
+			quadTree.Insert(toAdd);
+		}
+
 		public void Cull()
 		{
+			List<IBounded> toEnable = quadTree.Query(this);
+			for (int i = 0; i < toEnable.Count; i++)
+			{
+				((Renderer)toEnable[i]).IsEnabled = true;
+			}
 		}
 
 		public override void Update()
@@ -59,5 +80,3 @@ namespace PrisonBreak.Components
 		}
 	}
 }
-
-
