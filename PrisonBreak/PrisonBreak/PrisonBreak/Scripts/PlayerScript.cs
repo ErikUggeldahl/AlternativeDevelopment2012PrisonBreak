@@ -56,33 +56,6 @@ namespace PrisonBreak.Scripts
 			{
 				Animation.Play("idle");
 			}
-			/*
-			if (Input.GamepadState.IsConnected)
-			{
-				if(Input.GamepadState.IsButtonDown(Buttons.LeftThumbstickRight))
-				{
-					par.CTransform.Translate(new Vector2(2f, 0f));
-				}
-				   if(Input.GamepadState.IsButtonDown(Buttons.LeftThumbstickLeft))
-				{
-					par.CTransform.Translate(new Vector2(-2f, 0f));
-				}
-				   if(Input.GamepadState.IsButtonDown(Buttons.LeftThumbstickUp))
-				{
-					par.CTransform.Translate(new Vector2(0f, -2f));
-				}
-				   if(Input.GamepadState.IsButtonDown(Buttons.LeftThumbstickDown))
-				{
-				   par.CTransform.Translate(new Vector2(0f, 2f));
-                     
-				}
-
-				//the PLayer's special move
-				   //if (Input.GamepadState.IsButtonDown(Buttons.A))
-				   //{
-
-				   //}
-			 * */
 		}
 	}
 }

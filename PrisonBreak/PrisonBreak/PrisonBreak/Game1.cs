@@ -85,6 +85,10 @@ namespace PrisonBreak
             manager.AddGameObject(fan);
             fan.Transform.Translate(new Vector3(300f, 30f, 0f));
 
+			GameObject laser = LaserScript.CreateLaserGO(Content, GraphicsDevice);
+			manager.AddGameObject(laser);
+			laser.Transform.Translate(new Vector3(400f, 30f, 0f));
+
 			GameObject player = new GameObject();
 			player.AddTransform();
 			player.Transform.Translate(new Vector3(-200f, 50f, 0f));

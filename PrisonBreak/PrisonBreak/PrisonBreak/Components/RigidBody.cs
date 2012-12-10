@@ -75,7 +75,7 @@ namespace PrisonBreak.Components
 		public static void DebugRender()
 		{
 			Vector3 cameraPos = Camera.MainCamera.Transform.WorldPosition;
-			debugViewMatrix = Matrix.CreateLookAt(cameraPos / MInPx, new Vector3(cameraPos.X / MInPx, cameraPos.Y, (cameraPos.Z - 2000f) / MInPx), Vector3.Up);
+			debugViewMatrix = Matrix.CreateLookAt(cameraPos / MInPx, new Vector3(cameraPos.X / MInPx, cameraPos.Y / MInPx, (cameraPos.Z - 2000f) / MInPx), Vector3.Up);
 			debugProjMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60f), 16f / 9f, 0.5f, 5000f);
 			debugView.RenderDebugData(ref debugProjMatrix, ref debugViewMatrix);
 		}

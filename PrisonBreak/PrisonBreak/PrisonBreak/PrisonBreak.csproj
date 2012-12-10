@@ -126,6 +126,7 @@
     <Compile Include="Components\RigidBody.cs" />
     <Compile Include="Components\Script.cs" />
     <Compile Include="Quad.cs" />
+    <Compile Include="Scripts\AI\LaserScript.cs" />
     <Compile Include="Scripts\AI\FanScript.cs" />
     <Compile Include="Scripts\CameraScript.cs" />
     <Compile Include="Scripts\PlayerScript.cs" />
