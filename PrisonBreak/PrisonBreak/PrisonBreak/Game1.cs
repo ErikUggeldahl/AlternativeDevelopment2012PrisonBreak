@@ -63,7 +63,7 @@ namespace PrisonBreak
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			Texture2D debugRoomTex = Content.Load<Texture2D>("DebugRoom");
-			WorldGen.CreateStatic(debugRoomTex);
+			//WorldGen.CreateStatic(debugRoomTex);
 
 			RigidBody.DebugLoadContent(GraphicsDevice, Content);
 
@@ -88,6 +88,11 @@ namespace PrisonBreak
 			GameObject laser = LaserScript.CreateLaserGO(Content, GraphicsDevice);
 			manager.AddGameObject(laser);
 			laser.Transform.Translate(new Vector3(400f, 30f, 0f));
+
+			List<Vector2> patrolPoints = GuardScript.CreatePatrolPoints(200f, 0f, 300f, 0f, 400f, 0f, 500f, 0f);
+			GameObject guard = GuardScript.CreateGuardGO(Content, GraphicsDevice, patrolPoints);
+			guard.Transform.Translate(new Vector2(-300f, 10f));
+			manager.AddGameObject(guard);
 
 			GameObject player = new GameObject();
 			player.AddTransform();

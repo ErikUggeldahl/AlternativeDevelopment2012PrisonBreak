@@ -58,6 +58,15 @@ namespace PrisonBreak.Components
 			get { return WorldMatrix.Translation; }
 		}
 
+		public Vector2 WorldPosition2
+		{
+			get
+			{
+				Vector3 pos = WorldMatrix.Translation;
+				return new Vector2(WorldPosition.X, WorldPosition.Y);
+			}
+		}
+
         public float Z
         {
             get { return z; }
