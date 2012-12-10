@@ -24,7 +24,7 @@ namespace PrisonBreak
 		float timeCounter = 0;
 		int lineCount = 0;
 		public int indexer = 0;
-
+		string proxy;
 
 		public DialogueBox(GameObject parent, string dialogueText, SpriteFont spriteFont, Texture2D Box)
 			: base(parent)
@@ -43,21 +43,8 @@ namespace PrisonBreak
 				parts.Add(output.Substring(0, index));
 				output = output.Substring(index + 1);
 
-				if (index > boxCharacterWidth)
-				{
-					output.Remove(0,boxCharacterWidth);
-				}
 
-				if (lineCount == 0)
-				{
-
-					//output.Remove(0, 50);
-				//	indexer = output.IndexOf('\n');
-					//output.Remove(indexer, 5);
-
-				}
-				lineCount++;
-			
+				
 
 				
 				
@@ -68,11 +55,11 @@ namespace PrisonBreak
 				 * it's too many, you discard what was written before
 					so you need to count how many lines you're at
 				 */
-				if (parts.Count == lineCount)
+			/*	if (parts.Count == lineCount)
 				{
 					parts.Remove(parts[0]);
 					
-				}
+				}*/
 
 
 
@@ -109,13 +96,13 @@ namespace PrisonBreak
 				timeCounter = 0f;
 				subIndex++;
 
-				if (lineCount == 4)
+				if (lineCount == 4 && boxCharacterWidth<= output.Length)
 				{
 
-					output.Remove(0, 50);
-					indexer = output.IndexOf('\n');
-					output.Remove(indexer, 5);
+					output = output.Remove(0,5);
+					lineCount-= 2;
 					
+
 				}
 				lineCount++;
 			
