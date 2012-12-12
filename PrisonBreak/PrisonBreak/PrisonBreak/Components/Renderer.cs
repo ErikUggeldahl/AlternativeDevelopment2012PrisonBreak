@@ -40,8 +40,12 @@ namespace PrisonBreak.Components
 			get { return isFlipped; }
 			set
 			{
-				isFlipped = value;
-				flipEffect = isFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+				if (isFlipped != value)
+				{
+					Transform.Flip();
+					isFlipped = value;
+					flipEffect = isFlipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+				}
 			}
 		}
 

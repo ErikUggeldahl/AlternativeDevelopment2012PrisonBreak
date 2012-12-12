@@ -84,6 +84,16 @@ namespace PrisonBreak
             ComponentAdded(RigidBody);
 		}
 
+		public void AddStaticRigidBody(Body body, bool fixedRotation = true, float friction = 2f)
+		{
+			if (RigidBody == null)
+			{
+				RigidBody = new RigidBody(this, body, fixedRotation, friction);
+				components.Add(RigidBody);
+			}
+			ComponentAdded(RigidBody);
+		}
+
 		public void AddDynamicRigidBody(Vector2 size, bool fixedRotation = true, float friction = 2f)
 		{
 			if (RigidBody == null)

@@ -9,8 +9,9 @@ Content\DebugRoom2.xnb
 Content\DebugContent\TestSquare.xnb
 Content\DebugContent\TranslucentSquare.xnb
 Content\DebugCameraBounds.xnb
-Content\DebugContent\DebugFont.xnb
 Content\Laser.xnb
 Content\Guard.xnb
 Content\MainCharacter.xnb
+Content\Levels\LevelMain.xnb
+Content\DebugContent\DebugFont.xnb
 Content\font.xnb

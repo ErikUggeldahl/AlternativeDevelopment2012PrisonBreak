@@ -19,12 +19,15 @@ namespace PrisonBreak.Components
 		private float scale;
 
 		//Properties
-        // TODO: Implement parent flipping
-		// TODO: Account for offset (currently snaps to parent at attach)
+		// TODO: Account for offset (currently snaps to parent at attach) -- Still an issue?
 		public Transform Parent
 		{
 			get { return parent; }
-			set { parent = value; }
+			set
+			{
+				parent = value;
+				value.AddChild(this);
+			}
 		}
 
 		public Transform(GameObject parent)
@@ -35,6 +38,7 @@ namespace PrisonBreak.Components
 			offset = Vector2.Zero;
 			rotation = Quaternion.Identity;
 			scale = 1f;
+			children = new List<Transform>();
 		}
 
 		public Vector2 Position
@@ -96,6 +100,11 @@ namespace PrisonBreak.Components
 			set { scale = value; }
 		}
 
+		public void AddChild(Transform child)
+		{
+			children.Add(child);
+		}
+
 		public void Translate(Vector2 delta)
 		{
 			position += delta;
@@ -121,6 +130,18 @@ namespace PrisonBreak.Components
 			if (Trigger != null)
 			{
 				Trigger.Volume.Position += new Vector2(delta.X, delta.Y) / RigidBody.MInPx;
+			}
+		}
+
+		public void Flip()
+		{
+			float axis = Transform.WorldPosition.X;
+			for (int i = 0; i < children.Count; i++)
+			{
+				float delta = (axis - children[i].WorldPosition.X) * 2f;
+				children[i].Translate(new Vector2(delta, 0f));
+				if (children[i].Renderer != null)
+					children[i].Renderer.IsFlipped = !(children[i].Renderer.IsFlipped);
 			}
 		}
 
