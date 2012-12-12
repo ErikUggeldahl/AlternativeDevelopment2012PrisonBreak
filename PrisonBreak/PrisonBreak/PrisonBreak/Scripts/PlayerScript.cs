@@ -27,13 +27,13 @@ namespace PrisonBreak.Scripts
             Vector2 movement = Vector2.Zero;
             if (Input.GamepadState.IsConnected)
             {
-                if (Input.KeyboardState.IsKeyDown(Keys.E) || (Input.GamepadState.IsButtonDown(Buttons.A) && (Input.GamepadState.ThumbSticks.Left.X < 0)))
+                if (Input.KeyboardState.IsKeyDown(Keys.E) ||  (Input.GamepadState.IsButtonDown(Buttons.LeftTrigger)))
                 {
                     movement.X -= 1f;
                     go.Animation.Play("stealth");
                     go.Renderer.IsFlipped = false;
                 }
-                if (Input.KeyboardState.IsKeyDown(Keys.R) || (Input.GamepadState.IsButtonDown(Buttons.A) && (Input.GamepadState.ThumbSticks.Left.X > 0)))
+                if (Input.KeyboardState.IsKeyDown(Keys.R) || (Input.GamepadState.IsButtonDown(Buttons.RightTrigger)))
                 {
                     movement.X += 1f;
                     go.Animation.Play("stealth");
@@ -55,13 +55,13 @@ namespace PrisonBreak.Scripts
                     go.Renderer.IsFlipped = true;
 
                 }
-                if (Input.KeyboardState.IsKeyDown(Keys.W) || (Input.GamepadState.ThumbSticks.Left.Y < 0))
+                if (Input.KeyboardState.IsKeyDown(Keys.W) || (Input.GamepadState.ThumbSticks.Left.Y > 0))
                 {
                     movement.Y -= 1f;
                      go.Animation.Play("climb");
                 }
 
-                if (Input.KeyboardState.IsKeyDown(Keys.S) || (Input.GamepadState.ThumbSticks.Left.Y > 0))
+                if (Input.KeyboardState.IsKeyDown(Keys.S) || (Input.GamepadState.ThumbSticks.Left.Y < 0))
                 {
                     movement.Y += 1f;
                     go.Animation.Play("climb");
