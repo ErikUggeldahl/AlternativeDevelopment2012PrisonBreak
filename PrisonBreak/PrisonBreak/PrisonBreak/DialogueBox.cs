@@ -12,100 +12,86 @@ using Microsoft.Xna.Framework.Media;
 
 namespace PrisonBreak
 {
-    public class DialogueBox : BaseComponent
-    {
-        const int boxCharacterWidth = 50;
+	public class DialogueBox : BaseComponent
+	{
+		private const int boxCharacterWidth = 50;
+		private const float letterSpeed = 0.125f;
 
-        // To make static
-        SpriteFont font;
-        Texture2D boxSprite;
-        string output;
-        int subIndex = 0;
-        float timeCounter = 0;
-        int lineCount = 0;
-        public int indexer = 0;
-        string proxy;
+		// To make static
+		private SpriteFont font;
+		private Texture2D boxSprite;
 
-        public DialogueBox(GameObject parent, string dialogueText, SpriteFont spriteFont, Texture2D Box)
-            : base(parent)
-        {
-            par = parent;
-            output = dialogueText;
-            font = spriteFont;
-            boxSprite = Box;
+		private string output;
+		private int subIndex = 0;
+		private float timeCounter = 0;
+		private int lineCount = 1;
 
-            // Format with new lines
-            List<string> parts = new List<string>();
-            while (output.Length > boxCharacterWidth)
-            {
-                string toNewLine = output.Substring(0, boxCharacterWidth);
-                int index = toNewLine.LastIndexOf(' ');
-                parts.Add(output.Substring(0, index));
-                output = output.Substring(index + 1);
+		private string proxy;
 
+		public DialogueBox(GameObject parent, string dialogueText, SpriteFont spriteFont, Texture2D Box)
+			: base(parent)
+		{
+			par = parent;
+			output = dialogueText;
+			font = spriteFont;
+			boxSprite = Box;
 
+			// Format with new lines
+			List<string> parts = new List<string>();
+			while (output.Length > boxCharacterWidth)
+			{
+				string toNewLine = output.Substring(0, boxCharacterWidth);
+				int index = toNewLine.LastIndexOf(' ');
+				parts.Add(output.Substring(0, index));
+				output = output.Substring(index + 1);
+			}
+			parts.Add(output);
+			output = string.Join("\n", parts.ToArray());
+		}
 
+		public SpriteFont Font
+		{
+			get { return font; }
+		}
 
+		public Texture2D BoxSprite
+		{
+			get { return boxSprite; }
+		}
 
+		public string CurrentString
+		{
+			get
+			{
+				return output.Substring(0, subIndex);
+			}
+		}
 
+		public override void Update()
+		{
+			timeCounter += (float)GameTimeGlobal.GameTime.ElapsedGameTime.TotalSeconds;
 
-                /*
+			if (timeCounter >= letterSpeed && subIndex < output.Length - 1)
+			{
+				timeCounter = 0f;
+				subIndex++;
 
-                 * you would define a line limit, say 4, that would fit in the box. Then you check how many lines are printed and if
-                 * it's too many, you discard what was written before
-                    so you need to count how many lines you're at
-                 */
-                /*	if (parts.Count == lineCount)
-                    {
-                        parts.Remove(parts[0]);
-					
-                    }*/
-
-
-
-            }
-            parts.Add(output);
-
-            output = string.Join("\n", parts.ToArray());
-
-        }
-
-        public SpriteFont Font
-        {
-            get { return font; }
-        }
-
-        public Texture2D BoxSprite
-        {
-            get { return boxSprite; }
-        }
-
-        public string CurrentString
-        {
-            get
-            {
-                return output.Substring(0, subIndex);
-            }
-        }
-
-        public override void Update()
-        {
-            timeCounter += (float)GameTimeGlobal.GameTime.ElapsedGameTime.TotalSeconds;
-            if (timeCounter >= 0.25f && subIndex < output.Length)
-            {
-                timeCounter = 0f;
-                subIndex++;
-                if (output.Length > subIndex)
-                {
-                    if (lineCount == 4 && boxCharacterWidth <= output.Length)
-                    {
-                        output = output.Remove(0, boxCharacterWidth);
-                        lineCount -= 2;
-                    }
-                    lineCount++;
-                }
-            }
-        }
-    }
+				if (output[subIndex] == '\n')
+				{
+					if (lineCount == 4)
+					{
+						int firstNewLine = output.IndexOf('\n', 0) + 1;
+						output = output.Remove(0, firstNewLine);
+						subIndex -= firstNewLine;
+						lineCount = 4;
+					}
+					else
+					{
+						lineCount += 1;
+					}
+				}
+			}
+		}
+	}
 }
 
