@@ -65,8 +65,9 @@ namespace PrisonBreak
            
             player.Animation.AddAnimation("idle", 0, 1);
             player.Animation.AddAnimation("run", 0, 4);
+            player.Animation.AddAnimation("hide", 1, 1);
             player.Animation.AddAnimation("stab", 2, 1);
-            player.Animation.AddAnimation("stealth", 1, 4);
+            player.Animation.AddAnimation("stealth", 1, 5);
             player.Animation.AddAnimation("climb", 3, 4);
             player.AddRenderer(spriteBatch);
             player.Animation.Play("idle");

@@ -25,94 +25,47 @@ namespace PrisonBreak.Scripts
         public override void Update()
         {
             Vector2 movement = Vector2.Zero;
-            if (Input.KeyboardState.IsKeyDown(Keys.W))
-            {
-                movement.Y -= 1f;
-                go.Animation.Play("climb");
-            }
-            if (Input.KeyboardState.IsKeyDown(Keys.S))
-            {
-                movement.Y += 1f;
-                go.Animation.Play("climb");
-            }
-            if (Input.KeyboardState.IsKeyDown(Keys.A))
-            {
-                movement.X -= 1f;
-                go.Animation.Play("run");
-                go.Renderer.IsFlipped = false;
-
-            }
-            if (Input.KeyboardState.IsKeyDown(Keys.D))
-            {
-                movement.X += 1f;
-                go.Animation.Play("run");
-                go.Renderer.IsFlipped = true;
-
-            }
-            if (Input.KeyboardState.IsKeyDown(Keys.Q))
-            {
-                go.Animation.Play("stab");
-            }
-            if (Input.KeyboardState.IsKeyDown(Keys.E))
-            {
-                movement.X += 1f;
-                go.Animation.Play("stealth");
-            }
-
-            if (movement.Length() > 0)
-            {
-                movement.Normalize();
-                movement /= RigidBody.MInPx;
-                if (go.RigidBody.Body.LinearVelocity.LengthSquared() < maxSpeed)
-                    go.RigidBody.ApplyImpulse(movement * moveSpeed);
-                go.Animation.Play("run");
-            }
-            else
-            {
-                go.Animation.Play("idle");
-            }
-
             if (Input.GamepadState.IsConnected)
             {
-                
-                if (Input.GamepadState.ThumbSticks.Left.X > 0 )// .IsButtonDown(Buttons.LeftThumbstickRight))
-                {
-                    movement.X += 1f;
-                    go.Renderer.IsFlipped = true;
-                    go.Animation.Play("run");
-
-                }
-                if (Input.GamepadState.ThumbSticks.Left.X < 0)//if (Input.GamepadState.IsButtonDown(Buttons.LeftThumbstickLeft))
+                if (Input.KeyboardState.IsKeyDown(Keys.E) || (Input.GamepadState.IsButtonDown(Buttons.A) && (Input.GamepadState.ThumbSticks.Left.X < 0)))
                 {
                     movement.X -= 1f;
+                    go.Animation.Play("stealth");
                     go.Renderer.IsFlipped = false;
-                    go.Animation.Play("run");
                 }
-                if (Input.GamepadState.ThumbSticks.Left.Y > 0)//if (Input.GamepadState.IsButtonDown(Buttons.LeftThumbstickUp))
+                if (Input.KeyboardState.IsKeyDown(Keys.R) || (Input.GamepadState.IsButtonDown(Buttons.A) && (Input.GamepadState.ThumbSticks.Left.X > 0)))
+                {
+                    movement.X += 1f;
+                    go.Animation.Play("stealth");
+                    go.Renderer.IsFlipped = true;
+                }
+
+                if (Input.KeyboardState.IsKeyDown(Keys.A) || (Input.GamepadState.ThumbSticks.Left.X < 0))
+                {
+                    movement.X -= 1f;
+                    go.Animation.Play("run");
+                    go.Renderer.IsFlipped = false;
+
+                }
+
+                if (Input.KeyboardState.IsKeyDown(Keys.D) || (Input.GamepadState.ThumbSticks.Left.X > 0))
+                {
+                    movement.X += 1f;
+                    go.Animation.Play("run");
+                    go.Renderer.IsFlipped = true;
+
+                }
+                if (Input.KeyboardState.IsKeyDown(Keys.W) || (Input.GamepadState.ThumbSticks.Left.Y < 0))
                 {
                     movement.Y -= 1f;
-                    go.Animation.Play("climb");
+                     go.Animation.Play("climb");
                 }
-                if (Input.GamepadState.ThumbSticks.Left.Y < 0)// if (Input.GamepadState.IsButtonDown(Buttons.LeftThumbstickDown))
+
+                if (Input.KeyboardState.IsKeyDown(Keys.S) || (Input.GamepadState.ThumbSticks.Left.Y > 0))
                 {
                     movement.Y += 1f;
                     go.Animation.Play("climb");
-                }
-                if (Input.GamepadState.IsButtonDown(Buttons.A))
-                {
-                    go.Animation.Play("stealth");
-                }
-
-                if (Input.GamepadState.IsButtonDown(Buttons.X))
-                {
-                    go.Animation.Play("stab");
-                }
-
-                if (Input.GamepadState.IsButtonDown(Buttons.Y))
-                {
-                    movement.Y += 1f;
-                    go.Animation.Play("climb");
-                }
+                }         
 
                 if (movement.Length() > 0)
                 {
@@ -120,15 +73,84 @@ namespace PrisonBreak.Scripts
                     movement /= RigidBody.MInPx;
                     if (go.RigidBody.Body.LinearVelocity.LengthSquared() < maxSpeed)
                         go.RigidBody.ApplyImpulse(movement * moveSpeed);
-                    go.Animation.Play("run");
+                    
                 }
-                //else
-                //{
-                //    go.Animation.Play("idle");
-                //}
+
+                else
+                {
+                    go.Animation.Play("idle");
+                }
+                if (Input.KeyboardState.IsKeyDown(Keys.Q)  || (Input.GamepadState.IsButtonDown(Buttons.X)))
+                {
+                    go.Animation.Play("stab");
+                }
+
+           
+                if (Input.KeyboardState.IsKeyDown(Keys.Z) || (Input.GamepadState.IsButtonDown(Buttons.Y)))
+                {
+                    go.Animation.Play("hide");
+                }
+             
+
+            }
+
+
+            //if (Input.GamepadState.IsConnected)
+            //{
+
+            //    if (Input.GamepadState.ThumbSticks.Left.X > 0)// .IsButtonDown(Buttons.LeftThumbstickRight))
+            //    {
+            //        movement.X += 1f;
+            //        go.Renderer.IsFlipped = true;
+            //        go.Animation.Play("run");
+
+            //    }
+            //    if (Input.GamepadState.ThumbSticks.Left.X < 0)//if (Input.GamepadState.IsButtonDown(Buttons.LeftThumbstickLeft))
+            //    {
+            //        movement.X -= 1f;
+            //        go.Renderer.IsFlipped = false;
+            //        go.Animation.Play("run");
+            //    }
+           
+
+            //    if (movement.Length() > 0)
+            //    {
+            //        movement.Normalize();
+            //        movement /= RigidBody.MInPx;
+            //        if (go.RigidBody.Body.LinearVelocity.LengthSquared() < maxSpeed)
+            //            go.RigidBody.ApplyImpulse(movement * moveSpeed);
+            //        go.Animation.Play("run");
+            //    }
+         
+            //    if (Input.GamepadState.ThumbSticks.Left.Y > 0)//if (Input.GamepadState.IsButtonDown(Buttons.LeftThumbstickUp))
+            //    {
+            //        movement.Y -= 1f;
+            //        go.Animation.Play("climb");
+            //    }
+            
+            //    if (Input.GamepadState.ThumbSticks.Left.Y < 0)// if (Input.GamepadState.IsButtonDown(Buttons.LeftThumbstickDown))
+            //    {
+            //        movement.Y += 1f;
+            //        go.Animation.Play("climb");
+            //    }
+            //    if (Input.GamepadState.IsButtonDown(Buttons.A))
+            //    {
+            //        movement.X += 1f;
+            //        go.Animation.Play("stealth");
+            //    }
+
+            //    if (Input.GamepadState.IsButtonDown(Buttons.X))
+            //    {
+            //        go.Animation.Play("stab");
+            //    }
+
+            //    if (Input.GamepadState.IsButtonDown(Buttons.Y))
+            //    {
+            //        go.Animation.Play("hide");
+            //    }
             }
         }
     }
-}
+
 
 
