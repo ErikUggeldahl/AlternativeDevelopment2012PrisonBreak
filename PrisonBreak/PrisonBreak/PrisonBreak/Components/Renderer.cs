@@ -149,6 +149,11 @@ namespace PrisonBreak.Components
 			currentFrame = (Texture2D)rt;
 		}
 
+		public void ClearBG()
+		{
+			graphicsDevice.Clear(Color.Black);
+		}
+
 		public void Draw()
 		{
 			shader.World = world;
@@ -235,6 +240,10 @@ namespace PrisonBreak.Components
 			CalcMatricies();
 			Camera.MainCamera.Cull();
 			DrawRenderTargets();
+
+			if (opaques.Count > 0)
+				opaques[0].ClearBG();
+
 			DrawOpaque();
 			DrawTransparent();
 			DialogueRenderer.Instance.DrawDialogue();

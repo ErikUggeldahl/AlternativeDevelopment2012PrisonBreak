@@ -133,6 +133,7 @@
     <Compile Include="Scripts\Pickups\ShankScript.cs" />
     <Compile Include="Scripts\PlayerScript.cs" />
     <Compile Include="Components\Transform.cs" />
+    <Compile Include="Scripts\TeleporterScript.cs" />
     <Compile Include="WorldGen.cs" />
     <Compile Include="QuadTree\IBounded.cs" />
     <Compile Include="QuadTree\QTDebug\DebugGO.cs" />

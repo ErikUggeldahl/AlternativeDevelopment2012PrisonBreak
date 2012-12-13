@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 using PrisonBreak.Components;
 
@@ -14,40 +15,47 @@ namespace PrisonBreak.Scripts
 		private const int boxCharacterWidth = 29;
 		private const float letterSpeed = 0.025f;
 
-		private string character;
-		private string text;
+		private List<Tuple<string, string>> dialogues;
+
+		private int currentDialogue;
 		private string workingText;
 		private int subIndex;
 		private float timeCounter;
 		private int lineCount;
 
-		public DialogueBoxScript(GameObject parent, string dialogueText, string character)
+		public DialogueBoxScript(GameObject parent, List<string> text, List<string> character)
 			: base(parent)
 		{
-			text = dialogueText;
-			this.character = character;
+			if (text.Count != character.Count)
+				throw new ArgumentException("Uneven number of text and characters.");
 
-			// Format with new lines
-			List<string> parts = new List<string>();
-			while (text.Length > boxCharacterWidth)
+			dialogues = new List<Tuple<string, string>>();
+			for (int i = 0; i < text.Count; i++)
 			{
-				string toNewLine = text.Substring(0, boxCharacterWidth);
-				int index = toNewLine.LastIndexOf(' ');
-				parts.Add(text.Substring(0, index));
-				text = text.Substring(index + 1);
+				List<string> parts = new List<string>();
+				while (text[i].Length > boxCharacterWidth)
+				{
+					string toNewLine = text[i].Substring(0, boxCharacterWidth);
+					int index = toNewLine.LastIndexOf(' ');
+					parts.Add(text[i].Substring(0, index));
+					text[i] = text[i].Substring(index + 1);
+				}
+				parts.Add(text[i]);
+				text[i] = string.Join("\n", parts.ToArray());
+
+				dialogues.Add(new Tuple<string, string>(text[i], character[i]));
 			}
-			parts.Add(text);
-			text = string.Join("\n", parts.ToArray());
 
 			Reset();
 		}
 
 		private void Reset()
 		{
+			currentDialogue = 0;
 			subIndex = 0;
 			timeCounter = 0;
 			lineCount = 1;
-			workingText = text;
+			workingText = dialogues[0].Item1;
 		}
 
 		public string CurrentString
@@ -57,17 +65,17 @@ namespace PrisonBreak.Scripts
 
 		public string Character
 		{
-			get { return character; }
+			get { return dialogues[currentDialogue].Item2; }
 		}
 
+		private bool keyUp = true;
 		public override void Update()
 		{
 			timeCounter += (float)GameTimeGlobal.GameTime.ElapsedGameTime.TotalSeconds;
 
-			if (timeCounter >= letterSpeed && subIndex < workingText.Length - 1)
+			if (timeCounter >= letterSpeed && subIndex < workingText.Length)
 			{
 				timeCounter = 0f;
-				subIndex++;
 
 				if (workingText[subIndex] == '\n')
 				{
@@ -83,7 +91,20 @@ namespace PrisonBreak.Scripts
 						lineCount += 1;
 					}
 				}
+				subIndex++;
 			}
+
+			if (keyUp && Input.KeyboardState.IsKeyDown(Keys.Space) && currentDialogue < dialogues.Count - 1)
+			{
+				currentDialogue++;
+				subIndex = 0;
+				timeCounter = 0;
+				lineCount = 1;
+				workingText = dialogues[currentDialogue].Item1;
+				keyUp = false;
+			}
+			else if (!Input.KeyboardState.IsKeyDown(Keys.Space))
+				keyUp = true;
 		}
 
 		private bool OnEnter(FarseerPhysics.Dynamics.Fixture fixtureA, FarseerPhysics.Dynamics.Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
@@ -99,6 +120,15 @@ namespace PrisonBreak.Scripts
 		}
 
 		public static GameObject CreateDialogueAreaGO(string dialogue, string character, Vector2 size)
+		{
+			List<string> lDialogue = new List<string>(1);
+			lDialogue.Add(dialogue);
+			List<string> lCharacter = new List<string>(1);
+			lDialogue.Add(character);
+			return CreateDialogueAreaGO(lDialogue, lCharacter, size);
+		}
+
+		public static GameObject CreateDialogueAreaGO(List<string> dialogue, List<string> character, Vector2 size)
 		{
 			GameObject dialogueGO = new GameObject();
 			dialogueGO.AddTransform();
