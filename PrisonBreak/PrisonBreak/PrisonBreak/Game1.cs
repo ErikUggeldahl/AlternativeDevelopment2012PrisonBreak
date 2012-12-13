@@ -108,6 +108,10 @@ namespace PrisonBreak
 			//GameObject guard = GuardScript.CreateGuardGO(Content, GraphicsDevice, patrolPoints);
 			//guard.Transform.Translate(new Vector2(-300f, -50f));
 			//manager.AddGameObject(guard);
+            List<Vector2> patrolPoints = GuardScript.CreatePatrolPoints(200f, -50f, 300f, -50f, 400f, -50f, 500f, -50f);
+            GameObject dog = GuardScript.CreateGuardDogGO(Content, GraphicsDevice, patrolPoints);
+            dog.Transform.Translate(new Vector2(-300f, -50f));
+            manager.AddGameObject(dog);
 
 			GameObject player = PlayerScript.CreatePlayerGO(Content, GraphicsDevice);
 			player.Transform.Translate(new Vector3(-200f, -40f, 0f));

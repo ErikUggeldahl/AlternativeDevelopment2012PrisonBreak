@@ -16,7 +16,7 @@ namespace PrisonBreak.Scripts.AI
     {
 		private List<Vector2> points;
 
-		private float moveSpeed = 3f;
+		private float moveSpeed = 15f;
 		private float maxSpeed = 30f;
 		private float tolerance = 50f;
 
@@ -82,7 +82,7 @@ namespace PrisonBreak.Scripts.AI
             }
 
             GameObject guard = new GameObject();
-
+            
             guard.AddTransform();
             guard.AddAnimation(guardTexture, new Vector2(20f, 34f));
             guard.AddScript(new GuardScript(guard, points));
@@ -94,7 +94,26 @@ namespace PrisonBreak.Scripts.AI
 
             return guard;
         }
+        public static GameObject CreateGuardDogGO(ContentManager content, GraphicsDevice gd, List<Vector2> points)
+        {
+            if (guardTexture == null)
+            {
+                guardTexture = content.Load<Texture2D>("Characters/DuckHuntDog");
+            }
 
+            GameObject guard = new GameObject();
+
+            guard.AddTransform();
+            guard.AddAnimation(guardTexture, new Vector2(58f, 50.5f));
+            guard.AddScript(new GuardScript(guard, points));
+            guard.Animation.AddAnimation("Idle", 1, 1);
+            guard.Animation.AddAnimation("Run", 0, 4);
+            guard.AddDynamicRigidBody(new Vector2(58f, 50.5f));
+            guard.Animation.Play("Idle");
+            guard.AddRenderer(gd, SpriteTransparency.Transparent);
+
+            return guard;
+        }
         public static List<Vector2> CreatePatrolPoints(params float[] points)
         {
             List<Vector2> patrolPoints = new List<Vector2>();

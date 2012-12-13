@@ -10,9 +10,10 @@ Content\DebugContent\TranslucentSquare.xnb
 Content\DebugCameraBounds.xnb
 Content\Guard.xnb
 Content\Levels\LevelMain.xnb
-Content\DebugContent\DebugFont.xnb
 Content\Characters\MainCharacter.xnb
 Content\Pickups\Shank.xnb
 Content\Obstacles\Fan.xnb
 Content\Obstacles\Laser.xnb
+Content\DebugContent\DebugFont.xnb
+Content\Characters\DuckHuntDog.xnb
 Content\font.xnb
