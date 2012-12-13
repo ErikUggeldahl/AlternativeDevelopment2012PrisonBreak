@@ -112,7 +112,6 @@
     <Compile Include="Components\BaseComponent.cs" />
     <Compile Include="Components\Camera.cs" />
     <Compile Include="Components\StaticSprite.cs" />
-    <Compile Include="Components\DialogueBox.cs" />
     <Compile Include="Components\Trigger.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />
@@ -130,6 +129,7 @@
     <Compile Include="Scripts\AI\LaserScript.cs" />
     <Compile Include="Scripts\AI\FanScript.cs" />
     <Compile Include="Scripts\CameraScript.cs" />
+    <Compile Include="Scripts\DialogueBoxScript.cs" />
     <Compile Include="Scripts\Pickups\ShankScript.cs" />
     <Compile Include="Scripts\PlayerScript.cs" />
     <Compile Include="Components\Transform.cs" />

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using PrisonBreak.QuadTree;
+using PrisonBreak.Scripts;
 
 namespace PrisonBreak.Components
 {
@@ -235,6 +237,7 @@ namespace PrisonBreak.Components
 			DrawRenderTargets();
 			DrawOpaque();
 			DrawTransparent();
+			DialogueRenderer.Instance.DrawDialogue();
 		}
 
 		public void CalcMatricies()
@@ -275,6 +278,69 @@ namespace PrisonBreak.Components
 				if (transparents[i].IsEnabled && transparents[i].IsQTVisible)
 					transparents[i].Draw();
 			}
+		}
+	}
+
+
+	public class DialogueRenderer
+	{
+		private static DialogueRenderer instance;
+
+		public static DialogueRenderer Instance
+		{
+			get
+			{
+				if (instance == null)
+					instance = new DialogueRenderer();
+				return instance;
+			}
+		}
+
+		private SpriteFont font;
+		private Texture2D boxTexture;
+		private SpriteBatch sb;
+
+		private DialogueBoxScript currentDialogue;
+		private Vector2 boxPosition = new Vector2(100f, 50f);
+		private Vector2 portraitPosition = new Vector2(122f, 72f);
+		private Vector2 textPosition = new Vector2(410f, 80f);
+		private Dictionary<string, Texture2D> portraits;
+
+		public DialogueBoxScript CurrentDialogue
+		{
+			set { currentDialogue = value; }
+		}
+
+		public DialogueRenderer()
+		{
+		}
+
+		public void Initialize(ContentManager content, GraphicsDevice gd)
+		{
+			font = content.Load<SpriteFont>("Font/DialogueFont");
+			boxTexture = content.Load<Texture2D>("Dialogue/DialogueBox");
+			sb = new SpriteBatch(gd);
+
+			portraits = new Dictionary<string, Texture2D>(8);
+			portraits.Add("Bowser", content.Load<Texture2D>("Dialogue/Bowser"));
+			portraits.Add("DK", content.Load<Texture2D>("Dialogue/DK"));
+			portraits.Add("Ganon", content.Load<Texture2D>("Dialogue/Ganon"));
+			portraits.Add("MotherBrain", content.Load<Texture2D>("Dialogue/MotherBrain"));
+			portraits.Add("Player", content.Load<Texture2D>("Dialogue/Player"));
+			portraits.Add("Tyson", content.Load<Texture2D>("Dialogue/Tyson"));
+			portraits.Add("Wily", content.Load<Texture2D>("Dialogue/Wily"));
+		}
+
+		public void DrawDialogue()
+		{
+			if (currentDialogue == null)
+				return;
+
+			sb.Begin();
+			sb.Draw(boxTexture, boxPosition, Color.White);
+			sb.Draw(portraits[currentDialogue.Character], portraitPosition, Color.White);
+			sb.DrawString(font, currentDialogue.CurrentString, textPosition, Color.White);
+			sb.End();
 		}
 	}
 }

@@ -15,4 +15,13 @@ Content\Characters\MainCharacter.xnb
 Content\Pickups\Shank.xnb
 Content\Obstacles\Fan.xnb
 Content\Obstacles\Laser.xnb
+Content\Dialogue\Bowser.xnb
+Content\Dialogue\DialogueBox.xnb
+Content\Dialogue\DK.xnb
+Content\Dialogue\Ganon.xnb
+Content\Dialogue\MotherBrain.xnb
+Content\Dialogue\Player.xnb
+Content\Dialogue\Tyson.xnb
+Content\Dialogue\Wily.xnb
+Content\Font\DialogueFont.xnb
 Content\font.xnb

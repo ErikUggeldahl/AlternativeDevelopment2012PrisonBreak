@@ -65,6 +65,7 @@ namespace PrisonBreak
 			GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
 
 			RigidBody.DebugLoadContent(GraphicsDevice, Content);
+			DialogueRenderer.Instance.Initialize(Content, GraphicsDevice);
 
 			manager = new GameObjectManager();
 
@@ -73,7 +74,7 @@ namespace PrisonBreak
 			//camera.Transform.Parent = player.Transform;
 			camera.Transform.Z = 100f;
 			camera.AddCamera(GraphicsDevice.Viewport, true);
-			camera.AddScript(new CameraScript(camera));
+			//camera.AddScript(new CameraScript(camera));
 			manager.AddGameObject(camera);
 
 			GameObject cameraBounds = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("DebugCameraBounds"), SpriteTransparency.Transparent);
@@ -116,6 +117,11 @@ namespace PrisonBreak
 
 			GameObject shank = ShankScript.CreateShankGO(Content, GraphicsDevice, (PlayerScript)player.GetComponent<PlayerScript>());
 			manager.AddGameObject(shank);
+
+			GameObject dialogue = DialogueBoxScript.CreateDialogueAreaGO(
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut elementum quam. Curabitur quis tellus nec lectus accumsan venenatis. Pellentesque rhoncus quam vel elit aliquet feugiat sed sed lorem. Quisque.",
+				"DK", new Vector2(100f, 100f));
+			manager.AddGameObject(dialogue);
 
 			manager.AddGameObject(cameraBounds);
 
