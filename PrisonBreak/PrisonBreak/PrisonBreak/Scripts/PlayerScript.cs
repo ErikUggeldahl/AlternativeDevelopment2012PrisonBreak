@@ -82,6 +82,7 @@ namespace PrisonBreak.Scripts
                 }
                 if (Input.KeyboardState.IsKeyDown(Keys.Q)  || (Input.GamepadState.IsButtonDown(Buttons.X)))
                 {
+                    go.Audio.Play("Shank");
                     go.Animation.Play("stab");
                 }
 

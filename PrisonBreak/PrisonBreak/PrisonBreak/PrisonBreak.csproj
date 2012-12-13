@@ -131,6 +131,7 @@
     <Compile Include="Components\Transform.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="cat-01.wav" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>

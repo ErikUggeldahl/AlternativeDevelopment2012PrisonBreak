@@ -34,21 +34,6 @@ namespace PrisonBreak.Scripts.AI
         TimeSpan MaxWaitTime = TimeSpan.FromSeconds(1);
         TimeSpan WaitTimeCounter = TimeSpan.Zero;
 
-
-        //public void AddVectors(Vector2 point)
-        //{
-        //    targetA = new Vector2(200f, 620f);
-        //    targetB = new Vector2(600f, 620f);
-        //    targetC = new Vector2(650f, 620f);
-        //    targetD = new Vector2(540f, 620f);
-        //    targetE = new Vector2(300f, 620f);
-
-        //    points.Add(targetA);
-        //    points.Add(targetB);
-        //    points.Add(targetC);
-        //    points.Add(targetD);
-        //    points.Add(targetE);
-        //}
         public GuardScript(GameObject parent, List<Vector2> points)
             : base(parent)
         {
@@ -88,7 +73,7 @@ namespace PrisonBreak.Scripts.AI
                 WaitTimeCounter += GameTimeGlobal.GameTime.ElapsedGameTime;
                 if (WaitTimeCounter > MaxWaitTime)
                 {
-                    TimePassed = TimeSpan.Zero;
+                
                     currentTarget = points[currentTargetCount];
                     currentTargetCount++;
                     if (currentTargetCount >= points.Count)
@@ -97,13 +82,7 @@ namespace PrisonBreak.Scripts.AI
 
 
                 }
-                //else if (currentTarget == points[currentTargetCount])
-                //{
-                //    currentTarget = points[currentTargetCount];
-
-                //        go.Renderer.IsFlipped = true;
-
-                //}
+     
 
             }
         }
@@ -113,38 +92,6 @@ namespace PrisonBreak.Scripts.AI
 
             DirectionMoving();
 
-            //if (TimePassed < MoveTime)
-            //{
-
-            //    TimePassed += GameTimeGlobal.GameTime.ElapsedGameTime;
-
-            //    if (TimePassed >= MoveTime)
-            //    {
-            //        TimePassed = MoveTime;
-            //    }
-
-
-            //float LerpAmount = (float)TimePassed.Ticks / MoveTime.Ticks;
-            //currentPosition = Vector2.Lerp(source, destination, LerpAmount);
-            //go.Transform.Position = currentPosition;
-
-
-            //}
-            //else
-            //{
-
-            //    WaitTimeCounter += GameTimeGlobal.GameTime.ElapsedGameTime;
-            //    if (WaitTimeCounter > MaxWaitTime)
-            //    {
-            //TimePassed = TimeSpan.Zero;
-            //destination = source;
-            //source = currentPosition;
-            //WaitTimeCounter = TimeSpan.Zero;
-            //}
-
-
-
-            //}
         }
 
         private static Texture2D guardTexture;

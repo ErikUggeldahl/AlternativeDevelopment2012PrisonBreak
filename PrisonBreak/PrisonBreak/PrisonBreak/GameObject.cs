@@ -5,6 +5,7 @@ using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 using FarseerPhysics.Dynamics;
 
@@ -37,7 +38,7 @@ namespace PrisonBreak
 			}
 		}
 
-		public void AddAudio()
+		public void AddAudio(SoundEffect soundEffect)
 		{
 			if (Audio == null)
 			{

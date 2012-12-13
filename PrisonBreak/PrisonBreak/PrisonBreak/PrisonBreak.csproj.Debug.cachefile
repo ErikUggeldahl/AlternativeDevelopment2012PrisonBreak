@@ -1,11 +1,49 @@
-Content\dude.xnb
-Content\Ground.xnb
-Content\Kid.xnb
-Content\RedDot.xnb
-Content\Guard.xnb
-Content\Bowser.xnb
-Content\donkyKong.xnb
-Content\DrWiley.xnb
-Content\SpiderEnemy.xnb
-Content\MainCharacter.xnb
+Content\Sprites\dude.xnb
+Content\Sprites\Ground.xnb
+Content\Sprites\Kid.xnb
+Content\Sprites\RedDot.xnb
+Content\Sprites\Guard.xnb
+Content\Sprites\Bowser.xnb
+Content\Sprites\donkyKong.xnb
+Content\Sprites\DrWiley.xnb
+Content\Sprites\SpiderEnemy.xnb
+Content\Sprites\MainCharacter.xnb
+Content\Sounds\The Guillotine.xnb
+Content\Sounds\Crowd.xnb
+Content\Sounds\crowdneededit.xnb
+Content\Sounds\DogBark.xnb
+Content\Sounds\Duck Hunt Sound Effects.xnb
+Content\Sounds\FoundStarMusic.xnb
+Content\Sounds\Guile Theme.xnb
+Content\Sounds\LevelMusicLoop.xnb
+Content\Sounds\Metal Gear (NES) Music - Jungle Area.xnb
+Content\Sounds\Metal Gear Music (NES) -!- Alert.xnb
+Content\Sounds\MusicFirstPart.xnb
+Content\Sounds\Pokemon Sound Effect.xnb
+Content\Sounds\cat-01.xnb
+Content\Sounds\Alert.xnb
+Content\Sounds\CameraSpotted.xnb
+Content\Sounds\Die.xnb
+Content\Sounds\DoorBreak.xnb
+Content\Sounds\Doorknock.xnb
+Content\Sounds\FanSound.xnb
+Content\Sounds\JumpLand.xnb
+Content\Sounds\Laser.xnb
+Content\Sounds\Pause.xnb
+Content\Sounds\Shank.xnb
+Content\Sounds\Talk.xnb
+Content\Sounds\TurnSideways.xnb
+Content\Sounds\WallBreak.xnb
+Content\Sounds\The Guillotine.wma
+Content\Sounds\Crowd.wma
+Content\Sounds\crowdneededit.wma
+Content\Sounds\DogBark.wma
+Content\Sounds\Duck Hunt Sound Effects.wma
+Content\Sounds\FoundStarMusic.wma
+Content\Sounds\Guile Theme.wma
+Content\Sounds\LevelMusicLoop.wma
+Content\Sounds\Metal Gear (NES) Music - Jungle Area.wma
+Content\Sounds\Metal Gear Music (NES) -!- Alert.wma
+Content\Sounds\MusicFirstPart.wma
+Content\Sounds\Pokemon Sound Effect.wma
 Content\font.xnb

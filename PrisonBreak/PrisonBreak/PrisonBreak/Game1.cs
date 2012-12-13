@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 using PrisonBreak.Components;
 using PrisonBreak.Scripts;
@@ -21,6 +22,7 @@ namespace PrisonBreak
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameObjectManager manager;
+        SoundEffect soundEffects;
 
         public Game1()
         {
@@ -61,7 +63,7 @@ namespace PrisonBreak
             player.AddTransform();
             player.Transform.Translate(new Vector2(30f, 620f));
            
-            player.AddAnimation(Content.Load<Texture2D>("MainCharacter"), new Rectangle(0, 0, 30, 30));
+            player.AddAnimation(Content.Load<Texture2D>("Sprites/MainCharacter"), new Rectangle(0, 0, 30, 30));
            
             player.Animation.AddAnimation("idle", 0, 1);
             player.Animation.AddAnimation("run", 0, 4);
@@ -75,6 +77,8 @@ namespace PrisonBreak
             player.AddScript(new PlayerScript(player));
             manager.AddGameObject(player);
 
+            
+
             //List<Vector2> patrolPoints = GuardScript.CreatePatrolPoints(200f, 620f, 300f, 620f, 400f, 620f, 500f, 620f, 500f, 620f);
 
             //GameObject guard = GuardScript.CreateGuardGO(spriteBatch, Content, patrolPoints);
@@ -86,6 +90,39 @@ namespace PrisonBreak
             //GameObject guard2 = GuardScript.CreateGuardGO(spriteBatch, Content, patrolPoints);
             //guard2.Transform.Translate(new Vector2(1000f, 610f));
             //manager.AddGameObject(guard2);
+
+            GameObject sound = new GameObject();
+
+            //sound.Audio.AddAudio("Alert", Content.Load<SoundEffect>("Sounds/Alert"));
+            //sound.Audio.AddAudio("CameraSpotted", Content.Load<SoundEffect>("Sounds/CameraSpotted"));
+            //sound.Audio.AddAudio("Crowd", Content.Load<SoundEffect>("Sounds/Crowd"));
+            //sound.Audio.AddAudio("crowdneededit", Content.Load<SoundEffect>("Sounds/crowdneededit"));
+
+            //sound.Audio.AddAudio("Die", Content.Load<SoundEffect>("Sounds/Die"));
+            //sound.Audio.AddAudio("DogBark", Content.Load<SoundEffect>("Sounds/DogBark"));
+            //sound.Audio.AddAudio("DoorBreak", Content.Load<SoundEffect>("Sounds/DoorBreak"));
+            //sound.Audio.AddAudio("Doorknock", Content.Load<SoundEffect>("Sounds/Doorknock"));
+            //sound.Audio.AddAudio("Duck Hunt Sound Effects", Content.Load<SoundEffect>("Sounds/Duck Hunt Sound Effects"));
+            //sound.Audio.AddAudio("FanSound", Content.Load<SoundEffect>("Sounds/FanSound"));
+
+            //sound.Audio.AddAudio("FoundStarMusic", Content.Load<SoundEffect>("Sounds/FoundStarMusic"));
+            //sound.Audio.AddAudio("Guile Theme", Content.Load<SoundEffect>("Sounds/Guile Theme"));
+            //sound.Audio.AddAudio("JumpLand", Content.Load<SoundEffect>("Sounds/JumpLand"));
+            //sound.Audio.AddAudio("Laser", Content.Load<SoundEffect>("Sounds/Laser"));
+            //sound.Audio.AddAudio("LevelMusicLoop", Content.Load<SoundEffect>("Sounds/LevelMusicLoop"));
+            //sound.Audio.AddAudio("Metal Gear", Content.Load<SoundEffect>("Sounds/Metal Gear (NES) Music - Jungle Area"));
+            //sound.Audio.AddAudio("Metal Gear Alert", Content.Load<SoundEffect>("Sounds/Metal Gear Music (NES) -!- Alert"));
+            //sound.Audio.AddAudio("MusicFirstPart", Content.Load<SoundEffect>("Sounds/MusicFirstPart"));
+            //sound.Audio.AddAudio("Pause", Content.Load<SoundEffect>("Sounds/Pause"));
+            //sound.Audio.AddAudio("Pokemon Sound Effect", Content.Load<SoundEffect>("Sounds/Pokemon Sound Effect"));
+
+          //  sound.Audio.AddAudio("Shank", Content.Load<SoundEffect>("Sounds/Shank"));
+            //sound.Audio.AddAudio("Talk", Content.Load<SoundEffect>("Sounds/Talk"));
+            //sound.Audio.AddAudio("TurnSideways", Content.Load<SoundEffect>("Sounds/TurnSideways"));
+            //sound.Audio.AddAudio("WallBreak", Content.Load<SoundEffect>("Sounds/WallBreak"));
+    
+            sound.Audio.AddAudio("Meow", Content.Load<SoundEffect>("Sounds/cat-01"));
+            sound.Audio.Play("Meow");
 
             GameObject camera = new GameObject();
             camera.AddTransform();
