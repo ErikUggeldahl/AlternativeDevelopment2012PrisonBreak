@@ -78,10 +78,10 @@ namespace PrisonBreak.Components
 
 		public void Cull()
 		{
-			List<IBounded> toEnable = quadTree.Query(this);
-			for (int i = 0; i < toEnable.Count; i++)
+			List<IBounded> toMakeVisible = quadTree.Query(this);
+			for (int i = 0; i < toMakeVisible.Count; i++)
 			{
-				((Renderer)toEnable[i]).IsEnabled = true;
+				((Renderer)toMakeVisible[i]).IsQTVisible = true;
 			}
 		}
 

@@ -16,7 +16,7 @@ namespace PrisonBreak.Components
         public Transform Transform;
 		public Trigger Trigger;
 
-        protected GameObject go;
+        private GameObject go;
 
 		public GameObject GO
 		{

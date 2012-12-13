@@ -13,6 +13,7 @@ namespace PrisonBreak.Components
 	public class Renderer : BaseComponent, IComparable, IBounded
 	{
 		private bool enabled;
+		private bool qtVisible;
 		private bool animated;
 
 		private bool isFlipped;
@@ -34,6 +35,12 @@ namespace PrisonBreak.Components
 		{
 			get { return enabled; }
 			set { enabled = value; }
+		}
+
+		public bool IsQTVisible
+		{
+			get { return qtVisible; }
+			set { qtVisible = value; }
 		}
 
 		public bool IsFlipped
@@ -105,6 +112,7 @@ namespace PrisonBreak.Components
 			quad = new Quad(Vector3.Zero, Vector3.Backward, Vector3.Up, Animation.CurrentFrame.Width, Animation.CurrentFrame.Height);
 			RenderManager.Instance.AddAnimated(this);
 			enabled = true;
+			qtVisible = true;
 		}
 
 		private void StaticInit()
@@ -112,7 +120,8 @@ namespace PrisonBreak.Components
 			quad = new Quad(Vector3.Zero, Vector3.Backward, Vector3.Up, StaticSprite.Sprite.Width, StaticSprite.Sprite.Height);
 			aaBounds = StaticSprite.Sprite.Bounds;
 			Camera.AddRenderer(this);
-			enabled = false;
+			enabled = true;
+			qtVisible = false;
 		}
 
 		public void CalcWorldMatrix()
@@ -162,7 +171,7 @@ namespace PrisonBreak.Components
 		public override void Update()
 		{
 			if (!animated)
-				enabled = false;
+				qtVisible = false;
 		}
 
 		public int CompareTo(Object obj)
@@ -253,7 +262,7 @@ namespace PrisonBreak.Components
 		{
 			for (int i = 0; i < opaques.Count; i++)
 			{
-				if (opaques[i].IsEnabled)
+				if (opaques[i].IsEnabled && opaques[i].IsQTVisible)
 					opaques[i].Draw();
 			}
 		}
@@ -263,7 +272,7 @@ namespace PrisonBreak.Components
 			transparents.Sort();
 			for (int i = 0; i < transparents.Count; i++)
 			{
-				if (transparents[i].IsEnabled)
+				if (transparents[i].IsEnabled && transparents[i].IsQTVisible)
 					transparents[i].Draw();
 			}
 		}

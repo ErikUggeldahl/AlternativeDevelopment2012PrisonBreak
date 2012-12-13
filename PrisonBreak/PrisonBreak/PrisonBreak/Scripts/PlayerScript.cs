@@ -12,10 +12,17 @@ using PrisonBreak.Components;
 
 namespace PrisonBreak.Scripts
 {
+	public enum PlayerState
+	{
+		Idle, Walking, Crouching, Stealthing, Climbing, Attacking
+	}
+
 	public class PlayerScript : Script
 	{
-		float moveSpeed = 40f;
-		float maxSpeed = 150f;
+		private float moveSpeed = 40f;
+		private float maxSpeed = 150f;
+
+		private PlayerState state;
 
 		public PlayerScript(GameObject parent)
 			: base(parent)
@@ -28,67 +35,69 @@ namespace PrisonBreak.Scripts
 			Vector2 movement = Vector2.Zero;
 			bool gpConnected = Input.GamepadState.IsConnected;
 
-			if (Input.KeyboardState.IsKeyDown(Keys.D1) || gpConnected && Input.GamepadState.IsButtonDown(Buttons.LeftTrigger))
-			{
-				movement.X -= 1f;
-				go.Animation.Play("Stealth");
-				go.Renderer.IsFlipped = false;
-			}
-			if (Input.KeyboardState.IsKeyDown(Keys.D3) || gpConnected && Input.GamepadState.IsButtonDown(Buttons.RightTrigger))
-			{
-				movement.X += 1f;
-				go.Animation.Play("Stealth");
-				go.Renderer.IsFlipped = true;
-			}
+			bool canStealth = (state == PlayerState.Crouching || state == PlayerState.Stealthing);
+			bool canMove = state == PlayerState.Walking || state == PlayerState.Stealthing;
 
-			if (Input.KeyboardState.IsKeyDown(Keys.A) || gpConnected && Input.GamepadState.ThumbSticks.Left.X < 0)
-			{
-				movement.X -= 1f;
-				go.Animation.Play("Run");
-				go.Renderer.IsFlipped = false;
+			state = PlayerState.Idle;
 
-			}
-
-			if (Input.KeyboardState.IsKeyDown(Keys.D) || gpConnected && Input.GamepadState.ThumbSticks.Left.X > 0)
+			if (canStealth && Input.KeyboardState.IsKeyDown(Keys.D) || gpConnected && Input.GamepadState.IsButtonDown(Buttons.LeftTrigger))
 			{
 				movement.X += 1f;
-				go.Animation.Play("Run");
-				go.Renderer.IsFlipped = true;
-
+				Animation.Play("Stealth");
+				Renderer.IsFlipped = true;
+				state = PlayerState.Stealthing;
 			}
+			else if (Input.KeyboardState.IsKeyDown(Keys.D) || gpConnected && Input.GamepadState.ThumbSticks.Left.X > 0)
+			{
+				movement.X += 1f;
+				Animation.Play("Run");
+				Renderer.IsFlipped = true;
+				state = PlayerState.Walking;
+			}
+
+			if (canStealth && Input.KeyboardState.IsKeyDown(Keys.A) || gpConnected && Input.GamepadState.IsButtonDown(Buttons.RightTrigger))
+			{
+				movement.X -= 1f;
+				Animation.Play("Stealth");
+				Renderer.IsFlipped = false;
+				state = PlayerState.Stealthing;
+			}
+			else if (Input.KeyboardState.IsKeyDown(Keys.A) || gpConnected && Input.GamepadState.ThumbSticks.Left.X < 0)
+			{
+				movement.X -= 1f;
+				Animation.Play("Run");
+				Renderer.IsFlipped = false;
+				state = PlayerState.Walking;
+			}
+
+			if (movement.Length() == 0 && Input.KeyboardState.IsKeyDown(Keys.LeftControl) || gpConnected && Input.GamepadState.IsButtonDown(Buttons.Y))
+			{
+				Animation.Play("Hide");
+				state = PlayerState.Crouching;
+			}
+
 			if (Input.KeyboardState.IsKeyDown(Keys.W) || gpConnected && Input.GamepadState.ThumbSticks.Left.Y > 0)
 			{
-				movement.Y -= 1f;
-				go.Animation.Play("Climb");
-			}
-
-			if (Input.KeyboardState.IsKeyDown(Keys.S) || gpConnected && Input.GamepadState.ThumbSticks.Left.Y < 0)
-			{
 				movement.Y += 1f;
-				go.Animation.Play("Climb");
-			}
-
-			if (movement.Length() > 0)
-			{
-				movement.Normalize();
-				movement /= RigidBody.MInPx;
-				if (go.RigidBody.Body.LinearVelocity.LengthSquared() < maxSpeed)
-					go.RigidBody.ApplyImpulse(movement * moveSpeed);
-			}
-
-			else
-			{
-				go.Animation.Play("Idle");
+				Animation.Play("Climb");
+				state = PlayerState.Climbing;
 			}
 			if (Input.KeyboardState.IsKeyDown(Keys.F) || gpConnected && Input.GamepadState.IsButtonDown(Buttons.X))
 			{
-				go.Animation.Play("Stab");
+				Animation.Play("Stab");
+				state = PlayerState.Attacking;
+			}
+			if (state == PlayerState.Idle)
+			{
+				Animation.Play("Idle");
 			}
 
-
-			if (Input.KeyboardState.IsKeyDown(Keys.Z) || Input.GamepadState.IsButtonDown(Buttons.Y))
+			if (canMove && movement.Length() > 0)
 			{
-				go.Animation.Play("Hide");
+				movement.Normalize();
+				movement /= RigidBody.MInPx;
+				if (RigidBody.Body.LinearVelocity.LengthSquared() < maxSpeed)
+					RigidBody.ApplyImpulse(movement * moveSpeed);
 			}
 		}
 

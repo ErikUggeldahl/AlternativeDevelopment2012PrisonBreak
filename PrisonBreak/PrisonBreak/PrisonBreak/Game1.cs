@@ -77,15 +77,16 @@ namespace PrisonBreak
 			manager.AddGameObject(camera);
 
 			GameObject cameraBounds = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("DebugCameraBounds"), SpriteTransparency.Transparent);
-			cameraBounds.Transform.Z = 00f;
+			cameraBounds.Transform.Z = 0f;
 			cameraBounds.Transform.Parent = camera.Transform;
 
 			GameObject mainLevel = WorldGen.CreateWorldGO(GraphicsDevice, Content, "Levels/LevelMain", "Levels/LevelMain");
+			mainLevel.RigidBody.Body.Friction = 4f;
 			manager.AddGameObject(mainLevel);
 
-			GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
-			glassFront.Transform.Translate(new Vector3(0f, 20f, 200f));
-			manager.AddGameObject(glassFront);
+			//GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
+			//glassFront.Transform.Translate(new Vector3(0f, 20f, 200f));
+			//manager.AddGameObject(glassFront);
 
 			GameObject glassMid = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
 			glassMid.Transform.Translate(new Vector3(600f, 0f, 0f));
@@ -103,10 +104,10 @@ namespace PrisonBreak
 			//manager.AddGameObject(laser);
 			//laser.Transform.Translate(new Vector3(400f, 30f, 0f));
 
-			List<Vector2> patrolPoints = GuardScript.CreatePatrolPoints(200f, -50f, 300f, -50f, 400f, -50f, 500f, -50f);
-			GameObject guard = GuardScript.CreateGuardGO(Content, GraphicsDevice, patrolPoints);
-			guard.Transform.Translate(new Vector2(-300f, -50f));
-			manager.AddGameObject(guard);
+			//List<Vector2> patrolPoints = GuardScript.CreatePatrolPoints(200f, -50f, 300f, -50f, 400f, -50f, 500f, -50f);
+			//GameObject guard = GuardScript.CreateGuardGO(Content, GraphicsDevice, patrolPoints);
+			//guard.Transform.Translate(new Vector2(-300f, -50f));
+			//manager.AddGameObject(guard);
 
 			GameObject player = PlayerScript.CreatePlayerGO(Content, GraphicsDevice);
 			player.Transform.Translate(new Vector3(-200f, -40f, 0f));
