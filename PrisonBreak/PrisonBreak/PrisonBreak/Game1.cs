@@ -62,24 +62,38 @@ namespace PrisonBreak
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
+			GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
+
 			RigidBody.DebugLoadContent(GraphicsDevice, Content);
 
 			manager = new GameObjectManager();
 
+			GameObject camera = new GameObject();
+			camera.AddTransform();
+			//camera.Transform.Parent = player.Transform;
+			camera.Transform.Z = 600f;
+			camera.AddCamera(GraphicsDevice.Viewport, true);
+			camera.AddScript(new CameraScript(camera));
+			manager.AddGameObject(camera);
+
+			GameObject cameraBounds = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("DebugCameraBounds"), SpriteTransparency.Transparent);
+			cameraBounds.Transform.Z = 00f;
+			cameraBounds.Transform.Parent = camera.Transform;
+
 			GameObject mainLevel = WorldGen.CreateWorldGO(GraphicsDevice, Content, "Levels/LevelMain", "Levels/LevelMain");
 			manager.AddGameObject(mainLevel);
 
-			//GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
-			//glassFront.Transform.Translate(new Vector3(0f, 20f, 50f));
-			//manager.AddGameObject(glassFront);
+			GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
+			glassFront.Transform.Translate(new Vector3(0f, 20f, 200f));
+			manager.AddGameObject(glassFront);
 
-			//GameObject glassMid = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
-			//glassMid.Transform.Translate(new Vector3(600f, 0f, 0f));
-			//manager.AddGameObject(glassMid);
+			GameObject glassMid = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
+			glassMid.Transform.Translate(new Vector3(600f, 0f, 0f));
+			manager.AddGameObject(glassMid);
 
-			//GameObject glassBack = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
-			//glassBack.Transform.Translate(new Vector3(0f, 20f, -100f));
-			//manager.AddGameObject(glassBack);
+			GameObject glassBack = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
+			glassBack.Transform.Translate(new Vector3(0f, 20f, -200f));
+			manager.AddGameObject(glassBack);
 
             //GameObject fan = FanScript.CreateFanGO(Content, GraphicsDevice);
             //manager.AddGameObject(fan);
@@ -89,45 +103,25 @@ namespace PrisonBreak
 			//manager.AddGameObject(laser);
 			//laser.Transform.Translate(new Vector3(400f, 30f, 0f));
 
-			//List<Vector2> patrolPoints = GuardScript.CreatePatrolPoints(200f, -50f, 300f, -50f, 400f, -50f, 500f, -50f);
-			//GameObject guard = GuardScript.CreateGuardGO(Content, GraphicsDevice, patrolPoints);
-			//guard.Transform.Translate(new Vector2(-300f, -50f));
-			//manager.AddGameObject(guard);
+			List<Vector2> patrolPoints = GuardScript.CreatePatrolPoints(200f, -50f, 300f, -50f, 400f, -50f, 500f, -50f);
+			GameObject guard = GuardScript.CreateGuardGO(Content, GraphicsDevice, patrolPoints);
+			guard.Transform.Translate(new Vector2(-300f, -50f));
+			manager.AddGameObject(guard);
 
-			GameObject player = new GameObject();
-			player.AddTransform();
-			player.Transform.Translate(new Vector3(-200f,-50f, 0f));
-			player.AddAnimation(Content.Load<Texture2D>("Kid"), new Vector2(33, 33));
-			player.Animation.AddAnimation("idle", 0, 1);
-			player.Animation.AddAnimation("run", 1, 2);
-			player.AddRenderer(GraphicsDevice, SpriteTransparency.Transparent);
-			player.AddDynamicRigidBody(new Vector2(33f, 33f));
-			player.RigidBody.CollisionCategory = CollisionCats.PlayerCategory;
-			//player.AddTrigger(new Vector2(16f, 5f));
-			player.AddScript(new PlayerScript(player));
+			GameObject player = PlayerScript.CreatePlayerGO(Content, GraphicsDevice);
+			player.Transform.Translate(new Vector3(-200f, -40f, 0f));
 			manager.AddGameObject(player);
 
 			GameObject player2 = new GameObject();
 			player2.AddTransform();
 			player2.Transform.Translate(new Vector3(-200f, 100f, 0f));
 			player2.Transform.Parent = player.Transform;
-			
 			player2.AddAnimation(Content.Load<Texture2D>("Kid"), new Vector2(33, 33));
 			player2.Animation.AddAnimation("idle", 0, 1);
 			player2.Animation.Play("idle");
 			player2.AddRenderer(GraphicsDevice, SpriteTransparency.Transparent);
 			manager.AddGameObject(player2);
 
-			GameObject camera = new GameObject();
-			camera.AddTransform();
-			camera.Transform.Z = 600f;
-			camera.AddCamera(GraphicsDevice.Viewport, true);
-			camera.AddScript(new CameraScript(camera));
-			manager.AddGameObject(camera);
-
-			GameObject cameraBounds = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("DebugCameraBounds"), SpriteTransparency.Transparent);
-			cameraBounds.Transform.Z = -600f;
-			cameraBounds.Transform.Parent = camera.Transform;
 			
 			manager.AddGameObject(cameraBounds);
 

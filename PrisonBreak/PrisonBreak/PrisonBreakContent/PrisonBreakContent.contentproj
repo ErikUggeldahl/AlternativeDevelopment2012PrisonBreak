@@ -139,15 +139,17 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="MainCharacter.png">
-      <Name>MainCharacter</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Levels\LevelMain.png">
+      <Name>LevelMain</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Levels\LevelMain.png">
-      <Name>LevelMain</Name>
+    <Compile Include="Characters\MainCharacter.png">
+      <Name>MainCharacter</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

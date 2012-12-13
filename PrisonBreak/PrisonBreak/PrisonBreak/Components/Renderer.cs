@@ -22,7 +22,8 @@ namespace PrisonBreak.Components
 		private SpriteBatch sb;
 		private RenderTarget2D rt;
 		private Quad quad;
-		private Matrix world, view, proj;
+		private Matrix world;
+		private static Matrix view, proj;
 
 		private Texture2D currentFrame;
 		private Rectangle aaBounds;
@@ -56,13 +57,22 @@ namespace PrisonBreak.Components
 			{
 				aaBounds.X = (int)Transform.WorldPosition.X - (int)(aaBounds.Width / 2f);
 				aaBounds.Y = (int)Transform.WorldPosition.Y - (int)(aaBounds.Height / 2f);
-				return aaBounds;
+				//return aaBounds;
+				//Vector3 point1 = (Matrix.CreateTranslation(new Vector3((float)aaBounds.X, (float)aaBounds.Y, Transform.Z)) * view * proj).Translation;
+				Vector3 point1 = (Matrix.CreateTranslation(new Vector3((float)aaBounds.X, (float)aaBounds.Y, Transform.Z))).Translation;
+				Vector3 point2 = (Matrix.CreateTranslation(new Vector3((float)aaBounds.X + aaBounds.Width, (float)aaBounds.Y + aaBounds.Height, Transform.Z))).Translation;
+
+				Rectangle projBounds = new Rectangle((int)point1.X, (int)point1.Y, (int)(point2.X - point1.X), (int)(point2.Y - point1.Y));
+				return projBounds;
 			}
 		}
 
 		public Renderer(GameObject parent, GraphicsDevice graphicsDevice, bool opaque)
 			: base(parent)
 		{
+			if (view == null)
+				CalcViewProjMatricies();
+
 			animated = Animation != null ? true : false;
 
 			this.graphicsDevice = graphicsDevice;
@@ -105,6 +115,17 @@ namespace PrisonBreak.Components
 			enabled = false;
 		}
 
+		public void CalcWorldMatrix()
+		{
+			world = Transform.WorldMatrix;
+		}
+
+		public static void CalcViewProjMatricies()
+		{
+			view = Camera.MainCamera.ViewMatrix;
+			proj = Camera.MainCamera.ProjMatrix;
+		}
+
 		public void DrawRenderTarget()
 		{
 			graphicsDevice.SetRenderTarget(rt);
@@ -119,21 +140,13 @@ namespace PrisonBreak.Components
 
 		public void Draw()
 		{
-			world = Transform.WorldMatrix;
-			view = Camera.MainCamera.ViewMatrix;
-			proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60f), 16f / 9f, 0.5f, 5000f);
-
-			// To remove
-			Vector3 s;
-			Quaternion q;
-			Vector3 t;
-			(world * proj).Decompose(out s, out q, out t); 
-
 			shader.World = world;
+			//shader.World = Transform.WorldMatrix;
 			shader.View = view;
 			shader.Projection = proj;
 			shader.TextureEnabled = true;
 			shader.Texture = animated ? currentFrame : StaticSprite.Sprite;
+			shader.Texture.GraphicsDevice.SamplerStates[0] = SamplerState.PointWrap;	// Set the texture filter to point to remove magnification blur
 
 			graphicsDevice.BlendState = BlendState.AlphaBlend;
 			graphicsDevice.DepthStencilState = DepthStencilState.Default;
@@ -208,10 +221,24 @@ namespace PrisonBreak.Components
 
 		public void Draw()
 		{
+			CalcMatricies();
 			Camera.MainCamera.Cull();
 			DrawRenderTargets();
 			DrawOpaque();
 			DrawTransparent();
+		}
+
+		public void CalcMatricies()
+		{
+			Renderer.CalcViewProjMatricies();
+			for (int i = 0; i < opaques.Count; i++)
+			{
+				opaques[i].CalcWorldMatrix();
+			}
+			for (int i = 0; i < transparents.Count; i++)
+			{
+				transparents[i].CalcWorldMatrix();
+			}
 		}
 
 		public void DrawRenderTargets()

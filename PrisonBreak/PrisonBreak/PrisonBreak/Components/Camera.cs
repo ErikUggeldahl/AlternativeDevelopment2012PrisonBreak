@@ -16,6 +16,10 @@ namespace PrisonBreak.Components
 
 		private Vector2 origin;
 		private Viewport viewport;
+		private float fov;
+		private float nearPlane = 0.5f;
+		private float farPlane = 5000f;
+		private Matrix projCache;
 
 		// TODO: Adjust to real world bounds! -- Doesn't seem to have an effect??
 		// Quads might not respond to transforms
@@ -46,9 +50,10 @@ namespace PrisonBreak.Components
 		public Camera(GameObject parent, Viewport viewport, bool isMain = false)
 			: base(parent)
 		{
-			this.viewport = viewport;
-
 			origin = new Vector2(viewport.Width / 2, viewport.Height / 2);
+			this.viewport = viewport;
+			fov = MathHelper.ToRadians(60f);
+			projCache = Matrix.CreatePerspectiveFieldOfView(fov, viewport.AspectRatio, nearPlane, farPlane);
 
 			if (isMain)
 			{
@@ -58,7 +63,12 @@ namespace PrisonBreak.Components
 
 		public Matrix ViewMatrix
 		{
-			get { return Matrix.CreateLookAt(Transform.WorldPosition, new Vector3(Transform.WorldPosition.X, Transform.WorldPosition.Y, Transform.WorldPosition.Z - 2000f), Vector3.Up); }
+			get { return Matrix.CreateLookAt(Transform.WorldPosition, new Vector3(Transform.WorldPosition2, Transform.WorldPosition.Z - 1f), Vector3.Up); }
+		}
+
+		public Matrix ProjMatrix
+		{
+			get { return projCache; }
 		}
 
 		public static void AddRenderer(Renderer toAdd)
