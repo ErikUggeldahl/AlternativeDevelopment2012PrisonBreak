@@ -129,6 +129,7 @@
     <Compile Include="Scripts\AI\GuardScript.cs" />
     <Compile Include="Scripts\AI\LaserScript.cs" />
     <Compile Include="Scripts\AI\FanScript.cs" />
+    <Compile Include="Scripts\AI\ShankScript.cs" />
     <Compile Include="Scripts\CameraScript.cs" />
     <Compile Include="Scripts\PlayerScript.cs" />
     <Compile Include="Components\Transform.cs" />

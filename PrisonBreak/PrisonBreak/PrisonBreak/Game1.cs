@@ -69,21 +69,28 @@ namespace PrisonBreak
 
 			manager = new GameObjectManager();
 
-			GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
-			glassFront.Transform.Translate(new Vector3(0f, 20f, 50f));
-			manager.AddGameObject(glassFront);
+            //GameObject glassFront = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
+            //glassFront.Transform.Translate(new Vector3(0f, 20f, 50f));
+            //manager.AddGameObject(glassFront);
 
-			GameObject glassMid = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
-			glassMid.Transform.Translate(new Vector3(600f, 0f, 0f));
-			manager.AddGameObject(glassMid);
+            //GameObject glassMid = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
+            //glassMid.Transform.Translate(new Vector3(600f, 0f, 0f));
+            //manager.AddGameObject(glassMid);
 
-			GameObject glassBack = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
-			glassBack.Transform.Translate(new Vector3(0f, 20f, -100f));
-			manager.AddGameObject(glassBack);
+            //GameObject glassBack = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("Glass"), SpriteTransparency.Transparent);
+            //glassBack.Transform.Translate(new Vector3(0f, 20f, -100f));
+            //manager.AddGameObject(glassBack);
+
+            List<Vector2> movePoints = FanScript.CreatePoint(200f, 0f, 300f, 0f);
 
             GameObject fan = FanScript.CreateFanGO(Content, GraphicsDevice);
-            manager.AddGameObject(fan);
+           
             fan.Transform.Translate(new Vector3(300f, 30f, 0f));
+            fan.AddDynamicRigidBody(new Vector2 (62f, 58f));
+            manager.AddGameObject(fan);
+
+            
+            
 
 			GameObject laser = LaserScript.CreateLaserGO(Content, GraphicsDevice);
 			manager.AddGameObject(laser);
@@ -107,6 +114,9 @@ namespace PrisonBreak
 			player.AddScript(new PlayerScript(player));
 			manager.AddGameObject(player);
 
+            GameObject shank = ShankScript.CreateShankGO(Content, GraphicsDevice, (PlayerScript)player.GetComponent<PlayerScript>());
+            manager.AddGameObject(shank);
+
 			GameObject player2 = new GameObject();
 			player2.AddTransform();
 			player2.Transform.Parent = player.Transform;
@@ -118,6 +128,7 @@ namespace PrisonBreak
 			manager.AddGameObject(player2);
 
 			GameObject ground = GameObject.CreateStaticPhysicsGO(GraphicsDevice, Content.Load<Texture2D>("DebugGround"), SpriteTransparency.Opaque);
+            ground.RigidBody.Body.CollisionCategories = CollisionCats.WorldCategory;
 			manager.AddGameObject(ground);
 
 			GameObject camera = new GameObject();
@@ -141,6 +152,8 @@ namespace PrisonBreak
 			trigger.Trigger.OnExit += new FarseerPhysics.Dynamics.OnSeparationEventHandler(Trigger_OnExit);
 			trigger.Trigger.CollidesWith = CollisionCats.PlayerCategory | CollisionCats.EnemyCategory;
 			manager.AddGameObject(trigger);
+
+    
 		}
 
 		void Trigger_OnExit(FarseerPhysics.Dynamics.Fixture fixtureA, FarseerPhysics.Dynamics.Fixture fixtureB)
