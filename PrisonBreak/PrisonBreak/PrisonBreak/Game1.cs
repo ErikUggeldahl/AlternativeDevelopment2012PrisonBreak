@@ -78,6 +78,10 @@ namespace PrisonBreak
 			camera.AddScript(new CameraScript(camera));
 			manager.AddGameObject(camera);
 
+			GameObject splash = SplashScript.CreateSplashGO(Content, GraphicsDevice);
+			splash.Transform.Translate(new Vector3(-3000f, 0f, 10));
+			manager.AddGameObject(splash);
+
 			//GameObject cameraBounds = GameObject.CreateStaticGO(GraphicsDevice, Content.Load<Texture2D>("DebugCameraBounds"), SpriteTransparency.Transparent);
 			//cameraBounds.Transform.Z = 0f;
 			//cameraBounds.Transform.Parent = camera.Transform;
@@ -119,7 +123,7 @@ namespace PrisonBreak
 
 			GameObject player = PlayerScript.CreatePlayerGO(Content, GraphicsDevice);
 			//player.Transform.Translate(new Vector3(-200f, -40f, 1f));
-			player.Transform.Translate(new Vector3(2450f, 340f, 1f));
+			player.Transform.Translate(new Vector3(2385f, -420f, 1f));
 			manager.AddGameObject(player);
 			camera.Transform.Parent = player.Transform;
 
@@ -136,6 +140,16 @@ namespace PrisonBreak
 			GameObject teleporter4 = TeleporterScript.CreateTeleporterGO(Content, playerScript, new Vector2(600f, 140f), false);
 			teleporter4.Transform.Translate(new Vector2(2450f, 340f));
 			manager.AddGameObject(teleporter4);
+			GameObject teleporter5 = TeleporterScript.CreateTeleporterGO(Content, playerScript, new Vector2(1604f, -332f), true);
+			teleporter5.Transform.Translate(new Vector2(800f, 140f));
+			manager.AddGameObject(teleporter5);
+			GameObject teleporter6 = TeleporterScript.CreateTeleporterGO(Content, playerScript, new Vector2(600f, -230f), false);
+			teleporter6.Transform.Translate(new Vector2(2385f, -420f));
+			manager.AddGameObject(teleporter6);
+
+			GameObject tyson = ShankTargetScript.CreateTysonGO(Content, GraphicsDevice, playerScript);
+			tyson.Transform.Translate(new Vector2(775f, 180f));
+			manager.AddGameObject(tyson);
 
 			//GameObject laser = LaserScript.CreateLaserGO(Content, GraphicsDevice);
 			//manager.AddGameObject(laser);
@@ -148,6 +162,15 @@ namespace PrisonBreak
 
 			GameObject shank = ShankScript.CreateShankGO(Content, GraphicsDevice, (PlayerScript)player.GetComponent<PlayerScript>());
 			manager.AddGameObject(shank);
+
+			GameObject superStar = new GameObject();
+			superStar.AddTransform();
+			superStar.Transform.Translate(new Vector2(692f, -200f));
+			superStar.AddAnimation(Content.Load<Texture2D>("Pickups/Superstar"), new Vector2(14f, 20f));
+			superStar.Animation.AddAnimation("Idle", 0, 4);
+			superStar.Animation.Play("Idle");
+			superStar.AddRenderer(GraphicsDevice, SpriteTransparency.Transparent);
+			manager.AddGameObject(superStar);
 
 			List<string> kkDi1 = new List<string>(11);
 			kkDi1.Add("Who's out there?");
@@ -257,6 +280,7 @@ namespace PrisonBreak
 			dkCh.Add("DK");
 			GameObject dkDGO = DialogueBoxScript.CreateDialogueAreaGO(dkDi, dkCh, new Vector2(240f, 112f));
 			dkDGO.Transform.Position = new Vector2(700f, 170f);
+			dkDGO.Trigger.Enabled = false;
 			manager.AddGameObject(dkDGO);
 
 			List<string> mtDi = new List<string>(5);
@@ -271,8 +295,8 @@ namespace PrisonBreak
 			mtCh.Add("Tyson");
 			mtCh.Add("Player");
 			mtCh.Add("Tyson");
-			GameObject mtDGO = DialogueBoxScript.CreateDialogueAreaGO(mtDi, mtCh, new Vector2(240f, 112f));
-			mtDGO.Transform.Position = new Vector2(700f, 170f);
+			GameObject mtDGO = DialogueBoxScript.CreateDialogueAreaGO(mtDi, mtCh, new Vector2(50f, 112f));
+			mtDGO.Transform.Position = new Vector2(620f, 170f);
 			manager.AddGameObject(mtDGO);
 
 			List<string> wDi = new List<string>(4);
@@ -289,16 +313,6 @@ namespace PrisonBreak
 			wDGO.Transform.Position = new Vector2(700f, 170f);
 			wDGO.Trigger.Enabled = false;
 			manager.AddGameObject(wDGO);
-
-			//GameObject trigger = new GameObject();
-			//trigger.AddTransform();
-			//trigger.AddStaticSprite(Content.Load<Texture2D>("DebugVolume"));
-			//trigger.AddRenderer(GraphicsDevice, SpriteTransparency.Transparent);
-			//trigger.AddTrigger(new Vector2(50f, 50f));
-			//trigger.Trigger.OnEnter += new FarseerPhysics.Dynamics.OnCollisionEventHandler(Trigger_OnEnter);
-			//trigger.Trigger.OnExit += new FarseerPhysics.Dynamics.OnSeparationEventHandler(Trigger_OnExit);
-			//trigger.Trigger.CollidesWith = CollisionCats.PlayerCategory | CollisionCats.EnemyCategory;
-			//manager.AddGameObject(trigger);
 		}
 
 		void Trigger_OnExit(FarseerPhysics.Dynamics.Fixture fixtureA, FarseerPhysics.Dynamics.Fixture fixtureB)

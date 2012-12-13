@@ -13,44 +13,56 @@ namespace PrisonBreak.Scripts.AI
 {
 	public class ShankTargetScript : Script
 	{
-		static Texture2D shankTargetSprite;
+		private static Texture2D tysonSprite;
 
-		public ShankTargetScript(GameObject parent)
+		private PlayerScript playerScript;
+
+		public ShankTargetScript(GameObject parent, PlayerScript playerScript)
 			: base(parent)
 		{
+			this.playerScript = playerScript;
 		}
 
-		bool TriggerEnter(FarseerPhysics.Dynamics.Fixture fixtureA, FarseerPhysics.Dynamics.Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
+		private bool OnEnter(FarseerPhysics.Dynamics.Fixture fixtureA, FarseerPhysics.Dynamics.Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
 		{
+			if (playerScript.IsAttacking)
+				Animation.Play("Die");
 			return true;
+		}
+
+		private void OnStay(FarseerPhysics.Dynamics.Fixture fixtureA, FarseerPhysics.Dynamics.Fixture fixtureB)
+		{
+			if (playerScript.IsAttacking)
+				Animation.Play("Die");
 		}
 
 		public override void Update()
 		{
 		}
 
-		public static GameObject CreateLaserGO(ContentManager manager, GraphicsDevice gd)
+		public static GameObject CreateTysonGO(ContentManager manager, GraphicsDevice gd, PlayerScript playerScript)
 		{
-			if (laserSprite == null)
+			if (tysonSprite == null)
 			{
-				laserSprite = manager.Load<Texture2D>("Obstacles/Laser");
+				tysonSprite = manager.Load<Texture2D>("Characters/MikeTyson");
 			}
 
-			GameObject laser = new GameObject();
+			GameObject tyson = new GameObject();
 
-			laser.AddTransform();
-			laser.AddAnimation(laserSprite, new Vector2(32f, 16f));
-			laser.Animation.AddAnimation("Off", 0, 1);
-			laser.Animation.AddAnimation("On", 1, 1);
-			laser.Animation.Play("On");
-			laser.AddRenderer(gd, SpriteTransparency.Transparent);
-			laser.AddTrigger(new Vector2(32f, 16f));
-			laser.Trigger.CollidesWith = CollisionCats.PlayerCategory;
-			LaserScript laserScript = new LaserScript(laser);
-			laser.AddScript(laserScript);
-			laser.Trigger.OnEnter += new FarseerPhysics.Dynamics.OnCollisionEventHandler(laserScript.TriggerEnter);
+			tyson.AddTransform();
+			tyson.AddAnimation(tysonSprite, new Vector2(60f, 119f));
+			tyson.Animation.AddAnimation("Idle", 0, 4);
+			tyson.Animation.AddAnimation("Die", 1, 3, false);
+			tyson.Animation.Play("Idle");
+			tyson.AddRenderer(gd, SpriteTransparency.Transparent);
+			tyson.AddTrigger(new Vector2(80f, 119f));
+			tyson.Trigger.CollidesWith = CollisionCats.PlayerCategory;
+			ShankTargetScript tysonScript = new ShankTargetScript(tyson, playerScript);
+			tyson.AddScript(tysonScript);
+			tyson.Trigger.OnEnter += new FarseerPhysics.Dynamics.OnCollisionEventHandler(tysonScript.OnEnter);
+			tyson.Trigger.OnStay += new FarseerPhysics.Dynamics.OnSeparationEventHandler(tysonScript.OnStay);
 
-			return laser;
+			return tyson;
 		}
 	}
 }

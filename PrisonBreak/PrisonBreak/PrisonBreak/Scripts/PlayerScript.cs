@@ -63,6 +63,11 @@ namespace PrisonBreak.Scripts
 			}
 		}
 
+		public bool IsAttacking
+		{
+			get { return state == PlayerState.Attacking; }
+		}
+
 		public override void Update()
 		{
 			Vector2 movement = Vector2.Zero;

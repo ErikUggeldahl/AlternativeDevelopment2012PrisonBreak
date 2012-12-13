@@ -128,11 +128,13 @@
     <Compile Include="Scripts\AI\GuardScript.cs" />
     <Compile Include="Scripts\AI\LaserScript.cs" />
     <Compile Include="Scripts\AI\FanScript.cs" />
+    <Compile Include="Scripts\AI\ShankTargetScript.cs" />
     <Compile Include="Scripts\CameraScript.cs" />
     <Compile Include="Scripts\DialogueBoxScript.cs" />
     <Compile Include="Scripts\Pickups\ShankScript.cs" />
     <Compile Include="Scripts\PlayerScript.cs" />
     <Compile Include="Components\Transform.cs" />
+    <Compile Include="Scripts\SplashScript.cs" />
     <Compile Include="Scripts\TeleporterScript.cs" />
     <Compile Include="WorldGen.cs" />
     <Compile Include="QuadTree\IBounded.cs" />

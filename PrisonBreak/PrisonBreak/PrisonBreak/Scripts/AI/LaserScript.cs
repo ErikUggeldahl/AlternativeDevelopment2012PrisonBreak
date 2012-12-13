@@ -13,17 +13,17 @@ namespace PrisonBreak.Scripts.AI
 {
 	public class LaserScript : Script
 	{
-		static Texture2D laserSprite;
-		TimeSpan cycleTime = TimeSpan.FromSeconds(3.0f);
-		TimeSpan currentTime = TimeSpan.Zero;
-		bool active = false;
+		private static Texture2D laserSprite;
+		private TimeSpan cycleTime = TimeSpan.FromSeconds(3.0f);
+		private TimeSpan currentTime = TimeSpan.Zero;
+		private bool active = false;
 
 		public LaserScript(GameObject parent)
 			: base(parent)
 		{
 		}
 
-		bool TriggerEnter(FarseerPhysics.Dynamics.Fixture fixtureA, FarseerPhysics.Dynamics.Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
+		private bool TriggerEnter(FarseerPhysics.Dynamics.Fixture fixtureA, FarseerPhysics.Dynamics.Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
 		{
 			return true;
 		}
@@ -51,11 +51,11 @@ namespace PrisonBreak.Scripts.AI
 
 		}
 
-		public static GameObject CreateLaserGO(ContentManager manager, GraphicsDevice gd)
+		public static GameObject CreateLaserGO(ContentManager content, GraphicsDevice gd)
 		{
 			if (laserSprite == null)
 			{
-				laserSprite = manager.Load<Texture2D>("Obstacles/Laser");
+				laserSprite = content.Load<Texture2D>("Obstacles/Laser");
 			}
 
 			GameObject laser = new GameObject();
