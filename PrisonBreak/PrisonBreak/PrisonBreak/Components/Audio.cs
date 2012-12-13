@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace PrisonBreak.Components
 {
@@ -11,6 +12,7 @@ namespace PrisonBreak.Components
 	{
 		private Dictionary<string, SoundEffect> sounds;
 		private SoundEffectInstance currentSoundEffect;
+		private Song song;
 
 		public Audio(GameObject parent)
 			: base(parent)
@@ -27,6 +29,11 @@ namespace PrisonBreak.Components
 			sounds.Add(name, sound);
 		}
 
+		public void AddMusic(Song song)
+		{
+			this.song = song;
+		}
+
 		public void Play(string toPlay)
 		{
 			if (currentSoundEffect != null)
@@ -34,6 +41,11 @@ namespace PrisonBreak.Components
 
 			currentSoundEffect = sounds[toPlay].CreateInstance();
 			currentSoundEffect.Play();
+		}
+
+		public void PlayMusic()
+		{
+			MediaPlayer.Play(song);
 		}
 
 		public void Stop()

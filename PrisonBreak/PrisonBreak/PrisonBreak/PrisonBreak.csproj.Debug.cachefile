@@ -10,7 +10,6 @@ Content\DebugContent\TranslucentSquare.xnb
 Content\DebugCameraBounds.xnb
 Content\Guard.xnb
 Content\Levels\LevelMain.xnb
-Content\DebugContent\DebugFont.xnb
 Content\Characters\MainCharacter.xnb
 Content\Pickups\Shank.xnb
 Content\Obstacles\Fan.xnb
@@ -23,11 +22,6 @@ Content\Dialogue\MotherBrain.xnb
 Content\Dialogue\Player.xnb
 Content\Dialogue\Tyson.xnb
 Content\Dialogue\Wily.xnb
-Content\Font\DialogueFont.xnb
-Content\Sounds\PlayerSounds\Die.xnb
-Content\Sounds\PlayerSounds\Pickup.xnb
-Content\Sounds\PlayerSounds\Shank.xnb
-Content\Sounds\PlayerSounds\TurnSideways.xnb
 Content\Levels\LevelMainBack.xnb
 Content\Levels\LevelMainFront.xnb
 Content\Levels\LevelMainMid.xnb
@@ -35,8 +29,16 @@ Content\Levels\Vents.xnb
 Content\Levels\VentsMid.xnb
 Content\Levels\VentsTop1.xnb
 Content\Levels\VentsTop2.xnb
-Content\Sounds\Enter.xnb
 Content\Characters\MikeTyson.xnb
 Content\SplashArt.xnb
 Content\Pickups\Superstar.xnb
+Content\DebugContent\DebugFont.xnb
+Content\Font\DialogueFont.xnb
+Content\Sounds\PlayerSounds\Die.xnb
+Content\Sounds\PlayerSounds\Pickup.xnb
+Content\Sounds\PlayerSounds\Shank.xnb
+Content\Sounds\PlayerSounds\TurnSideways.xnb
+Content\Sounds\Enter.xnb
+Content\Sounds\Music\GuileTheme.xnb
+Content\Sounds\Music\GuileTheme.wma
 Content\font.xnb

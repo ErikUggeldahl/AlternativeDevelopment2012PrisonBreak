@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 using PrisonBreak.Components;
 using PrisonBreak.Scripts;
@@ -122,8 +124,8 @@ namespace PrisonBreak
 			fan3.Transform.Translate(new Vector3(2016f, -208f, 0f));
 
 			GameObject player = PlayerScript.CreatePlayerGO(Content, GraphicsDevice);
-			//player.Transform.Translate(new Vector3(-200f, -40f, 1f));
-			player.Transform.Translate(new Vector3(2385f, -420f, 1f));
+			player.Transform.Translate(new Vector3(-200f, -40f, 1f));
+			//player.Transform.Translate(new Vector3(2385f, -420f, 1f));
 			manager.AddGameObject(player);
 			camera.Transform.Parent = player.Transform;
 
@@ -165,11 +167,15 @@ namespace PrisonBreak
 
 			GameObject superStar = new GameObject();
 			superStar.AddTransform();
+			superStar.AddAudio();
+			superStar.Audio.AddMusic(Content.Load<Song>("Sounds/Music/GuileTheme"));
 			superStar.Transform.Translate(new Vector2(692f, -200f));
 			superStar.AddAnimation(Content.Load<Texture2D>("Pickups/Superstar"), new Vector2(14f, 20f));
 			superStar.Animation.AddAnimation("Idle", 0, 4);
 			superStar.Animation.Play("Idle");
 			superStar.AddRenderer(GraphicsDevice, SpriteTransparency.Transparent);
+			superStar.AddTrigger(new Vector2(100f, 100f));
+			superStar.AddScript(new EndScript(superStar));
 			manager.AddGameObject(superStar);
 
 			List<string> kkDi1 = new List<string>(11);
