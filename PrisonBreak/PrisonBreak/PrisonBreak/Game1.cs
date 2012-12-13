@@ -71,7 +71,7 @@ namespace PrisonBreak
 			GameObject camera = new GameObject();
 			camera.AddTransform();
 			//camera.Transform.Parent = player.Transform;
-			camera.Transform.Z = 600f;
+			camera.Transform.Z = 100f;
 			camera.AddCamera(GraphicsDevice.Viewport, true);
 			camera.AddScript(new CameraScript(camera));
 			manager.AddGameObject(camera);
@@ -96,8 +96,8 @@ namespace PrisonBreak
 			glassBack.Transform.Translate(new Vector3(0f, 20f, -200f));
 			manager.AddGameObject(glassBack);
 
-            //GameObject fan = FanScript.CreateFanGO(Content, GraphicsDevice);
-            //manager.AddGameObject(fan);
+            GameObject fan = FanScript.CreateFanGO(Content, GraphicsDevice);
+            manager.AddGameObject(fan);
             //fan.Transform.Translate(new Vector3(300f, 30f, 0f));
 
 			//GameObject laser = LaserScript.CreateLaserGO(Content, GraphicsDevice);
@@ -112,18 +112,11 @@ namespace PrisonBreak
 			GameObject player = PlayerScript.CreatePlayerGO(Content, GraphicsDevice);
 			player.Transform.Translate(new Vector3(-200f, -40f, 0f));
 			manager.AddGameObject(player);
+			camera.Transform.Parent = player.Transform;
 
-			GameObject player2 = new GameObject();
-			player2.AddTransform();
-			player2.Transform.Translate(new Vector3(-200f, 100f, 0f));
-			player2.Transform.Parent = player.Transform;
-			player2.AddAnimation(Content.Load<Texture2D>("Kid"), new Vector2(33, 33));
-			player2.Animation.AddAnimation("idle", 0, 1);
-			player2.Animation.Play("idle");
-			player2.AddRenderer(GraphicsDevice, SpriteTransparency.Transparent);
-			manager.AddGameObject(player2);
+			GameObject shank = ShankScript.CreateShankGO(Content, GraphicsDevice, (PlayerScript)player.GetComponent<PlayerScript>());
+			manager.AddGameObject(shank);
 
-			
 			manager.AddGameObject(cameraBounds);
 
 			//GameObject trigger = new GameObject();

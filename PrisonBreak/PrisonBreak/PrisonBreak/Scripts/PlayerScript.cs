@@ -22,6 +22,8 @@ namespace PrisonBreak.Scripts
 		private float moveSpeed = 40f;
 		private float maxSpeed = 150f;
 
+		private bool hasShank = false;
+
 		private PlayerState state;
 
 		public PlayerScript(GameObject parent)
@@ -30,38 +32,52 @@ namespace PrisonBreak.Scripts
 			Animation.Play("Idle");
 		}
 
+		public bool HasShank
+		{
+			set { hasShank = value; }
+		}
+
 		public override void Update()
 		{
 			Vector2 movement = Vector2.Zero;
 			bool gpConnected = Input.GamepadState.IsConnected;
 
-			bool canStealth = (state == PlayerState.Crouching || state == PlayerState.Stealthing);
-			bool canMove = state == PlayerState.Walking || state == PlayerState.Stealthing;
+			bool canStealth = state == PlayerState.Crouching || state == PlayerState.Stealthing;
 
-			state = PlayerState.Idle;
-
-			if (canStealth && Input.KeyboardState.IsKeyDown(Keys.D) || gpConnected && Input.GamepadState.IsButtonDown(Buttons.LeftTrigger))
+			if (Input.KeyboardState.IsKeyDown(Keys.D) || gpConnected && Input.GamepadState.ThumbSticks.Left.X > 0)
 			{
 				movement.X += 1f;
-				Animation.Play("Stealth");
 				Renderer.IsFlipped = true;
-				state = PlayerState.Stealthing;
-			}
-			else if (Input.KeyboardState.IsKeyDown(Keys.D) || gpConnected && Input.GamepadState.ThumbSticks.Left.X > 0)
-			{
-				movement.X += 1f;
-				Animation.Play("Run");
-				Renderer.IsFlipped = true;
-				state = PlayerState.Walking;
+
+				if (canStealth)
+				{
+					Animation.Play("Stealth");
+					state = PlayerState.Stealthing;
+				}
+				else
+				{
+					Animation.Play("Run");
+					state = PlayerState.Walking;
+				}
 			}
 
-			if (canStealth && Input.KeyboardState.IsKeyDown(Keys.A) || gpConnected && Input.GamepadState.IsButtonDown(Buttons.RightTrigger))
+			if (Input.KeyboardState.IsKeyDown(Keys.A) || gpConnected && Input.GamepadState.ThumbSticks.Left.X < 0)
 			{
 				movement.X -= 1f;
-				Animation.Play("Stealth");
 				Renderer.IsFlipped = false;
-				state = PlayerState.Stealthing;
+
+				if (canStealth)
+				{
+					Animation.Play("Stealth");
+					state = PlayerState.Stealthing;
+				}
+				else
+				{
+					Animation.Play("Run");
+					state = PlayerState.Walking;
+				}
 			}
+
 			else if (Input.KeyboardState.IsKeyDown(Keys.A) || gpConnected && Input.GamepadState.ThumbSticks.Left.X < 0)
 			{
 				movement.X -= 1f;
@@ -70,7 +86,17 @@ namespace PrisonBreak.Scripts
 				state = PlayerState.Walking;
 			}
 
-			if (movement.Length() == 0 && Input.KeyboardState.IsKeyDown(Keys.LeftControl) || gpConnected && Input.GamepadState.IsButtonDown(Buttons.Y))
+			if (movement.Length() > 0)
+			{
+				movement.Normalize();
+				movement /= RigidBody.MInPx;
+				if (RigidBody.Body.LinearVelocity.LengthSquared() < maxSpeed)
+					RigidBody.ApplyImpulse(movement * moveSpeed);
+				return;
+			}
+
+			state = PlayerState.Idle;
+			if (Input.KeyboardState.IsKeyDown(Keys.LeftControl) || gpConnected && Input.GamepadState.IsButtonDown(Buttons.Y))
 			{
 				Animation.Play("Hide");
 				state = PlayerState.Crouching;
@@ -82,7 +108,7 @@ namespace PrisonBreak.Scripts
 				Animation.Play("Climb");
 				state = PlayerState.Climbing;
 			}
-			if (Input.KeyboardState.IsKeyDown(Keys.F) || gpConnected && Input.GamepadState.IsButtonDown(Buttons.X))
+			if (hasShank && Input.KeyboardState.IsKeyDown(Keys.F) || gpConnected && Input.GamepadState.IsButtonDown(Buttons.X))
 			{
 				Animation.Play("Stab");
 				state = PlayerState.Attacking;
@@ -90,14 +116,6 @@ namespace PrisonBreak.Scripts
 			if (state == PlayerState.Idle)
 			{
 				Animation.Play("Idle");
-			}
-
-			if (canMove && movement.Length() > 0)
-			{
-				movement.Normalize();
-				movement /= RigidBody.MInPx;
-				if (RigidBody.Body.LinearVelocity.LengthSquared() < maxSpeed)
-					RigidBody.ApplyImpulse(movement * moveSpeed);
 			}
 		}
 

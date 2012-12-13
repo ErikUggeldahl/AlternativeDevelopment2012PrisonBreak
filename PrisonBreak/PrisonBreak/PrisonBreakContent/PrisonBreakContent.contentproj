@@ -80,13 +80,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fan.png">
-      <Name>Fan</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="DebugRoom.png">
       <Name>DebugRoom</Name>
       <Importer>TextureImporter</Importer>
@@ -127,13 +120,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Laser.png">
-      <Name>Laser</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Guard.png">
       <Name>Guard</Name>
       <Importer>TextureImporter</Importer>
@@ -150,6 +136,25 @@
   <ItemGroup>
     <Compile Include="Characters\MainCharacter.png">
       <Name>MainCharacter</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Pickups\Shank.png">
+      <Name>Shank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Obstacles\Fan.png">
+      <Name>Fan</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Obstacles\Laser.png">
+      <Name>Laser</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

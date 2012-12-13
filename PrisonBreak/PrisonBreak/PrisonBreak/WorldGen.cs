@@ -96,6 +96,7 @@ namespace PrisonBreak
 			worldGO.AddStaticSprite(content.Load<Texture2D>(worldSprite));
 			worldGO.AddRenderer(gd, SpriteTransparency.Transparent);
 			worldGO.AddStaticRigidBody(CreateStatic(content.Load<Texture2D>(collisionSprite)));
+			worldGO.RigidBody.CollisionCategory = CollisionCats.WorldCategory;
 			return worldGO;
 		}
 	}

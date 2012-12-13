@@ -130,6 +130,7 @@
     <Compile Include="Scripts\AI\LaserScript.cs" />
     <Compile Include="Scripts\AI\FanScript.cs" />
     <Compile Include="Scripts\CameraScript.cs" />
+    <Compile Include="Scripts\Pickups\ShankScript.cs" />
     <Compile Include="Scripts\PlayerScript.cs" />
     <Compile Include="Components\Transform.cs" />
     <Compile Include="WorldGen.cs" />

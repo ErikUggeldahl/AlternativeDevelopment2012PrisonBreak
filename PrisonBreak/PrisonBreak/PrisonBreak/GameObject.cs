@@ -139,16 +139,16 @@ namespace PrisonBreak
 			components.Add(script);
 		}
 
-        public IComponent GetComponent<T>()
+        public T GetComponent<T>()
         {
 			for (int i = 0; i < components.Count; i++)
 			{
 				if (components[i].GetType() == typeof(T))
 				{
-					return components[i];
+					return (T)components[i];
 				}
 			}
-			return null;
+			return default(T);
         }
 
 		public void Update()

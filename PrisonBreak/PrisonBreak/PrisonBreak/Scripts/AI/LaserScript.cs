@@ -55,7 +55,7 @@ namespace PrisonBreak.Scripts.AI
 		{
 			if (laserSprite == null)
 			{
-				laserSprite = manager.Load<Texture2D>("Laser");
+				laserSprite = manager.Load<Texture2D>("Obstacles/Laser");
 			}
 
 			GameObject laser = new GameObject();
