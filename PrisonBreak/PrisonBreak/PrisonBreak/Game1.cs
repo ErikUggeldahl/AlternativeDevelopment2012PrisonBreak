@@ -356,7 +356,7 @@ namespace PrisonBreak
 			GameTimeGlobal.GameTime = gameTime;
 
 			// Toggle debug physics view
-			if (canDebugSwitch && Input.KeyboardState.IsKeyDown(Keys.NumPad0))
+			if (canDebugSwitch && Input.KeyboardState.IsKeyDown(Keys.G))
 			{
 				RigidBody.IsDebugEnabled = !RigidBody.IsDebugEnabled;
 				canDebugSwitch = false;
